@@ -1,0 +1,41 @@
+#left-column {
+	display:inline-block;
+	height:775px;
+	width:280px;
+	background-color:#75FFA3;
+}
+
+#list {
+	position:absolute;
+	padding-top:65px;
+	padding-bottom:195px;
+	padding-left:20px;
+	padding-right:20px;
+	font-color:black;
+}
+
+#right-column {
+	position:absolute;
+	display:inline-block;
+	width:700px;
+	height:775px;
+	background-color:#94DBFF;
+	padding-bottom:300px;
+}
+
+#addTask {
+	border:2px solid #456879;
+	border-radius:10px;
+	height:40px;
+	width:230px;
+	background-color:rgba(0,0,0,0.1);
+}
+
+/*#pop-column {
+	position:absolute;
+	display:inline-block;
+	background-color:#75FFA3;
+	width:360px;
+	height:775px;
+	padding-left:500px;
+}*/
