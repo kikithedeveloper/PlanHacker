@@ -76,6 +76,11 @@ div#left-column {
 	background-color:rgba(0,0,0,0.3);
 }
 
+div.btn-group {
+	margin-top: 490px;
+	margin-left: 250px;
+}
+
 #input-textbox {
 	margin-top: 20px;
 	margin-left: 20px;
@@ -111,7 +116,7 @@ div#left-column {
 	position:absolute;
 	display:inline-block;
 	width:296px;
-	height:87%;
+	height:86%;
 	background-color:rgba(255,255,255,0.5);
 	border:2px solid;
 	border-radius:10px;
