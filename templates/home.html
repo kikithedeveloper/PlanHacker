@@ -10,11 +10,61 @@
 
   <!-- Latest compiled and minified JavaScript -->
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+  <!--<script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.17/firebase.js'></script>-->
 </head>
 <body>
 
   <!--Main Interface-->
   <div>
+
+    <!--Navigation Bar-->
+    <div class="navbar-wrapper">
+      <div class="container">
+        <div class="navbar navbar-inverse navbar-static-top" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">PlanHacker</a>
+            </div>
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li class="dropdown-header">Nav header</li>
+                    <li><a href="#">Separated link</a></li>
+                    <li><a href="#">One more separated link</a></li>
+                  </ul>
+                </li>
+              </ul>
+              <form class="navbar-form navbar-right" role="form">
+                <div class="form-group">
+                  <input type="text" placeholder="Email" class="form-control">
+                </div>
+                <div class="form-group">
+                  <input type="password" placeholder="Password" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-success">Sign in</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
 
     <!--Left Column-->
     <div id="left-column" class="col-sm-3 col-md-2 sidebar">
@@ -30,20 +80,72 @@
           <li><a href="">More navigation</a></li>
         </ul>
       </div>
+      <div>
+        <input id="addNewList" type="text" placeholder="Add  list..."><br>
+      </div>
     </div>
 
     <!--Right Column-->
     <div id="right-column">
-        <input id="addTask" type="text" name="newTask" placeholder="Add a task to this list..."><br>
-      </form>
+      <div>
+        <input id="addTask0" type="text" name="newTask" placeholder="Add a task to this list..."><br>
+      </div>
+
+      <div id="input-textbox" class="input-group">
+        <span class="input-group-addon">
+          <input type="checkbox">
+        </span>
+        <input id="addTask1" type="text" class="form-control" placeholder="New task shows here."><br>
+      </div><!-- /input-group -->
+
+
     </div>
 
-    <!--Independent Column-->
-<!--     <div id="pop-column">
-      <h1>Testing</h1>
-    </div> -->
-    
-  </div>
+    <!--Pop Column-->
+    <div id="pop-column">
+      <div id="sidebar-container">
+        <div>
+          <h3>Add a task to this list...</h3><br>
+        </div>
+        <div id="taskLabelBox" class="col-lg-6">
+          <div class="input-group">
+            <span class="input-group-addon">
+              <input type="checkbox">
+            </span>
+            <input type="text" class="form-control"> <br>
+          </div>
+        </div>
+        <div>
+          <input id="setDueDate" type="text" placeholder="Set due date..."><br>
+        </div>
+        <div>
+          <input id="setReminder" type="text" placeholder="Set reminder..."><br>
+        </div>
+        <div id="addSubtask" class="col-lg-6">
+          <div class="input-group">
+            <span class="input-group-addon">
+              <input type="checkbox">
+            </span>
+            <input type="text" class="form-control" placeholder="Add a subtask..."><br>
+          </div>
+        </div>
+      </div>
+
+
+<!--  // <script>
+  //   var myRootRef = new Firebase('https://plan4meapp.firebaseio.com/');
+  //   myRootRef.set({a: 'hi', b: 'hello'})
+
+  //   myRootRef.child('a').set('hi')
+
+  //   var aChildRef = myRootRef.child('a')
+  //   aChildRef.set('hi')
+
+  //   var usersRef = myRootRef.child('users')
+
+
+  // </script> -->
+
 </body>
 </html>
 
