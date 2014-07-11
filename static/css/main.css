@@ -41,7 +41,8 @@ div#left-column {
 }
 
 #addNewList {
-	margin-top:15px;
+	margin-top:20px;
+	margin-left:5px;
 	padding-left:10px;
 	border:2px solid;
 	border-radius:10px;
