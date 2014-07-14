@@ -4,7 +4,7 @@
 
 angular.module('plan4me', ["firebase"])
 .factory("Task", ["$firebase", function($firebase) {
-    var ref = new Firebase("https://plan4meapp.firebaseio.com/");
+    var ref = new Firebase("https://plan4meapp.firebaseio.com/").limit(1);
     return $firebase(ref);
 }])
 .controller("AddListItemController", ["$scope", "Task", function($scope, Task) {
