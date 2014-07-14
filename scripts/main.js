@@ -4,13 +4,14 @@
 
 angular.module('plan4me', ["firebase"])
 .factory("Task", ["$firebase", function($firebase) {
-    var ref = new Firebase("https://plan4meapp.firebaseio.com/#-JRN-8ozu5P0OieKRCuS|b58475b68a41172615949a1b86414fa5");
+    var ref = new Firebase("https://plan4meapp.firebaseio.com/");
     return $firebase(ref);
 }])
 .controller("AddListItemController", ["$scope", "Task", function($scope, Task) {
    $scope.addTask = function() {
     $scope.newTask = Task;
-    $scope.newTask.$add({$scope.inputTask});
+    $scope.newTask.$add($scope.inputTask);
+
 };
 }]);
 
