@@ -1,0 +1,46 @@
+Goal: Understand how to use AngularJS in HTML, establish connection to Firebase API, and send the data to Firebase.
+
+Step to take:
+
+1) Get my Bootstrap basic wireframe - CHECK!
+
+2) Define myapp controller in HTML - CHECK!
+
+3) Establish Firebase API in my HTML - 
+
+3) Create my $Scope and functions in JavaScript - 
+
+4) Use $Resource to send my data to Firebase API - 
+
+5) Check Firebase to see if data is stored - 
+
+
+
+NOTE: to establish a controller
+
+
+HTML
+
+		<div ng-controller="SpicyController">
+		<input ng-model="customSpice">
+		<button ng-click="spicy('chili')">Chili</button>
+		<button ng-click="spicy(customSpice)">Custom spice</button>
+		<p>The food is {{spice}} spicy!</p>
+		</div>
+
+
+JAVASCRIPT
+
+		var myApp = angular.module('spicyApp2', []);
+
+		myApp.controller('SpicyController', ['$scope', function($scope) {
+		    $scope.customSpice = "wasabi";
+		    $scope.spice = 'very';
+
+		    $scope.spicy = function(spice) {
+		        $scope.spice = spice;
+		    };
+		}]);
+
+
+
