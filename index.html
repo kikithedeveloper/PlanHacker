@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="plan4me" lang="">
+<html ng-app="plan4me">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -71,31 +71,42 @@
           <div class="well">To-dos</div>
         </div>
 
+        <!--Second Column-->
+        <div class="col-sm-6" ng-controller="AddListItemController">
+          <form role="form">
+            <div class="form-group">
+              <label for="taskInput">Change <code>$scope.taskInput</code></label>
+              <input ng-model="taskInput" type="text" class="form-control"
+              name="taskInput" id="taskInput" placeholder="Add a task">
+            </div>
+            <button ng-click="addTask()" type="submit" class="btn btn-primary">
+              Add task
+            </button>
+            <span class="text-muted">
+              (Click on the button to update <code>$scope.newTask</code>)
+            </span>
+          </form>
+          <br>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Angular <code>$scope</code> demo</h3>
+            </div>
+            <div class="panel-body">
+              <p><code>$scope.taskInput</code>: {{ taskInput }}</p>
+            </div>
+          </div>
 
-        <div>
-          <!--Second Column-->
-          <div class="col-sm-6" ng-controller="AddListItemController">
-            <form role="form">
-              <div class="form-group">
-                <label for="inputTask">Change <code>$scope.inputTask</code></label>
-                <input ng-model="inputTask" type="text" class="form-control"
-                name="inputTask" id="inputTask" placeholder="Add a task">
-              </div>
-              <button ng-click="addTask()" type="submit" class="btn btn-primary">
-                Add task
-              </button>
-              <span class="text-muted">
-                (Click on the button to update <code>$scope.newTask</code>)
-              </span>
-            </form>
-            <br>
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h3 class="panel-title">Angular $scope demo</h3>
-              </div>
-              <div class="panel-body">
-                <p><code>$scope.inputTask</code>: {{ inputTask }}</p>
-                <p><code>$scope.newTask</code>: {{ newTask }}</p>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title"><code>$firebase</code> service demo</h3>
+            </div>
+            <div class="panel-body">
+              <div ng-repeat="task in tasks | orderByPriority" class="pane-body">
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox"> {{ task.name }}
+                  </label>
+                </div>
               </div>
             </div>
           </div>
@@ -115,17 +126,15 @@
 
     <!-- AngularJS -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
-    <script src="//code.angularjs.org/1.2.19/angular-resource.min.js"></script>
 
-    <!--connection to main.js-->
-    <script type="text/javascript" src="scripts/main.js"></script>
-
-    <!--Firebase CDN-->
+    <!-- Firebase -->
     <script src="//cdn.firebase.com/js/client/1.0.6/firebase.js"></script>
 
-    <!--AngularFire, a helper library for both Firebase and AngularJS-->
+    <!-- AngularFire, a helper library for both Firebase and AngularJS -->
     <script src="//cdn.firebase.com/libs/angularfire/0.7.1/angularfire.min.js"></script>
 
+    <!-- connection to main.js -->
+    <script type="text/javascript" src="scripts/main.js"></script>
 
   </body>
 </html>
