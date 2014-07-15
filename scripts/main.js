@@ -1,4 +1,4 @@
-(function(window, angular, undefined) {
+(function(window, angular, Firebase, undefined) {
 
 "use strict";
 
@@ -20,4 +20,4 @@ function AddListItemController($scope, tasks) {
 }
 AddListItemController.$inject = ["$scope", "tasks"];
 
-})(window, window.angular);
+})(window, window.angular, window.Firebase);
