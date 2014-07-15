@@ -77,9 +77,9 @@
           <div class="col-sm-6" ng-controller="AddListItemController">
             <form role="form">
               <div class="form-group">
-                <label for="inputTask">Change <code>$scope.inputTask</code></label>
-                <input ng-model="inputTask" type="text" class="form-control"
-                name="inputTask" id="inputTask" placeholder="Add a task">
+                <label for="taskInput">Change <code>$scope.taskInput</code></label>
+                <input ng-model="taskInput" type="text" class="form-control"
+                name="taskInput" id="taskInput" placeholder="Add a task">
               </div>
               <button ng-click="addTask()" type="submit" class="btn btn-primary">
                 Add task
@@ -94,8 +94,20 @@
                 <h3 class="panel-title">Angular $scope demo</h3>
               </div>
               <div class="panel-body">
-                <p><code>$scope.inputTask</code>: {{ inputTask }}</p>
-                <p><code>$scope.newTask</code>: {{ newTask }}</p>
+                <p><code>$scope.taskInput</code>: {{ taskInput }}</p>
+              </div>
+            </div>
+
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title"><code>$firebase</code> service demo</h3>
+              </div>
+              <div ng-repeat="task in tasks | orderByPriority" class="pane-body">
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox"> {{ task.name }}
+                  </label>
+                </div>
               </div>
             </div>
           </div>
