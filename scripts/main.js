@@ -9,9 +9,9 @@ angular.module('plan4me', ["firebase"])
 }])
 .controller("AddListItemController", ["$scope", "Task", function($scope, Task) {
    $scope.addTask = function() {
-    $scope.newTask = Task;
+    $scope.newTask = Task; 
     $scope.newTask.$add($scope.inputTask);
-
+    $scope.newTask = $scope.inputTask;
 };
 }]);
 
