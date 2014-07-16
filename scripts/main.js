@@ -16,20 +16,20 @@ angular.module('planhacker', ['firebase'])
 }])
 // user_idRef
 .factory("user_ID", ["userRef", "$firebase", function(userRef, $firebase) {
-    return userRef.$child('100');
+    return userRef.$child('user_ID');
     // return $firebase(ref);
 }])
 .factory("taskRef", ["user_ID", "$firebase", function(user_ID, $firebase) {
-    return user_ID.$child('123');
+    return user_ID.$child('tasks');
     // return $firebase(ref);
 }])
-.factory("task_ID", ["userRef", "$firebase", function(taskRef, $firebase) {
-    return taskRef.$child('description');
+.factory("task_ID", ["taskRef", "$firebase", function(taskRef, $firebase) {
+    return taskRef.$child('task_ID');
     // return $firebase(ref);
 }])
 .controller("AddListItemController", ["$scope", "task_ID", function($scope, task_ID) {
     $scope.addTask = function() {
-        $scope.newTask = user_idRef;
+        $scope.newTask = task_ID;
         $scope.newTask.$add($scope.inputTask);
     };
 }]);

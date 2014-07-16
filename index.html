@@ -98,6 +98,10 @@
                 <p><code>$scope.newTask</code>: {{ newTask }}</p>
               </div>
             </div>
+            <div class="well" ng-repeat-start="element in $scope.newTask">
+              {{ newTask }}
+            </div>
+            <div ng-repeat-end=""></div>
           </div>
         </div>
 
