@@ -102,10 +102,12 @@
             </div>
             <div class="panel-body">
               <div ng-repeat="task in tasks | orderByPriority" class="pane-body">
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox"> {{ task.name }}
-                  </label>
+                <div class="well">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox"> {{ task.name }}
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>
