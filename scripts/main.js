@@ -3,7 +3,7 @@
 "use strict";
 
 angular.module("plan4me", ["firebase"])
-.value("baseRef", new Firebase("https://plan4meapp.firebaseio.com"))
+.value("baseRef", new Firebase("https://blazing-fire-2043.firebaseio.com"))
 .factory("tasks", taskFactory)
 .controller("AddListItemController", AddListItemController);
 
