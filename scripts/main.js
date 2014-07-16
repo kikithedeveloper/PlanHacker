@@ -2,30 +2,102 @@
 
 "use strict";
 
-// baseRef - starting point
-angular.module('plan4me', ['firebase'])
+// baseRef - starting point "/"
+angular.module('planhacker', ['firebase'])
 .factory("baseRef", ["$firebase", function($firebase) {
-    return new Firebase("https://plan4meapp.firebaseio.com");
+    var ref = new Firebase("https://planhacker.firebaseio.com/");
+    return $firebase(ref);
 }])
-// userRef - /users
+// userRed - "/users"
 .factory("userRef", ["baseRef", "$firebase", function(baseRef, $firebase) {
-    var ref = baseRef.child('users');
-    return $firebase(ref);
+    return baseRef.$child('users');
+    // return ref;
+    // // return $firebase(ref);
 }])
-// taskRef - /users/tasks
-.factory("taskRef", ["userRef", "$firebase", function(userRef, $firebase) {
-    var ref = userRef.child('tasks');
-    return $firebase(ref);
+// user_idRef
+.factory("user_ID", ["userRef", "$firebase", function(userRef, $firebase) {
+    return userRef.$child('100');
+    // return $firebase(ref);
 }])
-// the taskRef gets passed on to the controller
-.controller("AddListItemController", ["$scope", "taskRef", function($scope, taskRef) {
+.factory("taskRef", ["user_ID", "$firebase", function(user_ID, $firebase) {
+    return user_ID.$child('123');
+    // return $firebase(ref);
+}])
+.factory("task_ID", ["userRef", "$firebase", function(taskRef, $firebase) {
+    return taskRef.$child('description');
+    // return $firebase(ref);
+}])
+.controller("AddListItemController", ["$scope", "task_ID", function($scope, task_ID) {
     $scope.addTask = function() {
-        $scope.newTask = taskRef; 
+        $scope.newTask = user_idRef;
         $scope.newTask.$add($scope.inputTask);
     };
 }]);
 
 })(window, window.angular);
+
+// // baseRef - starting point
+// angular.module('plan4me', ['firebase'])
+// .factory("baseRef", ["$firebase", function($firebase) {
+//     return new Firebase("https://plan4meapp.firebaseio.com");
+// }])
+// // // userRef - /users
+// // .factory("userRef", ["baseRef", "$firebase", function(baseRef, $firebase) {
+// //     var ref = baseRef.child('users');
+// //     return $firebase(ref);
+// // }])
+// // // taskRef - /users/tasks
+// // // .factory("taskRef", ["userRef", "$firebase", function(userRef, $firebase) {
+// // //     var ref = userRef.child('tasks');
+// // //     return $firebase(ref);
+// // // }])
+// // the taskRef gets passed on to the controller
+// .controller("AddListItemController", ["$scope", "baseRef", function($scope, baseRef) {
+//         $scope.addTask = function() {
+//             $scope.newTask = baseRef;
+//             // console.log($scope.inputTask);
+//             // $scope.newTask = $scope.inputTask;
+//             baseRef.$add("Something");
+//             // $scope.newTask.$add($scope.inputTask);
+//     };
+// }]);
+
+// })(window, window.angular);
+
+
+// (function(window, angular, undefined) {
+
+
+// "use strict";
+
+
+// angular.module('plan4me', ["firebase"])
+
+// .factory("Task", ["$firebase", function($firebase) {
+
+//     var ref = new Firebase("https://plan4meapp.firebaseio.com/").limit(1);
+
+//     return $firebase(ref);
+
+// }])
+// .controller("AddListItemController", ["$scope", "Task", function($scope, Task) {
+
+//    $scope.addTask = function() {
+
+//     $scope.newTask = Task; 
+
+//     $scope.newTask.$add($scope.inputTask);
+
+// };
+// }]);
+
+
+// })(window, window.angular);
+
+
+
+
+
 
 //.factory('Task', ['$resource', function($resource) {
 //  Code goes here to connect to firebase
