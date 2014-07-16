@@ -2,17 +2,27 @@
 
 "use strict";
 
-angular.module('plan4me', ["firebase"])
-.factory("Task", ["$firebase", function($firebase) {
-    var ref = new Firebase("https://plan4meapp.firebaseio.com/").limit(1);
+// baseRef - starting point
+angular.module('plan4me', ['firebase'])
+.factory("baseRef", ["$firebase", function($firebase) {
+    return new Firebase("https://plan4meapp.firebaseio.com");
+}])
+// userRef - /users
+.factory("userRef", ["baseRef", "$firebase", function(baseRef, $firebase) {
+    var ref = baseRef.child('users');
     return $firebase(ref);
 }])
-.controller("AddListItemController", ["$scope", "Task", function($scope, Task) {
-   $scope.addTask = function() {
-    $scope.newTask = Task; 
-    $scope.newTask.$add($scope.inputTask);
-    $scope.newTask = $scope.inputTask;
-};
+// taskRef - /users/tasks
+.factory("taskRef", ["userRef", "$firebase", function(userRef, $firebase) {
+    var ref = userRef.child('tasks');
+    return $firebase(ref);
+}])
+// the taskRef gets passed on to the controller
+.controller("AddListItemController", ["$scope", "taskRef", function($scope, taskRef) {
+    $scope.addTask = function() {
+        $scope.newTask = taskRef; 
+        $scope.newTask.$add($scope.inputTask);
+    };
 }]);
 
 })(window, window.angular);
