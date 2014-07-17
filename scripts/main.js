@@ -17,6 +17,9 @@ function AddListItemController($scope, tasks) {
   $scope.addTask = function() {
     tasks.$add({name: $scope.taskInput});
   };
+  $scope.deleteTask = function(key) {
+    tasks.$remove(key);
+  };
 }
 AddListItemController.$inject = ["$scope", "tasks"];
 

@@ -93,6 +93,7 @@
             </div>
             <div class="panel-body">
               <p><code>$scope.taskInput</code>: {{ taskInput }}</p>
+              <p><code>$scope.tasks</code>: {{ tasks }}</p>
             </div>
           </div>
 
@@ -101,11 +102,12 @@
               <h3 class="panel-title"><code>$firebase</code> service demo</h3>
             </div>
             <div class="panel-body">
-              <div ng-repeat="task in tasks | orderByPriority" class="pane-body">
+              <div ng-repeat="(key, task) in tasks" class="pane-body">
                 <div class="well">
                   <div class="checkbox">
                     <label>
-                      <input type="checkbox"> {{ task.name }}
+                      <input ng-click="deleteTask(key)" type="checkbox">
+                      {{ task.name }}
                     </label>
                   </div>
                 </div>
