@@ -34,13 +34,13 @@ angular.module('planhacker', ['firebase'])
         $scope.newTask.$add({name:$scope.inputTask});
     };
 }])
-.controller("RemoveListItemController", ["$scope", "task_ID", function($scope, task_ID) {
-    $scope.newTask = task_ID;
-    $scope.removeTask = function() {
-        $scope.newTask = task_ID;
-        $scope.newTask.$remove()
-    }
-}]);
+// .controller("RemoveListItemController", ["$scope", "task_ID", function($scope, task_ID) {
+//     $scope.newTask = task_ID;
+//     $scope.removeTask = function() {
+//         $scope.newTask = task_ID;
+//         $scope.newTask.$remove()
+//     }
+// }]);
 
 // planhacker.config(['$routeProvider',
 //     function($routeProvider) {
