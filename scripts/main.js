@@ -36,10 +36,10 @@ angular.module('planhacker', ['firebase'])
 }])
 .controller("RemoveListItemController", ["$scope", "task_ID", function($scope, task_ID) {
     $scope.newTask = task_ID;
-    $scope.removeTask = function() {
+    $scope.removeTask = function(key) {
         $scope.newTask = task_ID;
-        $scope.newTask.$remove()
-    }
+        $scope.newTask.$remove(key);
+    };
 }]);
 
 // planhacker.config(['$routeProvider',
