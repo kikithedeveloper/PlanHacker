@@ -85,7 +85,7 @@
           <button ng-click="addTask()" type="submit" class="btn btn-primary">
             Add task
           </button>
-          <button ng-click="removeTask()" type="submit" class="btn btn-primary">
+          <button ng-click="deleteTask(key)" type="submit" class="btn btn-primary">
             Remove task
           </button>
           <span class="text-muted">
@@ -93,35 +93,22 @@
           </span>
         </form>
         <br>
-<!--         <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Angular $scope demo</h3>
-          </div>
-          <div class="panel-body" >
-            <div class="pane-body">
-              <p><code>$scope.inputTask</code>: {{ inputTask }}</p>
-              <p><code>$scope.newTask</code>: {{ newTask }}</p>
-            </div>
-          </div>
-        </div> -->
-
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title">List of Tasks</h3>
           </div>
           <div class="panel-body">
               <div ng-repeat="(key, task) in newTask | orderByPriority" class="pane-body">
-              <div class="well" ng-class="{faded : completed}">
+              <div class="well well-sm" ng-class="{faded : completed}">
                 <div class="checkbox">
                   <label>
-                    <input type="checkbox" ng-model="completed" id="{{key}}"> {{task.name}}
+                    <input type="checkbox" ng-model="completed" ng-click="deleteTask(key)"> {{task.name}}
                   </label>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
       </div>
     </div>
 
