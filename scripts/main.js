@@ -34,6 +34,15 @@ angular.module('planhacker', ['firebase'])
     };
 }]);
 
+planhacker.config(['$routeProvider',
+    function($routeProvider) {
+        $routeProvider.
+        when('/', {
+            templateUrl:'/',
+            controller: 'AddListItemController'
+        });
+    }]);
+
 })(window, window.angular);
 
 // // baseRef - starting point
