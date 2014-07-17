@@ -30,7 +30,7 @@ angular.module('planhacker', ['firebase'])
 .controller("AddListItemController", ["$scope", "task_ID", function($scope, task_ID) {
     $scope.addTask = function() {
         $scope.newTask = task_ID;
-        $scope.newTask.$add($scope.inputTask);
+        $scope.newTask.$add({name:$scope.inputTask});
     };
 }]);
 
