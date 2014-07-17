@@ -44,3 +44,19 @@ JAVASCRIPT
 
 
 
+DESIGN STRUCTURE FOR MY FIREBASE DATABASE
+
+/users
+
+/users/user_id/
+
+/users/user_id/tasks/
+
+/users/user_id/tasks/task_id
+
+
+
+
+
+
+

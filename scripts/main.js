@@ -28,20 +28,28 @@ angular.module('planhacker', ['firebase'])
     // return $firebase(ref);
 }])
 .controller("AddListItemController", ["$scope", "task_ID", function($scope, task_ID) {
+    $scope.newTask = task_ID;
     $scope.addTask = function() {
         $scope.newTask = task_ID;
         $scope.newTask.$add({name:$scope.inputTask});
     };
+}])
+.controller("RemoveListItemController", ["$scope", "task_ID", function($scope, task_ID) {
+    $scope.newTask = task_ID;
+    $scope.removeTask = function() {
+        $scope.newTask = task_ID;
+        $scope.newTask.$remove()
+    }
 }]);
 
-planhacker.config(['$routeProvider',
-    function($routeProvider) {
-        $routeProvider.
-        when('/', {
-            templateUrl:'/',
-            controller: 'AddListItemController'
-        });
-    }]);
+// planhacker.config(['$routeProvider',
+//     function($routeProvider) {
+//         $routeProvider.
+//         when('/', {
+//             templateUrl:'/',
+//             controller: 'AddListItemController'
+//         });
+//     }]);
 
 })(window, window.angular);
 
