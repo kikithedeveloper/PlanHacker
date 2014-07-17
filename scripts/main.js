@@ -11,21 +11,18 @@ angular.module('planhacker', ['firebase'])
 // userRed - "/users"
 .factory("userRef", ["baseRef", "$firebase", function(baseRef, $firebase) {
     return baseRef.$child('users');
-    // return ref;
-    // // return $firebase(ref);
 }])
-// user_idRef
+// user_ID - "/users/user_id"
 .factory("user_ID", ["userRef", "$firebase", function(userRef, $firebase) {
     return userRef.$child('user_ID');
-    // return $firebase(ref);
 }])
+// taskRef - "/users/user_id/tasks"
 .factory("taskRef", ["user_ID", "$firebase", function(user_ID, $firebase) {
     return user_ID.$child('tasks');
-    // return $firebase(ref);
 }])
+// taskRef - "/users/user_id/tasks/task_id"
 .factory("task_ID", ["taskRef", "$firebase", function(taskRef, $firebase) {
     return taskRef.$child('task_ID');
-    // return $firebase(ref);
 }])
 .controller("AddListItemController", ["$scope", "task_ID", function($scope, task_ID) {
     $scope.newTask = task_ID;
@@ -33,13 +30,18 @@ angular.module('planhacker', ['firebase'])
         $scope.newTask = task_ID;
         $scope.newTask.$add({name:$scope.inputTask});
     };
+    $scope.newTask = task_ID;
+    $scope.deleteTask = function(key) {
+        $scope.newTask = task_ID;
+        $scope.newTask.$remove(key);
+    };
 }])
 // .controller("RemoveListItemController", ["$scope", "task_ID", function($scope, task_ID) {
 //     $scope.newTask = task_ID;
-//     $scope.removeTask = function() {
+//     $scope.deleteTask = function(key) {
 //         $scope.newTask = task_ID;
-//         $scope.newTask.$remove()
-//     }
+//         $scope.newTask.$remove(key);
+//     };
 // }]);
 
 // planhacker.config(['$routeProvider',
