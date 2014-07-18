@@ -24,8 +24,20 @@ angular.module("planhacker", ["firebase"])
   tasks.$bind($scope, "tasks");
 
   $scope.addTask = function() {
-      tasks.$add({name: $scope.taskInput});
-      $scope.taskInput = null;
+    /*
+     * 1. See https://www.firebase.com/docs/javascript/firebase/setpriority.html
+     *    to understand how Firebase orders data by priority
+     * 2. See https://www.firebase.com/docs/angular/reference.html#ordered-data-and-arrays
+     *    to understand how to use the `orderByPriority` filter so the priority
+     *    takes effect in the view HTML
+     * 3. See https://docs.angularjs.org/api/ng/service/$q to understand how
+     *    the Angular promise system works
+     */
+    tasks.$add({name: $scope.taskInput}).then(function(ref) {
+      ref.setPriority(-new Date().getTime());
+    });
+
+    $scope.taskInput = null;
   };
 }]);
 
