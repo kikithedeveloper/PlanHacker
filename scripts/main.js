@@ -24,7 +24,7 @@ angular.module("planhacker", ["firebase"])
   tasks.$bind($scope, "tasks");
 
   $scope.addTask = function() {
-      tasks.$add({name:$scope.taskInput});
+      tasks.$add({name: $scope.taskInput});
       $scope.taskInput = null;
   };
 }]);
