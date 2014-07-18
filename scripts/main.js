@@ -32,7 +32,8 @@ angular.module('planhacker', ['firebase'])
     };
     $scope.newTask = task_ID;
     $scope.deleteTask = function(key) {
-        $scope.newTask = task_ID;
+        console.log("Called deleteTask with key: " + key);
+        // $scope.newTask = task_ID;
         $scope.newTask.$remove(key);
     };
 }])

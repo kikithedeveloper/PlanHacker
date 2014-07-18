@@ -98,13 +98,14 @@
             <h3 class="panel-title">List of Tasks</h3>
           </div>
           <div class="panel-body">
-              <div ng-repeat="(key, task) in newTask | orderByPriority" class="pane-body">
+            <div ng-repeat="(key, task) in newTask" class="pane-body">
               <div class="well well-sm" ng-class="{faded : completed}">
                 <div class="checkbox">
                   <label>
-                    <input type="checkbox" ng-model="completed" ng-click="deleteTask(key)"> {{task.name}}
+                    <input type="checkbox" ng-model="completed"> {{task.name}}
                   </label>
                 </div>
+                <button type="button" ng-click="deleteTask(key)">Delete Task</button>
               </div>
             </div>
           </div>
