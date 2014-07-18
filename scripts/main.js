@@ -2,40 +2,43 @@
 
 "use strict";
 
-// baseRef - starting point "/"
-angular.module('planhacker', ['firebase'])
+angular.module("planhacker", ["firebase"])
+
 .factory("baseRef", ["$firebase", function($firebase) {
-    var ref = new Firebase("https://planhacker.firebaseio.com/");
-    return $firebase(ref);
+  return $firebase(new Firebase("https://planhacker.firebaseio.com"));
 }])
-// userRed - "/users"
+
 .factory("users", ["baseRef", function(baseRef) {
-    return baseRef.$child('users');
+  return baseRef.$child("users");
 }])
-// user_ID - "/users/user_id"
+
 .factory("user", ["users", function(users) {
-    return userRef.$child('user');
+  return users.$child("user");
 }])
-// taskRef - "/users/user_id/tasks"
+
 .factory("tasks", ["user", function(user) {
-    return user_ID.$child('tasks');
+  return user.$child("tasks");
 }])
+
 .controller("TaskListController", ["$scope", "tasks", function($scope, tasks) {
-    $scope.tasks = tasks;
+  tasks.$bind($scope, "tasks");
 
-    $scope.addTask = function() {
-        $scope.tasks.$add({name:$scope.inputTask});
-        $scope.inputTask = null;
-    };
+  $scope.addTask = function() {
+    /*
+     * 1. See https://www.firebase.com/docs/javascript/firebase/setpriority.html
+     *    to understand how Firebase orders data by priority
+     * 2. See https://www.firebase.com/docs/angular/reference.html#ordered-data-and-arrays
+     *    to understand how to use the `orderByPriority` filter so the priority
+     *    takes effect in the view HTML
+     * 3. See https://docs.angularjs.org/api/ng/service/$q to understand how
+     *    the Angular promise system works
+     */
+    tasks.$add({name: $scope.taskInput}).then(function(ref) {
+      ref.setPriority(-new Date().getTime());
+    });
 
-    $scope.toggleComplete = function(key, task) {
-        var taskRef = tasks.$child(key);
-        taskRef.$update({isComplete: task.isComplete});
-    };
-
-    $scope.deleteTask = function(key) {
-        $scope.tasks.$remove(key);
-    };
-}])
+    $scope.taskInput = null;
+  };
+}]);
 
 })(window, window.angular);
