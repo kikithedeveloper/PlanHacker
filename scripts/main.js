@@ -2,7 +2,6 @@
 
 "use strict";
 
-// baseRef - starting point "/"
 angular.module("planhacker", ["firebase"])
 
 .factory("baseRef", ["$firebase", function($firebase) {
