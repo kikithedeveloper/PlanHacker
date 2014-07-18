@@ -1,124 +1,121 @@
 <!doctype html>
-<html ng-app="planhacker" lang="">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Plan4Me App</title>
+<html ng-app="planhacker">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Plan4Me App</title>
 
-  <!-- Add to homescreen for Chrome on Android -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <link rel="icon" sizes="196x196" href="images/touch/chrome-touch-icon-196x196.png">
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="196x196" href="images/touch/chrome-touch-icon-196x196.png">
 
-  <!-- Add to homescreen for Safari on iOS -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="">
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="">
 
-  <!-- Tile icon for Win8 (144x144 + tile color) -->
-  <meta name="msapplication-TileImage"
-  content="images/touch/ms-touch-icon-144x144-precomposed.png">
-  <meta name="msapplication-TileColor" content="#3372DF">
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage"
+    content="images/touch/ms-touch-icon-144x144-precomposed.png">
+    <meta name="msapplication-TileColor" content="#3372DF">
 
-  <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
+    <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
     <!--
     <link rel="canonical" href="http://www.example.com/">
-  -->
+    -->
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet"
-  href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+    href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
 
-  <!-- build:css styles/main.css -->
-  <link rel="stylesheet" href="styles/main.css">
-  <!-- endbuild -->
-</head>
-<body>
-  <!--Navigation Bar-->
-  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <!-- build:css styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+  </head>
+  <body>
+    <!--Navigation Bar-->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse"
+            data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Settings</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Help</a></li>
+          </ul>
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+        </div>
+      </div>
+    </nav>
+
     <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse"
-        data-target=".navbar-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Project name</a>
-    </div>
-    <div class="navbar-collapse collapse">
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Dashboard</a></li>
-        <li><a href="#">Settings</a></li>
-        <li><a href="#">Profile</a></li>
-        <li><a href="#">Help</a></li>
-      </ul>
-      <form class="navbar-form navbar-right">
-        <input type="text" class="form-control" placeholder="Search...">
-      </form>
-    </div>
-  </div>
-</nav>
+      <div class="row">
 
-<div class="container-fluid">
-  <div class="row">
-    <!--First Column-->
-    <div class="col-sm-3">
-      <div class="well">Calendar</div>
-      <div class="well">Inbox</div>
-      <div class="well">To-dos</div>
-    </div>
+        <!--First Column-->
+        <div class="col-sm-3">
+          <div class="well">Calendar</div>
+          <div class="well">Inbox</div>
+          <div class="well">To-dos</div>
+        </div>
 
+        <!--Second Column-->
+        <div class="col-sm-6" ng-controller="TaskListController">
+          <form role="form">
+            <div class="form-group">
+              <label for="taskInput">Add a new task</label>
+              <input ng-model="taskInput" type="text" class="form-control"
+              name="taskInput" id="taskInput" placeholder="Add a task">
+            </div>
+            <button ng-click="addTask()" type="submit" class="btn btn-primary">
+              Add a task
+            </button>
+            <button ng-click="tasks.$remove()" type="button" class="btn btn-danger">
+              Delete all tasks
+            </button>
+          </form>
+          <br>
 
-    <div>
-      <!--Second Column-->
-      <div class="col-sm-6" ng-controller="TaskListController">
-
-        <form role="form">
-          <div class="form-group">
-            <label for="inputTask">Change <code>$scope.inputTask</code></label>
-            <input ng-model="inputTask" type="text" class="form-control"
-            name="inputTask" id="inputTask" placeholder="Add a task">
-          </div>
-          <button ng-click="addTask()" type="submit" class="btn btn-primary">
-            Add a task
-          </button>
-          <button ng-click="tasks.$remove()" type="button" class="btn btn-danger">
-            Delete all tasks
-          </button>
-          <span class="text-muted">
-            (Click on the button to update <code>$scope.newTask</code>)
-          </span>
-        </form>
-        <br>
-
-        <div ng-repeat="(key, task) in tasks">
-          <div class="well well-sm" ng-class="{faded : task.isComplete}">
-            <div class="checkbox">
-              <label>
-                <input ng-change="toggleComplete(key, task)" ng-model="task.isComplete" type="checkbox">
-                {{task.name}}
-                <a ng-click="deleteTask(key)">
-                  <span class="glyphicon glyphicon-remove"></span>
-                </a>
-              </label>
+          <div ng-repeat="task in tasks | orderByPriority" ng-cloak>
+            <div ng-class="{faded: task.isComplete}" class="well well-sm">
+              <div class="checkbox">
+                <label>
+                  <input ng-model="task.isComplete" type="checkbox">
+                  <span ng-switch on="task.isComplete">
+                    <span ng-switch-when="true">
+                      <del class="text-muted">{{ task.name }}</del>
+                    </span>
+                    <span ng-switch-default>
+                      {{ task.name }} (<code>task.$priority</code>: {{ task.$priority }})
+                    </span>
+                  </span>
+                  <a ng-click="tasks.$remove(task.$id)">
+                    <span class="glyphicon glyphicon-remove"></span>
+                  </a>
+                </label>
+              </div>
             </div>
           </div>
         </div>
+
+        <!--Third Column-->
+        <div class="col-sm-3">Column3</div>
+
       </div>
     </div>
-
-          <!--Third Column-->
-          <div class="col-sm-3">Column3</div>
-
-        </div>
-      </div>
-
-
-
-
 
     <!-- JQuery -->
     <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
@@ -130,15 +127,14 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
     <script src="//code.angularjs.org/1.2.19/angular-resource.min.js"></script>
 
-    <!--connection to main.js-->
-    <script type="text/javascript" src="scripts/main.js"></script>
-
     <!--Firebase CDN-->
     <script src="//cdn.firebase.com/js/client/1.0.6/firebase.js"></script>
 
     <!--AngularFire, a helper library for both Firebase and AngularJS-->
     <script src="//cdn.firebase.com/libs/angularfire/0.7.1/angularfire.min.js"></script>
 
+    <!--connection to main.js-->
+    <script type="text/javascript" src="scripts/main.js"></script>
 
   </body>
 </html>
