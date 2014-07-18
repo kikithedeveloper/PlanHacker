@@ -90,7 +90,7 @@
           <br>
 
           <div ng-repeat="(key, task) in tasks">
-            <div class="well well-sm">
+            <div ng-class="{faded: task.isComplete}" class="well well-sm">
               <div class="checkbox">
                 <label>
                   <input ng-model="task.isComplete" type="checkbox">
