@@ -74,7 +74,7 @@
 
     <div>
       <!--Second Column-->
-      <div class="col-sm-6" ng-controller="AddListItemController" ng-controller="RemoveListItemController">
+      <div class="col-sm-6" ng-controller="TaskListController">
 
         <form role="form">
           <div class="form-group">
@@ -85,7 +85,7 @@
           <button ng-click="addTask()" type="submit" class="btn btn-primary">
             Add a task
           </button>
-          <button ng-click="deleteTask(key)" type="submit" class="btn btn-primary">
+          <button ng-click="tasks.$remove()" type="button" class="btn btn-danger">
             Delete all tasks
           </button>
           <span class="text-muted">
@@ -93,20 +93,17 @@
           </span>
         </form>
         <br>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">List of Tasks</h3>
-          </div>
-          <div class="panel-body">
-            <div ng-repeat="(key, task) in newTask" class="pane-body">
-              <div class="well well-sm" ng-class="{faded : completed}">
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox" ng-model="completed"> {{task.name}}
-                  </label>
-                </div>
-                <button type="button" ng-click="deleteTask(key)">Delete Task</button>
-              </div>
+
+        <div ng-repeat="(key, task) in tasks">
+          <div class="well well-sm" ng-class="{faded : task.isComplete}">
+            <div class="checkbox">
+              <label>
+                <input ng-change="toggleComplete(key, task)" ng-model="task.isComplete" type="checkbox">
+                {{task.name}}
+                <a ng-click="deleteTask(key)">
+                  <span class="glyphicon glyphicon-remove"></span>
+                </a>
+              </label>
             </div>
           </div>
         </div>
