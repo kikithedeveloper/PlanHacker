@@ -77,9 +77,9 @@
 
           <form role="form">
             <div class="form-group">
-              <label for="inputTask">Change <code>$scope.inputTask</code></label>
-              <input ng-model="inputTask" type="text" class="form-control"
-              name="inputTask" id="inputTask" placeholder="Add a task">
+              <label for="taskInput">Add a new task</label>
+              <input ng-model="taskInput" type="text" class="form-control"
+              name="taskInput" id="taskInput" placeholder="Add a task">
             </div>
             <button ng-click="addTask()" type="submit" class="btn btn-primary">
               Add a task
@@ -87,9 +87,6 @@
             <button ng-click="tasks.$remove()" type="button" class="btn btn-danger">
               Delete all tasks
             </button>
-            <span class="text-muted">
-              (Click on the button to update <code>$scope.newTask</code>)
-            </span>
           </form>
           <br>
 
@@ -97,9 +94,9 @@
             <div class="well well-sm" ng-class="{faded : task.isComplete}">
               <div class="checkbox">
                 <label>
-                  <input ng-change="toggleComplete(key, task)" ng-model="task.isComplete" type="checkbox">
+                  <input ng-model="task.isComplete" type="checkbox">
                   {{task.name}}
-                  <a ng-click="deleteTask(key)">
+                  <a ng-click="tasks.$remove(key)">
                     <span class="glyphicon glyphicon-remove"></span>
                   </a>
                 </label>

@@ -4,38 +4,30 @@
 
 // baseRef - starting point "/"
 angular.module('planhacker', ['firebase'])
+
 .factory("baseRef", ["$firebase", function($firebase) {
-    var ref = new Firebase("https://planhacker.firebaseio.com/");
-    return $firebase(ref);
+    return $firebase(new Firebase("https://blazing-fire-2043.firebaseio.com"));
 }])
-// userRed - "/users"
+
 .factory("users", ["baseRef", function(baseRef) {
     return baseRef.$child('users');
 }])
-// user_ID - "/users/user_id"
+
 .factory("user", ["users", function(users) {
-    return userRef.$child('user');
+    return users.$child('user');
 }])
-// taskRef - "/users/user_id/tasks"
+
 .factory("tasks", ["user", function(user) {
-    return user_ID.$child('tasks');
+    return user.$child('tasks');
 }])
+
 .controller("TaskListController", ["$scope", "tasks", function($scope, tasks) {
-    $scope.tasks = tasks;
+  tasks.$bind($scope, "tasks");
 
-    $scope.addTask = function() {
-        $scope.tasks.$add({name:$scope.inputTask});
-        $scope.inputTask = null;
-    };
-
-    $scope.toggleComplete = function(key, task) {
-        var taskRef = tasks.$child(key);
-        taskRef.$update({isComplete: task.isComplete});
-    };
-
-    $scope.deleteTask = function(key) {
-        $scope.tasks.$remove(key);
-    };
-}])
+  $scope.addTask = function() {
+      tasks.$add({name:$scope.taskInput});
+      $scope.taskInput = null;
+  };
+}]);
 
 })(window, window.angular);
