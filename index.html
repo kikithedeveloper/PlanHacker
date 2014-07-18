@@ -89,7 +89,7 @@
           </form>
           <br>
 
-          <div ng-repeat="(key, task) in tasks">
+          <div ng-repeat="task in tasks | orderByPriority" ng-cloak>
             <div ng-class="{faded: task.isComplete}" class="well well-sm">
               <div class="checkbox">
                 <label>
@@ -99,10 +99,10 @@
                       <del class="text-muted">{{ task.name }}</del>
                     </span>
                     <span ng-switch-default>
-                      {{ task.name }}
+                      {{ task.name }} (<code>task.$priority</code>: {{ task.$priority }})
                     </span>
                   </span>
-                  <a ng-click="tasks.$remove(key)">
+                  <a ng-click="tasks.$remove(task.$id)">
                     <span class="glyphicon glyphicon-remove"></span>
                   </a>
                 </label>
