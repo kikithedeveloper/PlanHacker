@@ -91,11 +91,18 @@
           <br>
 
           <div ng-repeat="(key, task) in tasks">
-            <div class="well well-sm" ng-class="{faded: task.isComplete}">
+            <div class="well well-sm">
               <div class="checkbox">
                 <label>
                   <input ng-model="task.isComplete" type="checkbox">
-                  {{task.name}}
+                  <span ng-switch on="task.isComplete">
+                    <span ng-switch-when="true">
+                      <del class="text-muted">{{ task.name }}</del>
+                    </span>
+                    <span ng-switch-when="false">
+                      {{ task.name }}
+                    </span>
+                  </span>
                   <a ng-click="tasks.$remove(key)">
                     <span class="glyphicon glyphicon-remove"></span>
                   </a>
