@@ -5,7 +5,7 @@
 angular.module("planhacker", ["firebase"])
 
 .factory("baseRef", ["$firebase", function($firebase) {
-    return $firebase(new Firebase("https://blazing-fire-2043.firebaseio.com"));
+    return $firebase(new Firebase("https://planhacker.firebaseio.com"));
 }])
 
 .factory("users", ["baseRef", function(baseRef) {
