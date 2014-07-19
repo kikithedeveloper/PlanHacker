@@ -20,25 +20,36 @@ angular.module("planhacker", ["firebase"])
   return user.$child("tasks");
 }])
 
-.controller("TaskListController", ["$scope", "tasks", function($scope, tasks) {
+.factory("completedTasks", ["user", function(user) {
+  return user.$child("completedTasks");
+}])
+
+.controller("TaskListController", [
+  "$scope", "$filter", "tasks", "completedTasks",
+  function($scope, $filter, tasks, completedTasks) {
+
   tasks.$bind($scope, "tasks");
+  completedTasks.$bind($scope, "completedTasks");
 
   $scope.addTask = function() {
-    /*
-     * 1. See https://www.firebase.com/docs/javascript/firebase/setpriority.html
-     *    to understand how Firebase orders data by priority
-     * 2. See https://www.firebase.com/docs/angular/reference.html#ordered-data-and-arrays
-     *    to understand how to use the `orderByPriority` filter so the priority
-     *    takes effect in the view HTML
-     * 3. See https://docs.angularjs.org/api/ng/service/$q to understand how
-     *    the Angular promise system works
-     */
-    tasks.$add({name: $scope.taskInput}).then(function(ref) {
+    var promise = tasks.$add({name: $scope.taskInput, isComplete: false});
+    promise.then(function(ref) {
       ref.setPriority(-new Date().getTime());
     });
 
     $scope.taskInput = null;
   };
+
+  $scope.completeTask = function(task) {
+    completedTasks.$add({name: task.name, isComplete: true});
+    tasks.$remove(task.$id);
+  }
+
+  $scope.incompleteTask = function(task) {
+    tasks.$add({name: task.name, isComplete: false});
+    completedTasks.$remove(task.$id);
+  }
+
 }]);
 
 })(window, window.angular);

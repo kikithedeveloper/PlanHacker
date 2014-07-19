@@ -76,24 +76,39 @@
         <div class="col-sm-6" ng-controller="TaskListController">
           <form role="form">
             <div class="form-group">
-              <label for="taskInput">Add a new task</label>
               <input ng-model="taskInput" type="text" class="form-control"
               name="taskInput" id="taskInput" placeholder="Add a task">
             </div>
-            <button ng-click="addTask()" type="submit" class="btn btn-primary">
+            <!--Button Dropdown-->
+            <div class="btn-group">
+              <button type="button" class="btn btn-danger">Action</button>
+              <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Action</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Another action</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li><a><span class="checkbox"></span></a></li>
+              </ul>
+            </div>
+            <button ng-click="addTask(task)" type="submit" class="btn btn-primary">
               Add a task
             </button>
-            <button ng-click="tasks.$remove()" type="button" class="btn btn-danger">
-              Delete all tasks
+            <button ng-click="completedTasks.$remove()" type="button" class="btn btn-danger">
+              Delete completed tasks
             </button>
           </form>
           <br>
-
           <div ng-repeat="task in tasks | orderByPriority" ng-cloak>
             <div ng-class="{faded: task.isComplete}" class="well well-sm">
               <div class="checkbox">
                 <label>
-                  <input ng-model="task.isComplete" type="checkbox">
+                  <input ng-click="completeTask(task)" type="checkbox">
                   <span ng-switch on="task.isComplete">
                     <span ng-switch-when="true">
                       <del class="text-muted">{{ task.name }}</del>
@@ -111,10 +126,52 @@
               </div>
             </div>
           </div>
+
+          <h2 ng-show="completedTasks">Completed</h2>
+          <div ng-repeat="task in completedTasks | orderByPriority" ng-cloak>
+            <div ng-class="{faded: task.isComplete}" class="well well-sm">
+              <div class="checkbox">
+                <label>
+                  <input ng-click="incompleteTask(task)" ng-model="task.isComplete" type="checkbox">
+                  <span ng-switch on="task.isComplete">
+                    <span ng-switch-when="true">
+                      <del class="text-muted">{{ task.name }}</del>
+                    </span>
+                    <span ng-switch-default>
+                      {{ task.name }} 
+                      (<code>task.$priority</code>: {{ task.$priority }})
+                      (<code>task.$id</code>: {{ task.$id }})
+                    </span>
+                  </span>
+                  <a ng-click="completedTasks.$remove(task.$id)">
+                    <span class="glyphicon glyphicon-remove"></span>
+                  </a>
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!--Third Column-->
-        <div class="col-sm-3">Column3</div>
+        <div class="col-sm-3">Column3
+          <!--begin container-->
+          <div class="well">
+
+            <div class="form-group">
+              <input ng-model="taskInput" type="text" class="form-control"
+              name="taskInput" id="taskInput" placeholder="Add a task">
+            </div>
+
+            <div class="well">
+              Sidebar
+            </div>
+          <!--end container-->
+          </div>
+        <!--end column-->
+        </div>
+
+
+
 
       </div>
     </div>
