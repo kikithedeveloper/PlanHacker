@@ -79,24 +79,7 @@
               <input ng-model="taskInput" type="text" class="form-control"
               name="taskInput" id="taskInput" placeholder="Add a task">
             </div>
-            <!--Button Dropdown-->
-            <div class="btn-group">
-              <button type="button" class="btn btn-danger">Action</button>
-              <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
-                <span class="caret"></span>
-                <span class="sr-only">Toggle Dropdown</span>
-              </button>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Action</a></li>
-                <li class="divider"></li>
-                <li><a href="#">Another action</a></li>
-                <li class="divider"></li>
-                <li><a href="#">Something else here</a></li>
-                <li class="divider"></li>
-                <li><a><span class="checkbox"></span></a></li>
-              </ul>
-            </div>
-            <button ng-click="addTask(task)" type="submit" class="btn btn-primary">
+            <button ng-click="addTask()" type="submit" class="btn btn-primary">
               Add a task
             </button>
             <button ng-click="completedTasks.$remove()" type="button" class="btn btn-danger">
@@ -122,9 +105,31 @@
                   <a ng-click="tasks.$remove(task.$id)">
                     <span class="glyphicon glyphicon-remove"></span>
                   </a>
+
+                  <a ng-click="showLabel = !showLabel">
+                    <span class="glyphicon glyphicon-tag"></span>
+                  </a>
+
                 </label>
               </div>
             </div>
+
+            <div class="panel panel-default" ng-show="showLabel" ng-controller="LabelController">
+              <div class="panel-body">
+                <div ng-repeat="item in labels">
+                 <a><span class="label label-primary" ng-click="assignLabel(item)">{{ item.label }}</span></a>
+                 <!--This needs improvement because only the last task works and gets all the labels, except all the previous.-->
+                </div>
+                <br>
+                <form role="form">
+                  <div class="form-group">
+                    <input ng-model="labelInput" name="labelInput" id="labelInput" type="text" placeholder="Create label...">
+                  </div>
+                  <button ng-click="addLabel()" type="button" class="btn btn-default">Add a label</button>
+                </form>
+              </div>
+            </div>
+
           </div>
 
           <h2 ng-show="completedTasks">Completed</h2>
@@ -194,6 +199,9 @@
 
     <!--connection to main.js-->
     <script type="text/javascript" src="scripts/main.js"></script>
+
+    <!-- Bootstrap for Angular JS -->
+    <script type="text/javascript" src="scripts/ui-bootstrap-tpls-0.11.0.min.js"></script>
 
   </body>
 </html>
