@@ -62,7 +62,7 @@
       </div>
     </nav>
 
-    <div class="container-fluid">
+    <div class="container-fluid" ng-controller="TaskListController">
       <div class="row">
 
         <!--First Column-->
@@ -73,7 +73,7 @@
         </div>
 
         <!--Second Column-->
-        <div class="col-sm-6" ng-controller="TaskListController">
+        <div class="col-sm-6">
           <form role="form">
             <div class="form-group">
               <input ng-model="taskInput" type="text" class="form-control"
@@ -82,19 +82,24 @@
             <button ng-click="addTask()" type="submit" class="btn btn-primary">
               Add a task
             </button>
-            <button ng-click="completedTasks.$remove()" type="button" class="btn btn-danger">
-              Delete completed tasks
+            <button ng-click="" type="button" class="btn btn-danger">
+              Delete All Checked..
             </button>
           </form>
           <br>
           <div ng-repeat="task in tasks | orderByPriority" ng-cloak>
-            <div ng-class="{faded: task.isComplete}" class="well well-sm">
+            <div ng-class="{faded: isComplete}" class="well well-sm">
               <div class="checkbox">
                 <label>
-                  <input ng-click="completeTask(task)" type="checkbox">
+                  <!-- ng-model="task.isComplete" -->
+                  <input type="checkbox" ng-model="task.isComplete">
                   <span ng-switch on="task.isComplete">
                     <span ng-switch-when="true">
-                      <del class="text-muted">{{ task.name }}</del>
+                      <del class="text-muted">
+                        {{ task.name }}
+                        (<code>task.$priority</code>: {{ task.$priority }})
+                        (<code>task.$id</code>: {{ task.$id }})
+                      </del>
                     </span>
                     <span ng-switch-default>
                       {{ task.name }} 
@@ -105,33 +110,39 @@
                   <a ng-click="tasks.$remove(task.$id)">
                     <span class="glyphicon glyphicon-remove"></span>
                   </a>
-
-                  <a ng-click="showLabel = !showLabel">
+                  <a>
                     <span class="glyphicon glyphicon-tag"></span>
                   </a>
-
+<!--                   <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="bottom" >Popover on bottom</button>
+                  <button popover-placement="bottom" popover="<p><b>Hello World</b></p>" class="btn btn-default" data-template="<p><b>Hello World</b></p>">Button</button> -->
                 </label>
               </div>
             </div>
-
-            <div class="panel panel-default" ng-show="showLabel" ng-controller="LabelController">
-              <div class="panel-body">
-                <div ng-repeat="item in labels">
-                 <a><span class="label label-primary" ng-click="assignLabel(item)">{{ item.label }}</span></a>
-                 <!--This needs improvement because only the last task works and gets all the labels, except all the previous.-->
-                </div>
-                <br>
-                <form role="form">
-                  <div class="form-group">
-                    <input ng-model="labelInput" name="labelInput" id="labelInput" type="text" placeholder="Create label...">
-                  </div>
-                  <button ng-click="addLabel()" type="button" class="btn btn-default">Add a label</button>
-                </form>
-              </div>
-            </div>
-
           </div>
 
+
+<!--                   <a ng-click="showLabel = !showLabel">
+                    <span class="glyphicon glyphicon-tag"></span>
+                  </a>
+ -->
+<!--             <div class="panel panel-default" ng-show="!showLabel" ng-controller="LabelController">
+              <div class="panel-body">
+                <p>{{task.$id}}</p>
+                <div ng-repeat="item in labels">
+                 <a><span class="label label-primary" ng-click="assignLabel(task, item)">{{ item.label }}</span></a>
+                 This needs improvement because only the last task works and gets all the labels, except all the previous.
+               </div>
+               <br>
+               <form role="form">
+                <div class="form-group">
+                  <input ng-model="labelInput" name="labelInput" id="labelInput" type="text" placeholder="Create label...">
+                </div>
+                <button ng-click="addLabel()" type="button" class="btn btn-default">Add a label</button>
+              </form>
+            </div>
+          </div>
+        </div> -->
+<!-- 
           <h2 ng-show="completedTasks">Completed</h2>
           <div ng-repeat="task in completedTasks | orderByPriority" ng-cloak>
             <div ng-class="{faded: task.isComplete}" class="well well-sm">
@@ -154,11 +165,11 @@
                 </label>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
 
         <!--Third Column-->
-        <div class="col-sm-3">Column3
+        <div class="col-sm-3">
           <!--begin container-->
           <div class="well">
 
@@ -187,15 +198,17 @@
     <!-- Bootstrap JS -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
-    <!-- AngularJS -->
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
-    <script src="//code.angularjs.org/1.2.19/angular-resource.min.js"></script>
-
     <!--Firebase CDN-->
     <script src="//cdn.firebase.com/js/client/1.0.6/firebase.js"></script>
+    <script src="//cdn.firebase.com/js/client/1.0.17/firebase.js"></script>
+    <script src="//cdn.firebase.com/js/simple-login/1.6.2/firebase-simple-login.js"></script>
 
-    <!--AngularFire, a helper library for both Firebase and AngularJS-->
-    <script src="//cdn.firebase.com/libs/angularfire/0.7.1/angularfire.min.js"></script>
+    <!-- AngularJS -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+
+    <!--AngularFire-->
+    <script src="//cdn.firebase.com/libs/angularfire/0.7.1/angularfire.js"></script>
+    <script src="//code.angularjs.org/1.2.19/angular-resource.min.js"></script>
 
     <!--connection to main.js-->
     <script type="text/javascript" src="scripts/main.js"></script>
