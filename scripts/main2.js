@@ -18,27 +18,95 @@ myApp.factory("tasks", ["user", function(user) {
   return user.$child("tasks");
 }]);
 
-myApp.controller("TaskListController", ["$scope", "$filter", "$firebase", "tasks",
-  function($scope, $filter, $firebase, tasks) {
-  console.log("TaskListController $firebase = " + $firebase);
+myApp.factory("labels", ["user", function(user) {
+  return user.$child("labels");
+}]);
+
+myApp.factory("data", function() {
+  return {taskInput:"data binding"};
+});
+
+myApp.controller("TaskListController", ["$scope", "$filter", "$firebase", "tasks", "labels", "data",
+  function($scope, $filter, $firebase, tasks, labels, data) {
+
+  // $scope.data = data;
+
   tasks.$bind($scope, "tasks");
-  // completedTasks.$bind($scope, "completedTasks");
+  labels.$bind($scope, "labels");
 
   $scope.addTask = function() {
-    tasks.$add({name: $scope.taskInput, isComplete: false, tag: "", dueDate: "", reminder: ""}).then(function(ref) {
+    tasks.$add({name: $scope.taskInput, isComplete: false, label: "", dueDate: "", reminder: "", note: ""}).then(function(ref) {
       ref.setPriority(-new Date().getTime());
     });
     $scope.taskInput = null;
   };
 
-
-  $scope.completeTask = function(id) {
-    var itemRef = new Firebase("https://planhacker.firebaseio.com/users/user/tasks/" + id);
-    $firebase(itemRef).$update({
-      isComplete: true,
-    });
-  };
-
   $scope.showLabel = true;
 
 }]);
+
+myApp.controller("LabelController", ["$firebase", "$scope", "$filter", "labels", "tasks",
+  function($firebase, $scope, $filter, labels, tasks) {
+
+  tasks.$bind($scope, "tasks");
+  labels.$bind($scope, "labels");
+
+  $scope.addLabel = function(task) {
+    labels.$add({label: $scope.labelInput});
+  };
+
+  $scope.assignLabel = function(id, lblString) {
+    var itemRef = new Firebase("https://planhacker.firebaseio.com/users/user/tasks/" + id);
+    $firebase(itemRef).$update({
+      label: lblString,
+    });
+  };
+
+}]);
+
+myApp.controller("SideBarController", ["$firebase", "$scope", "tasks", "labels", "data",
+  function($firebase, $scope, tasks, labels, data) {
+
+  tasks.$bind($scope, "tasks");
+  labels.$bind($scope, "labels");
+
+  $scope.renameTask = function(id, taskname) {
+    var itemRef = new Firebase("https://planhacker.firebaseio.com/users/user/tasks/" + id);
+
+    $firebase(itemRef).$update({
+      name: taskname,
+    });
+
+    console.log("successful change");
+  };
+
+  $scope.addNote = function(id, noteInput) {
+    var itemRef = new Firebase("https://planhacker.firebaseio.com/users/user/tasks/" + id);
+
+    $firebase(itemRef).$update({
+      note: noteInput,
+    });
+
+    console.log("successful execution for addNote()");
+  };
+
+
+  // $scope.addDueDate = function(id, date) {
+  //   var itemRef = new Firebase("https://planhacker.firebaseio.com/users/user/tasks/" + id);
+
+  //   $firebase(itemRef).$update({
+
+  //   })
+  // };
+
+    // $scope.data = data;
+}]);
+
+
+// A way to update an attribute in a Firebase instance...
+  // $scope.completeTask = function(id) {
+  //   var itemRef = new Firebase("https://planhacker.firebaseio.com/users/user/tasks/" + id);
+  //   $firebase(itemRef).$update({
+  //     isComplete: true,
+  //   });
+  // };

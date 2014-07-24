@@ -1,220 +1,180 @@
 <!doctype html>
 <html ng-app="planhacker">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Plan4Me App</title>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plan4Me App</title>
 
-    <!-- Add to homescreen for Chrome on Android -->
-    <meta name="mobile-web-app-capable" content="yes">
-    <link rel="icon" sizes="196x196" href="images/touch/chrome-touch-icon-196x196.png">
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" sizes="196x196" href="images/touch/chrome-touch-icon-196x196.png">
 
-    <!-- Add to homescreen for Safari on iOS -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="">
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="">
 
-    <!-- Tile icon for Win8 (144x144 + tile color) -->
-    <meta name="msapplication-TileImage"
-    content="images/touch/ms-touch-icon-144x144-precomposed.png">
-    <meta name="msapplication-TileColor" content="#3372DF">
+  <!-- Tile icon for Win8 (144x144 + tile color) -->
+  <meta name="msapplication-TileImage"
+  content="images/touch/ms-touch-icon-144x144-precomposed.png">
+  <meta name="msapplication-TileColor" content="#3372DF">
 
-    <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
+  <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
     <!--
     <link rel="canonical" href="http://www.example.com/">
-    -->
+  -->
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet"
-    href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet"
+  href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
 
-    <!-- build:css styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
-    <!-- endbuild -->
-  </head>
-  <body>
-    <!--Navigation Bar-->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse"
-            data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Project name</a>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Settings</a></li>
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">Help</a></li>
-          </ul>
-          <form class="navbar-form navbar-right">
-            <input type="text" class="form-control" placeholder="Search...">
-          </form>
-        </div>
-      </div>
-    </nav>
+  <!-- build:css styles/main.css -->
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- endbuild -->
+</head>
+<body>
+  <!--Navigation Bar-->
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse"
+        data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Project name</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="#">Settings</a></li>
+        <li><a href="#">Profile</a></li>
+        <li><a href="#">Help</a></li>
+      </ul>
+      <form class="navbar-form navbar-right">
+        <input type="text" class="form-control" placeholder="Search...">
+      </form>
+    </div>
+  </div>
+</nav>
 
-    <div class="container-fluid" ng-controller="TaskListController">
-      <div class="row">
+<div class="container-fluid" ng-controller="TaskListController">
+  <div class="row">
 
-        <!--First Column-->
-        <div class="col-sm-3">
-          <div class="well">Calendar</div>
-          <div class="well">Inbox</div>
-          <div class="well">To-dos</div>
-        </div>
-
-        <!--Second Column-->
-        <div class="col-sm-6">
-          <form role="form">
-            <div class="form-group">
-              <input ng-model="taskInput" type="text" class="form-control"
-              name="taskInput" id="taskInput" placeholder="Add a task">
-            </div>
-            <button ng-click="addTask()" type="submit" class="btn btn-primary">
-              Add a task
-            </button>
-            <button ng-click="" type="button" class="btn btn-danger">
-              Delete All Checked..
-            </button>
-          </form>
-          <br>
-          <div ng-repeat="task in tasks | orderByPriority" ng-cloak>
-            <div ng-class="{faded: isComplete}" class="well well-sm">
-              <div class="checkbox">
-                <label>
-                  <!-- ng-model="task.isComplete" -->
-                  <input type="checkbox" ng-model="task.isComplete">
-                  <span ng-switch on="task.isComplete">
-                    <span ng-switch-when="true">
-                      <del class="text-muted">
-                        {{ task.name }}
-                        (<code>task.$priority</code>: {{ task.$priority }})
-                        (<code>task.$id</code>: {{ task.$id }})
-                      </del>
-                    </span>
-                    <span ng-switch-default>
-                      {{ task.name }} 
-                      (<code>task.$priority</code>: {{ task.$priority }})
-                      (<code>task.$id</code>: {{ task.$id }})
-                    </span>
-                  </span>
-                  <a ng-click="tasks.$remove(task.$id)">
-                    <span class="glyphicon glyphicon-remove"></span>
-                  </a>
-                  <a>
-                    <span class="glyphicon glyphicon-tag"></span>
-                  </a>
-<!--                   <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="bottom" >Popover on bottom</button>
-                  <button popover-placement="bottom" popover="<p><b>Hello World</b></p>" class="btn btn-default" data-template="<p><b>Hello World</b></p>">Button</button> -->
-                </label>
-              </div>
-            </div>
-          </div>
-
-
-<!--                   <a ng-click="showLabel = !showLabel">
-                    <span class="glyphicon glyphicon-tag"></span>
-                  </a>
- -->
-<!--             <div class="panel panel-default" ng-show="!showLabel" ng-controller="LabelController">
-              <div class="panel-body">
-                <p>{{task.$id}}</p>
-                <div ng-repeat="item in labels">
-                 <a><span class="label label-primary" ng-click="assignLabel(task, item)">{{ item.label }}</span></a>
-                 This needs improvement because only the last task works and gets all the labels, except all the previous.
-               </div>
-               <br>
-               <form role="form">
-                <div class="form-group">
-                  <input ng-model="labelInput" name="labelInput" id="labelInput" type="text" placeholder="Create label...">
-                </div>
-                <button ng-click="addLabel()" type="button" class="btn btn-default">Add a label</button>
-              </form>
-            </div>
-          </div>
-        </div> -->
-<!-- 
-          <h2 ng-show="completedTasks">Completed</h2>
-          <div ng-repeat="task in completedTasks | orderByPriority" ng-cloak>
-            <div ng-class="{faded: task.isComplete}" class="well well-sm">
-              <div class="checkbox">
-                <label>
-                  <input ng-click="incompleteTask(task)" ng-model="task.isComplete" type="checkbox">
-                  <span ng-switch on="task.isComplete">
-                    <span ng-switch-when="true">
-                      <del class="text-muted">{{ task.name }}</del>
-                    </span>
-                    <span ng-switch-default>
-                      {{ task.name }} 
-                      (<code>task.$priority</code>: {{ task.$priority }})
-                      (<code>task.$id</code>: {{ task.$id }})
-                    </span>
-                  </span>
-                  <a ng-click="completedTasks.$remove(task.$id)">
-                    <span class="glyphicon glyphicon-remove"></span>
-                  </a>
-                </label>
-              </div>
-            </div>
-          </div> -->
-        </div>
-
-        <!--Third Column-->
-        <div class="col-sm-3">
-          <!--begin container-->
-          <div class="well">
-
-            <div class="form-group">
-              <input ng-model="taskInput" type="text" class="form-control"
-              name="taskInput" id="taskInput" placeholder="Add a task">
-            </div>
-
-            <div class="well">
-              Sidebar
-            </div>
-          <!--end container-->
-          </div>
-        <!--end column-->
-        </div>
-
-
-
-
-      </div>
+    <!--First Column-->
+    <div class="col-sm-3">
+      <div class="well">Calendar</div>
+      <div class="well">Inbox</div>
+      <div class="well">To-dos</div>
     </div>
 
-    <!-- JQuery -->
-    <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+    <!--Second Column-->
+    <div class="col-sm-9">
+      <form role="form">
+        <div class="form-group">
+          <input ng-model="taskInput" type="text" class="form-control"
+          name="taskInput" id="taskInput" placeholder="Add a task">
+        </div>
+        <button ng-click="addTask()" type="submit" class="btn btn-primary">
+          Add a task
+        </button>
+      </form>
+      <br>
+      <div ng-repeat="task in tasks | orderByPriority" ng-cloak>
+        <div class="well well-sm" >
+          <div class="checkbox" >
+            <label>
+              <input type="checkbox" ng-model="task.isComplete">
+              <label >                  
+                <span ng-switch on="task.isComplete" ng-click="showSideBar = !showSideBar">
+                  <span ng-switch-when="true">
+                    <del class="text-muted">
+                      {{ task.name }}
+                      <a type="button" class="label label-success"><span>{{ task.label }}</span></a>
+                    </del>
+                  </span>
+                  <span ng-switch-default>
+                    {{ task.name }}
+                    <a type="button" class="label label-success"><span>{{ task.label }}</span></a>
+                  </span>
+                </span>
+                <a ng-click="tasks.$remove(task.$id)"><span class="glyphicon glyphicon-remove"></span></a>
+                <a ng-click="showLabel = !showLabel"><span class="glyphicon glyphicon-tag"></span></a>
+              </label>
+            </label>
+          </div>
+        </div>
+        <!--Side Bar Controller-->
+        <div ng-show="showSideBar" class="panel panel-default" ng-controller="SideBarController">
+          <div class="panel-heading">
+            <div class="panel-title" ng-click="editTask = !editTask">{{task.name}}</div>
+            <div>
+              <input ng-show="editTask" type="text" placeholder="Rename this task..." ng-model="newTaskName">
+              <button ng-show="editTask" class="button button-default" ng-click="renameTask(task.$id, newTaskName)">Rename Task</button>
+            </div>
+          </div>
+          <div class="panel-body">
+<!--             <div>
+              <input  type="text" placeholder="Add a due date..." ng-model="dueDate">
+              <button class="button button-default" ng-click="addDueDate(task.$id, dueDate)">Rename Task</button>
+            </div> -->
+<!--             <div>
+              <input  type="text" placeholder="Add a reminder..." ng-model="remindMe">
+              <button class="button button-default" ng-click="addReminder(remindMe)">Rename Task</button>
+            </div> -->
+            <div>
+              <input  type="text" placeholder="Add a note..." ng-model="noteInput">
+              <button  class="button button-default" ng-click="addNote(task.$id, noteInput)">Add note</button>
+            </div>
+          </div>
+        </div>
+        <!--Label Controller-->
+        <div ng-show="!showLabel" class="panel panel-default" ng-controller="LabelController">
+          <div class="panel-body">
+            <p>{{task.$id}}</p>
+            <div ng-repeat="item in labels">
+             <a><span type="button" class="label label-primary" ng-click="assignLabel(task.$id, item.label)">{{ item.label }}</span></a>
+           </div>
+           <br>
+           <form role="form">
+            <div class="form-group">
+              <input ng-model="labelInput" name="labelInput" id="labelInput" type="text" placeholder="Create label...">
+            </div>
+            <button ng-click="addLabel()" type="button" class="btn btn-default">Add a label</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <!-- Bootstrap JS -->
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<!-- JQuery -->
+<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
 
-    <!--Firebase CDN-->
-    <script src="//cdn.firebase.com/js/client/1.0.6/firebase.js"></script>
-    <script src="//cdn.firebase.com/js/client/1.0.17/firebase.js"></script>
-    <script src="//cdn.firebase.com/js/simple-login/1.6.2/firebase-simple-login.js"></script>
+<!-- Bootstrap JS -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
-    <!-- AngularJS -->
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+<!--Firebase CDN-->
+<script src="//cdn.firebase.com/js/client/1.0.6/firebase.js"></script>
+<script src="//cdn.firebase.com/js/client/1.0.17/firebase.js"></script>
+<script src="//cdn.firebase.com/js/simple-login/1.6.2/firebase-simple-login.js"></script>
 
-    <!--AngularFire-->
-    <script src="//cdn.firebase.com/libs/angularfire/0.7.1/angularfire.js"></script>
-    <script src="//code.angularjs.org/1.2.19/angular-resource.min.js"></script>
+<!-- AngularJS -->
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
 
-    <!--connection to main.js-->
-    <script type="text/javascript" src="scripts/main.js"></script>
+<!--AngularFire-->
+<script src="//cdn.firebase.com/libs/angularfire/0.7.1/angularfire.js"></script>
+<script src="//code.angularjs.org/1.2.19/angular-resource.min.js"></script>
 
-    <!-- Bootstrap for Angular JS -->
-    <script type="text/javascript" src="scripts/ui-bootstrap-tpls-0.11.0.min.js"></script>
+<!--connection to main.js-->
+<script type="text/javascript" src="scripts/main2.js"></script>
 
-  </body>
+<!-- Bootstrap for Angular JS -->
+<script type="text/javascript" src="scripts/ui-bootstrap-tpls-0.11.0.min.js"></script>
+
+</body>
 </html>
