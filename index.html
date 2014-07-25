@@ -33,6 +33,10 @@
   <!-- build:css styles/main.css -->
   <link rel="stylesheet" href="styles/main.css">
   <!-- endbuild -->
+
+  <!--FullCalender Plugin-->
+  <link rel='stylesheet' href='fullcalendar/fullcalendar.css' />
+
 </head>
 <body>
   <!--Navigation Bar-->
@@ -76,6 +80,7 @@
     <div class="col-sm-9">
       <form role="form">
         <div class="form-group">
+          (╯°□°）╯︵ ┻━┻
           <input ng-model="taskInput" type="text" class="form-control"
           name="taskInput" id="taskInput" placeholder="Add a task">
         </div>
@@ -85,23 +90,22 @@
       </form>
       <br>
       <div ng-repeat="task in tasks | orderByPriority" ng-cloak>
-        <div class="well well-sm" >
-          <div class="checkbox" >
+        <div class="well well-sm">
+          <div class="checkbox">
             <label>
               <input type="checkbox" ng-model="task.isComplete">
               <label >                  
                 <span ng-switch on="task.isComplete" ng-click="showSideBar = !showSideBar">
                   <span ng-switch-when="true">
                     <del class="text-muted">
-                      {{ task.name }}
-                      <a type="button" class="label label-success"><span>{{ task.label }}</span></a>
+                      {{ task.name }} 
                     </del>
                   </span>
                   <span ng-switch-default>
-                    {{ task.name }}
-                    <a type="button" class="label label-success"><span>{{ task.label }}</span></a>
+                    {{ task.name }} (╯°□°）╯︵ ┻━┻
                   </span>
                 </span>
+                <a ng-controller="LabelController" ng-click="removeLabel(task.$id)" ng-mouseenter="lblRemove = !lblRemove" ng-mouseleave="lblRemove = !lblRemove" type="button" class="label label-success"><span>{{ task.label }}<span ng-hide="!lblRemove" class="glyphicon glyphicon-remove"></span></span></a>
                 <a ng-click="tasks.$remove(task.$id)"><span class="glyphicon glyphicon-remove"></span></a>
                 <a ng-click="showLabel = !showLabel"><span class="glyphicon glyphicon-tag"></span></a>
               </label>
@@ -149,11 +153,18 @@
         </div>
       </div>
     </div>
+
+    <!--Calendar-->
+    <div id='calendar'></div>
+
+
+
   </div>
 </div>
 
 <!-- JQuery -->
 <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src='fullcalendar/lib/jquery-ui.custom.min.js'></script>
 
 <!-- Bootstrap JS -->
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
@@ -175,6 +186,19 @@
 
 <!-- Bootstrap for Angular JS -->
 <script type="text/javascript" src="scripts/ui-bootstrap-tpls-0.11.0.min.js"></script>
+
+<!--FullCalendar Plugin-->
+<script src='fullcalendar/lib/moment.min.js'></script>
+<script src='fullcalendar/fullcalendar.js'></script>
+<script>
+$(document).ready(function () {
+    // this initialize the calendar
+    $('#calendar').fullCalendar({
+      // this should be my options and callbacks, if any
+    })
+  })
+</script>
+
 
 </body>
 </html>
