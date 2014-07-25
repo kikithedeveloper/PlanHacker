@@ -50,7 +50,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Project name</a>
+      <a class="navbar-brand" href="#"><b>Plan Hacker</b></a>
     </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
@@ -70,14 +70,15 @@
   <div class="row">
 
     <!--First Column-->
-    <div class="col-sm-3">
-      <div class="well">Calendar</div>
+    <div class="col-sm-7">
+      <div id='calendar'></div>
+<!--       <div class="well">Calendar</div>
       <div class="well">Inbox</div>
-      <div class="well">To-dos</div>
+      <div class="well">To-dos</div> -->
     </div>
 
     <!--Second Column-->
-    <div class="col-sm-9">
+    <div class="col-sm-5">
       <form role="form">
         <div class="form-group">
           (╯°□°）╯︵ ┻━┻
@@ -155,11 +156,14 @@
     </div>
 
     <!--Calendar-->
-    <div id='calendar'></div>
+<!--     <div id='calendar'></div> -->
 
 
 
   </div>
+
+
+
 </div>
 
 <!-- JQuery -->
@@ -195,6 +199,12 @@ $(document).ready(function () {
     // this initialize the calendar
     $('#calendar').fullCalendar({
       // this should be my options and callbacks, if any
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay'
+    },
+    // defaultView: 'agendaMonth'
     })
   })
 </script>
