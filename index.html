@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html ng-app="planhacker">
 <head>
   <meta charset="utf-8">
@@ -70,18 +70,19 @@
   <div class="row">
 
     <!--First Column-->
-    <div class="col-sm-7">
+    <div class="col-sm-5">
       <div id='calendar'></div>
-<!--       <div class="well">Calendar</div>
-      <div class="well">Inbox</div>
-      <div class="well">To-dos</div> -->
     </div>
 
     <!--Second Column-->
-    <div class="col-sm-5">
+    <div class="col-sm-4">
+
+
+
+      <!--Task List Component-->
       <form role="form">
         <div class="form-group">
-          (╯°□°）╯︵ ┻━┻
+          <h1>Add a Task    (╯°□°）╯︵ ┻━┻</h1>
           <input ng-model="taskInput" type="text" class="form-control"
           name="taskInput" id="taskInput" placeholder="Add a task">
         </div>
@@ -113,10 +114,11 @@
             </label>
           </div>
         </div>
-        <!--Side Bar Controller-->
+
+        <!--Side Bar Component-->
         <div ng-show="showSideBar" class="panel panel-default" ng-controller="SideBarController">
           <div class="panel-heading">
-            <div class="panel-title" ng-click="editTask = !editTask">{{task.name}}</div>
+            <div class="panel-title" ng-click="editTask = !editTask">{{task.name}}     (Click on me to rename me)</div>
             <div>
               <input ng-show="editTask" type="text" placeholder="Rename this task..." ng-model="newTaskName">
               <button ng-show="editTask" class="button button-default" ng-click="renameTask(task.$id, newTaskName)">Rename Task</button>
@@ -132,12 +134,41 @@
               <button class="button button-default" ng-click="addReminder(remindMe)">Rename Task</button>
             </div> -->
             <div>
-              <input  type="text" placeholder="Add a note..." ng-model="noteInput">
+              <input type="text" placeholder="Add a note..." ng-model="noteInput">
               <button  class="button button-default" ng-click="addNote(task.$id, noteInput)">Add note</button>
             </div>
+
+            <!--Datepicker-->
+            <div ng-controller="DatepickerDemoCtrl">
+              <div class="row">
+                <div class="col-sm-8">
+                  <b>Date</b>
+                  <p class="input-group">
+                    <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!--Timepicker-->
+            <div ng-controller="TimepickerDemoCtrl">
+              <b>Starting Time</b>
+              <timepicker ng-model="startTime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker><b>Ending Time</b>
+              <timepicker ng-model="endTime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+              <pre class="alert alert-info">Start: {{startTime}}</pre>
+              <pre class="alert alert-info">End: {{endTime}}</pre>
+              <button class="btn btn-danger" ng-click="clear()">Clear</button>
+            </div>
+
+
+
           </div>
         </div>
-        <!--Label Controller-->
+
+        <!--Label Component-->
         <div ng-show="!showLabel" class="panel panel-default" ng-controller="LabelController">
           <div class="panel-body">
             <p>{{task.$id}}</p>
@@ -155,14 +186,39 @@
       </div>
     </div>
 
-    <!--Calendar-->
-<!--     <div id='calendar'></div> -->
-
-
-
   </div>
 
+  <div class="col-sm-3">
+    <!--Datepicker-->
+    <h3>This is just a dummy, the real one is inside the task...</h3>
+    <div ng-controller="DatepickerDemoCtrl">
+      <div class="row">
+        <div class="col-sm-8">
+          <b>Date</b>
+          <p class="input-group">
 
+            <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!--Timepicker-->
+    <div ng-controller="TimepickerDemoCtrl">
+      <b>Starting Time</b>
+      <timepicker ng-model="startTime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker><b>Ending Time</b>
+      <timepicker ng-model="endTime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+
+      <pre class="alert alert-info">Start: {{startTime}}</pre>
+
+      <pre class="alert alert-info">End: {{endTime}}</pre>
+      <button class="btn btn-danger" ng-click="clear()">Clear</button>
+    </div>
+
+  </div>
 
 </div>
 
@@ -203,12 +259,22 @@ $(document).ready(function () {
         left: 'prev,next today',
         center: 'title',
         right: 'month,agendaWeek,agendaDay'
-    },
-    // defaultView: 'agendaMonth'
+      },
+      weekMode: 'variable',
+      theme: false,
+
+      events: function(start, end, timezone, callback) {
+        console.log('Called events with start: ' + start + '  end: ' + end);
+        var events = [];
+        events.push({
+          title: 'test event',
+          start: '2014-07-05T06:28:00Z'
+        });
+        callback(events);
+      }
     })
   })
 </script>
-
 
 </body>
 </html>

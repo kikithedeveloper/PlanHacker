@@ -99,3 +99,58 @@ myApp.controller("SideBarController", ["$firebase", "$scope", "tasks", "labels",
   };
 
 }]);
+
+var DatepickerDemoCtrl = function ($scope) {
+  $scope.today = function() {
+    $scope.dt = new Date();
+  };
+  $scope.today();
+
+  $scope.clear = function () {
+    $scope.dt = null;
+  };
+
+  $scope.toggleMin = function() {
+    $scope.minDate = $scope.minDate ? null : new Date();
+  };
+  $scope.toggleMin();
+
+  $scope.open = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+
+    $scope.opened = true;
+  };
+
+  $scope.dateOptions = {
+    formatYear: 'yy',
+    startingDay: 0,
+    showWeeks: false,
+  };
+
+  $scope.initDate = new Date('2016-15-20');
+  $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+  $scope.format = $scope.formats[0];
+};
+
+var TimepickerDemoCtrl = function ($scope) {
+  $scope.startTime = new Date("1970-01-01T08:00:00.000Z");
+  $scope.endTime = new Date("1970-01-01T08:00:00.000Z");
+
+  $scope.hstep = 1;
+  $scope.mstep = 30;
+
+  $scope.ismeridian = true;
+  $scope.toggleMode = function() {
+    $scope.ismeridian = ! $scope.ismeridian;
+  };
+
+  $scope.changed = function () {
+    console.log('Time changed to: ' + $scope.mytime);
+  };
+
+  $scope.clear = function() {
+  $scope.startTime = new Date("1970-01-01T08:00:00.000Z");
+  $scope.endTime = new Date("1970-01-01T08:00:00.000Z");
+  };
+};
