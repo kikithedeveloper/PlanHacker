@@ -70,13 +70,40 @@
   <div class="row">
 
     <!--First Column-->
-    <div class="col-sm-5">
-      <div id='calendar'></div>
+    <div class="col-sm-8">
+      <div id='calendar' ng-controller="EventController"></div>
+
+<!--       <div ng-controller="EventController">
+
+        <div ng-controller="DatepickerDemoCtrl">
+          <div class="row">
+            <div class="col-sm-8">
+              <b>Date</b>
+              <p class="input-group">
+                <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div ng-controller="TimepickerDemoCtrl">
+          <b>Starting Time</b>
+          <timepicker ng-model="startTime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker><b>Ending Time</b>
+          <timepicker ng-model="endTime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+          <pre class="alert alert-info">Start: {{startTime}}</pre>
+          <pre class="alert alert-info">End: {{endTime}}</pre>
+          <button class="btn btn-danger" ng-click="clear()">Clear</button>
+        </div>
+
+      </div> -->
+
     </div>
 
     <!--Second Column-->
     <div class="col-sm-4">
-
 
 
       <!--Task List Component-->
@@ -137,6 +164,7 @@
               <input type="text" placeholder="Add a note..." ng-model="noteInput">
               <button  class="button button-default" ng-click="addNote(task.$id, noteInput)">Add note</button>
             </div>
+            <br>
 
             <!--Datepicker-->
             <div ng-controller="DatepickerDemoCtrl">
@@ -188,8 +216,8 @@
 
   </div>
 
-  <div class="col-sm-3">
-    <!--Datepicker-->
+<!--   <div class="col-sm-3">
+
     <h3>This is just a dummy, the real one is inside the task...</h3>
     <div ng-controller="DatepickerDemoCtrl">
       <div class="row">
@@ -206,7 +234,7 @@
       </div>
     </div>
 
-    <!--Timepicker-->
+
     <div ng-controller="TimepickerDemoCtrl">
       <b>Starting Time</b>
       <timepicker ng-model="startTime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker><b>Ending Time</b>
@@ -218,7 +246,7 @@
       <button class="btn btn-danger" ng-click="clear()">Clear</button>
     </div>
 
-  </div>
+  </div> -->
 
 </div>
 
@@ -252,9 +280,36 @@
 <script src='fullcalendar/fullcalendar.js'></script>
 <script>
 $(document).ready(function () {
+  var events_array = [];
     // this initialize the calendar
     $('#calendar').fullCalendar({
+      eventSources: [{
+        url: "https://planhacker.firebaseio.com/users/user/events.json",
+        type: 'GET',
+
+        // Write a function inside the data to retreive the data out 
+        data: {
+          title: "title",
+          startParam: "start",
+          endParam: "end"
+        },
+        success: doAllTheThingsWithMyCalendarEvents,
+        error: function () {
+          alert("There's a problem.");
+        },
+      
+      }],
+      
+
+      
       // this should be my options and callbacks, if any
+      selectable: true,
+      selectHelper: true,
+      unselectAuto: true,
+      editable: true,
+
+
+
       header: {
         left: 'prev,next today',
         center: 'title',
@@ -262,18 +317,86 @@ $(document).ready(function () {
       },
       weekMode: 'variable',
       theme: false,
+     
+      events: events_array,
+      // events: function(start, end, timezone, callback) {
+      //   console.log('Called events with start: ' + start + '  end: ' + end);
+      //   events.push({
+      //     title: 'test event',
+      //     start: '2014-07-05T06:28:00Z'
+      //   });
+      //   callback(events);
+      // },
 
-      events: function(start, end, timezone, callback) {
-        console.log('Called events with start: ' + start + '  end: ' + end);
-        var events = [];
-        events.push({
-          title: 'test event',
-          start: '2014-07-05T06:28:00Z'
-        });
-        callback(events);
+      select: function(start, end) {
+        var title = "New Event";
+        if (title) {
+          $('#calendar').fullCalendar('renderEvent',
+            {
+              title: title,
+              start: start,
+              end: end
+            },
+            true
+          );
+
+          var ref = new Firebase("https://planhacker.firebaseio.com/users/user/");
+          var eventsRef = ref.child("events");
+
+          eventsRef.push(            
+            {
+              title: title,
+              start: start.unix(),
+              end: end.unix()
+            }
+          );
+
+          $('#calendar').fullCalendar('addEventSource', "https://planhacker.firebaseio.com/users/user/events.json");
+        }
+
+
       }
+
     })
-  })
+
+  function doAllTheThingsWithMyCalendarEvents( data){
+
+    // console.log(data); 
+
+    for (i in data) {
+      // console.log(events);
+      // console.log(i);
+      // console.log(data[i]);
+      // console.log(data[i].end);
+      // console.log(data[i].start);
+      // console.log(data[i].title);
+      // events.push({
+      //   title: data[i].title,
+      //   start: '2014-09-05T06:28:00Z'
+      // });
+      // console.log(events)
+     // $('#calendar').fullCalendar('renderEvent',
+      // {
+        events_array.push({
+          title: data[i].title,
+          start: data[i].start,
+          end: data[i].end
+        });
+        console.log(events_array);
+      // },
+      // true
+      // );
+    }
+    for (var j = 0; i++; i < events_array.length){
+        if (events_array[i].title) {
+          $('#calendar').fullCalendar('renderEvent',
+            events_array[i],
+            true
+          );
+        }
+    };
+  }
+})
 </script>
 
 </body>

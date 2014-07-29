@@ -22,6 +22,10 @@ myApp.factory("labels", ["user", function(user) {
   return user.$child("labels");
 }]);
 
+myApp.factory("events", ["user", function(user) {
+  return user.$child("events");
+}]);
+
 myApp.factory("data", function() {
   return {taskInput:"data binding"};
 });
@@ -153,4 +157,8 @@ var TimepickerDemoCtrl = function ($scope) {
   $scope.startTime = new Date("1970-01-01T08:00:00.000Z");
   $scope.endTime = new Date("1970-01-01T08:00:00.000Z");
   };
+};
+
+var EventController = function ($scope) {
+
 };
