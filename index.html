@@ -71,7 +71,7 @@
 
     <!--First Column-->
     <div class="col-sm-8">
-      <div id='calendar' ng-controller="EventController"></div>
+      <div id='calendar' ng-controller="CalendarCtrl"></div>
 
 <!--       <div ng-controller="EventController">
 
@@ -280,7 +280,8 @@
 <script src='fullcalendar/fullcalendar.js'></script>
 <script>
 $(document).ready(function () {
-  var events_array = [];
+    var events_array = [];
+    
     // this initialize the calendar
     $('#calendar').fullCalendar({
       eventSources: [{
@@ -297,18 +298,15 @@ $(document).ready(function () {
         error: function () {
           alert("There's a problem.");
         },
-      
+
       }],
       
-
-      
+      timezone: 'America/Los_Angeles',
       // this should be my options and callbacks, if any
       selectable: true,
       selectHelper: true,
       unselectAuto: true,
       editable: true,
-
-
 
       header: {
         left: 'prev,next today',
@@ -318,8 +316,17 @@ $(document).ready(function () {
       weekMode: 'variable',
       theme: false,
      
-      events: events_array,
+      // events: events_array,
       // events: function(start, end, timezone, callback) {
+      //   var events = [];
+
+      //   console.log('[events callback] events_array length: ' + events_array.length);
+      //   for (var i = 0; i < events_array.length; i++){
+      //       if (events_array[i].title) {
+      //         console.log("[events callback] adding event to calendar display: " + events_array[i].title + ' start: ' + start);
+      //       }
+      //   };        
+
       //   console.log('Called events with start: ' + start + '  end: ' + end);
       //   events.push({
       //     title: 'test event',
@@ -328,7 +335,15 @@ $(document).ready(function () {
       //   callback(events);
       // },
 
+      // This is called when a new event is created
       select: function(start, end) {
+        console.log('in select.  start: ' + start + '  end: ' + end);
+
+        // Offset start/end by our timezone.  This is a temporary hack
+        //   until we get timezones working
+        start_time = start.unix() + 60*60*7;
+        end_time = end.unix() + 60*60*7;
+
         var title = "New Event";
         if (title) {
           $('#calendar').fullCalendar('renderEvent',
@@ -346,8 +361,8 @@ $(document).ready(function () {
           eventsRef.push(            
             {
               title: title,
-              start: start.unix(),
-              end: end.unix()
+              start: start_time,
+              end: end_time,
             }
           );
 
@@ -359,7 +374,8 @@ $(document).ready(function () {
 
     })
 
-  function doAllTheThingsWithMyCalendarEvents( data){
+  function doAllTheThingsWithMyCalendarEvents(data){
+    console.log('in doAllTheThingsWithMyCalendarEvents');
 
     // console.log(data); 
 
@@ -382,21 +398,40 @@ $(document).ready(function () {
           start: data[i].start,
           end: data[i].end
         });
-        console.log(events_array);
+        console.log("adding to events_array: " + data[i].title + ' start: ' + data[i].start);
+
+
       // },
       // true
       // );
     }
-    for (var j = 0; i++; i < events_array.length){
+    console.log('events_array is now: ');
+    console.log(events_array);
+
+    console.log('[doAllTheThingsWithMyCalendarEvents] events_array length: ' + events_array.length);
+    for (var i = 0; i < events_array.length; i++){
         if (events_array[i].title) {
+          console.log("[doAllTheThingsWithMyCalendarEvents] adding event to calendar display: " + events_array[i].title);
+          event_start = moment(events_array[i].start * 1000);
+          event_end = moment(events_array[i].end * 1000);
           $('#calendar').fullCalendar('renderEvent',
-            events_array[i],
+            {
+              title: events_array[i].title,
+              start: event_start.format(), // 2014-09-05T06:28:00Z'
+              end: event_end.format(),
+            },
+            // events_array[i],
             true
           );
+
         }
     };
   }
-})
+});
+
+
+
+
 </script>
 
 </body>

@@ -158,7 +158,3 @@ var TimepickerDemoCtrl = function ($scope) {
   $scope.endTime = new Date("1970-01-01T08:00:00.000Z");
   };
 };
-
-var EventController = function ($scope) {
-
-};
