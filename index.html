@@ -335,6 +335,18 @@ $(document).ready(function () {
       //   callback(events);
       // },
 
+
+      eventClick: function(calEvent, jsEvent, view) {
+
+        console.log( "What is in my calEvent????" + calEvent);
+
+        alert("Id : " + calEvent.id);
+        alert("Event: " + calEvent.title);
+        alert("start time: " + calEvent.start + "     end time: " + calEvent.end);
+        alert("Coordinates: " + jsEvent.pageX + "," + jsEvent.pageY);
+        alert("View: " + view.name);
+      },
+
       // This is called when a new event is created
       select: function(start, end) {
         console.log('in select.  start: ' + start + '  end: ' + end);
@@ -377,12 +389,12 @@ $(document).ready(function () {
   function doAllTheThingsWithMyCalendarEvents(data){
     console.log('in doAllTheThingsWithMyCalendarEvents');
 
-    // console.log(data); 
+    console.log("What is in the data??????   " + data); 
 
     for (i in data) {
       // console.log(events);
-      // console.log(i);
-      // console.log(data[i]);
+      console.log("What is in my i??????????????????" + i);
+      console.log("Printing out data object" + data[i]);
       // console.log(data[i].end);
       // console.log(data[i].start);
       // console.log(data[i].title);
@@ -394,11 +406,13 @@ $(document).ready(function () {
      // $('#calendar').fullCalendar('renderEvent',
       // {
         events_array.push({
+          id: i,
           title: data[i].title,
           start: data[i].start,
           end: data[i].end
         });
         console.log("adding to events_array: " + data[i].title + ' start: ' + data[i].start);
+        console.log("id : " + data[i].id);
 
 
       // },
@@ -416,13 +430,15 @@ $(document).ready(function () {
           event_end = moment(events_array[i].end * 1000);
           $('#calendar').fullCalendar('renderEvent',
             {
+              id: events_array[i].id,
               title: events_array[i].title,
               start: event_start.format(), // 2014-09-05T06:28:00Z'
               end: event_end.format(),
             },
-            // events_array[i],
+            
             true
           );
+          console.log('id for event is:  ' + events_array[i].id);
 
         }
     };

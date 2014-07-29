@@ -1,3 +1,5 @@
+// I am using main2.js from now on. Because there's something in here that doesn't work well with index.html file. So I had to do something different and it worked with main2.js because I changed the setting with Angular JS.
+
 (function(window, angular, undefined) {
 
 "use strict";
