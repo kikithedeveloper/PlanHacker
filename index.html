@@ -71,7 +71,26 @@
 
     <!--First Column-->
     <div class="col-sm-8">
-      <div id='calendar' ng-controller="CalendarCtrl"></div>
+      <div id='calendar'></div>
+
+<!--       <div ng-controller="EventController" id="modal" class="modal fade">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title">Modal title</h4>
+            </div>
+            <div class="modal-body">
+              <p>One fine body&hellip;</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
 
 <!--       <div ng-controller="EventController">
 
@@ -280,8 +299,8 @@
 <script src='fullcalendar/fullcalendar.js'></script>
 <script>
 $(document).ready(function () {
-    var events_array = [];
-    
+
+
     // this initialize the calendar
     $('#calendar').fullCalendar({
       eventSources: [{
@@ -294,7 +313,7 @@ $(document).ready(function () {
           startParam: "start",
           endParam: "end"
         },
-        success: doAllTheThingsWithMyCalendarEvents,
+        success: displayEventObjects,
         error: function () {
           alert("There's a problem.");
         },
@@ -303,6 +322,7 @@ $(document).ready(function () {
       
       timezone: 'America/Los_Angeles',
       // this should be my options and callbacks, if any
+      defaultView: 'agendaWeek',
       selectable: true,
       selectHelper: true,
       unselectAuto: true,
@@ -315,37 +335,43 @@ $(document).ready(function () {
       },
       weekMode: 'variable',
       theme: false,
-     
-      // events: events_array,
-      // events: function(start, end, timezone, callback) {
-      //   var events = [];
+      // This is called when user click event
+      eventClick: 
 
-      //   console.log('[events callback] events_array length: ' + events_array.length);
-      //   for (var i = 0; i < events_array.length; i++){
-      //       if (events_array[i].title) {
-      //         console.log("[events callback] adding event to calendar display: " + events_array[i].title + ' start: ' + start);
-      //       }
-      //   };        
-
-      //   console.log('Called events with start: ' + start + '  end: ' + end);
-      //   events.push({
-      //     title: 'test event',
-      //     start: '2014-07-05T06:28:00Z'
-      //   });
-      //   callback(events);
+      // function clickEvent () {
+      //   $("#modal").modal('show')
       // },
 
+      function(calEvent, jsEvent, view) {
 
-      eventClick: function(calEvent, jsEvent, view) {
+        var popover = "<div id='popover'><p>" + calEvent.id + "</p></div>";
 
-        console.log( "What is in my calEvent????" + calEvent);
+        var location = $(this).position();
 
-        alert("Id : " + calEvent.id);
-        alert("Event: " + calEvent.title);
-        alert("start time: " + calEvent.start + "     end time: " + calEvent.end);
-        alert("Coordinates: " + jsEvent.pageX + "," + jsEvent.pageY);
-        alert("View: " + view.name);
-      },
+        // $('body').append(popover);
+        $('#popover').css({
+          "position": "fixed",
+          "top": location.top,
+          "left": location.left,
+          "width": "100px",
+          "height": "150px",
+          "background-color": "red",
+          "z-index": 1
+        })
+
+        // this will cause the browser to pause here          
+
+
+      //   console.log( "What is in my calEvent????" + calEvent);
+
+      //   alert("Id : " + calEvent.id);
+      //   alert("Event: " + calEvent.title);
+      //   alert("start time: " + calEvent.start + "     end time: " + calEvent.end);
+      //   alert("Coordinates: " + jsEvent.pageX + "," + jsEvent.pageY);
+      //   alert("View: " + view.name);
+      // },
+
+    },
 
       // This is called when a new event is created
       select: function(start, end) {
@@ -359,90 +385,57 @@ $(document).ready(function () {
         var title = "New Event";
         if (title) {
           $('#calendar').fullCalendar('renderEvent',
-            {
-              title: title,
-              start: start,
-              end: end
-            },
-            true
+          {
+            title: title,
+            start: start,
+            end: end
+          }
           );
-
           var ref = new Firebase("https://planhacker.firebaseio.com/users/user/");
           var eventsRef = ref.child("events");
-
           eventsRef.push(            
-            {
-              title: title,
-              start: start_time,
-              end: end_time,
-            }
+          {
+            title: title,
+            start: start_time,
+            end: end_time,
+          }
           );
-
-          $('#calendar').fullCalendar('addEventSource', "https://planhacker.firebaseio.com/users/user/events.json");
+          $('#calendar').fullCalendar('refetchEvents');
         }
-
 
       }
+    });
 
-    })
+function displayEventObjects (data) {
 
-  function doAllTheThingsWithMyCalendarEvents(data){
-    console.log('in doAllTheThingsWithMyCalendarEvents');
+  var events_array = [];
 
-    console.log("What is in the data??????   " + data); 
+  for (i in data) {
+    events_array.push({
+      id: i,
+      title: data[i].title,
+      start: data[i].start,
+      end: data[i].end
+    });
+  };
 
-    for (i in data) {
-      // console.log(events);
-      console.log("What is in my i??????????????????" + i);
-      console.log("Printing out data object" + data[i]);
-      // console.log(data[i].end);
-      // console.log(data[i].start);
-      // console.log(data[i].title);
-      // events.push({
-      //   title: data[i].title,
-      //   start: '2014-09-05T06:28:00Z'
-      // });
-      // console.log(events)
-     // $('#calendar').fullCalendar('renderEvent',
-      // {
-        events_array.push({
-          id: i,
-          title: data[i].title,
-          start: data[i].start,
-          end: data[i].end
-        });
-        console.log("adding to events_array: " + data[i].title + ' start: ' + data[i].start);
-        console.log("id : " + data[i].id);
+  for (var i = 0; i < events_array.length; i++) {
 
-
-      // },
-      // true
-      // );
-    }
-    console.log('events_array is now: ');
-    console.log(events_array);
-
-    console.log('[doAllTheThingsWithMyCalendarEvents] events_array length: ' + events_array.length);
-    for (var i = 0; i < events_array.length; i++){
-        if (events_array[i].title) {
-          console.log("[doAllTheThingsWithMyCalendarEvents] adding event to calendar display: " + events_array[i].title);
-          event_start = moment(events_array[i].start * 1000);
-          event_end = moment(events_array[i].end * 1000);
-          $('#calendar').fullCalendar('renderEvent',
-            {
-              id: events_array[i].id,
-              title: events_array[i].title,
-              start: event_start.format(), // 2014-09-05T06:28:00Z'
-              end: event_end.format(),
-            },
-            
-            true
+    if (events_array[i].title) {
+      event_start = moment(events_array[i].start * 1000);
+      event_end = moment(events_array[i].end * 1000);
+      $('#calendar').fullCalendar('renderEvent',
+      {
+        id: events_array[i].id,
+        title: events_array[i].title,
+            start: event_start.format(), // 2014-09-05T06:28:00Z'
+            end: event_end.format(),
+          }
           );
-          console.log('id for event is:  ' + events_array[i].id);
+    }
+  };
+};
 
-        }
-    };
-  }
 });
 
 

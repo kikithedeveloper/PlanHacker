@@ -31,7 +31,7 @@ myApp.factory("data", function() {
 });
 
 myApp.controller("TaskListController", ["$scope", "$filter", "$firebase", "tasks",
-  function($scope, $filter, $firebase, tasks, data) {
+  function($scope, $filter, $firebase, tasks) {
 
   tasks.$bind($scope, "tasks");
 
@@ -45,6 +45,15 @@ myApp.controller("TaskListController", ["$scope", "$filter", "$firebase", "tasks
   $scope.showLabel = true;
 
 }]);
+
+// myApp.controller("EventController", ["$scope", "$filter", "$firebase", "events",
+//   function($scope, $filter, $firebase, events) {
+
+//   $scope.removeEvent = function(event) {
+    
+//   };
+
+// }]);
 
 myApp.controller("LabelController", ["$firebase", "$scope", "$filter", "labels", "tasks",
   function($firebase, $scope, $filter, labels, tasks) {
