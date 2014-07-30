@@ -33,48 +33,43 @@ myApp.factory("data", function() {
 myApp.controller("TaskListController", ["$scope", "$filter", "$firebase", "tasks",
   function($scope, $filter, $firebase, tasks) {
 
-  tasks.$bind($scope, "tasks");
+    tasks.$bind($scope, "tasks");
 
-  $scope.addTask = function() {
-    tasks.$add({name: $scope.taskInput, isComplete: false, course: null, label: null, dueDate: null, reminder: null, note: null}).then(function(ref) {
-      ref.setPriority(-new Date().getTime());
-    });
-    $scope.taskInput = null;
-  };
+    $scope.addTask = function() {
+      tasks.$add({name: $scope.taskInput, isComplete: false, course: null, label: null, dueDate: null, reminder: null, note: null}).then(function(ref) {
+        ref.setPriority(-new Date().getTime());
+      });
+      $scope.taskInput = null;
+    };
 
-  $scope.showLabel = true;
+    $scope.showLabel = true;
+
+  }]);
+
+myApp.controller("EventCtrl", ["$scope", function($scope) {
 
 }]);
-
-// myApp.controller("EventController", ["$scope", "$filter", "$firebase", "events",
-//   function($scope, $filter, $firebase, events) {
-
-//   $scope.removeEvent = function(event) {
-    
-//   };
-
-// }]);
 
 myApp.controller("LabelController", ["$firebase", "$scope", "$filter", "labels", "tasks",
   function($firebase, $scope, $filter, labels, tasks) {
 
-  labels.$bind($scope, "labels");
+    labels.$bind($scope, "labels");
 
-  $scope.addLabel = function(task) {
-    labels.$add({label: $scope.labelInput});
-    console.log("successful execution for addLabel()");
-  };
+    $scope.addLabel = function(task) {
+      labels.$add({label: $scope.labelInput});
+      console.log("successful execution for addLabel()");
+    };
 
-  $scope.assignLabel = function(id, lblString) {
-    var itemRef = new Firebase("https://planhacker.firebaseio.com/users/user/tasks/" + id);
-    $firebase(itemRef).$update({
-      label: lblString,
-    });
-    console.log("successful execution for assignLabel()");
-  };
+    $scope.assignLabel = function(id, lblString) {
+      var itemRef = new Firebase("https://planhacker.firebaseio.com/users/user/tasks/" + id);
+      $firebase(itemRef).$update({
+        label: lblString,
+      });
+      console.log("successful execution for assignLabel()");
+    };
 
-  $scope.removeLabel = function(id) {
-    var itemRef = new Firebase("https://planhacker.firebaseio.com/users/user/tasks/" + id);
+    $scope.removeLabel = function(id) {
+      var itemRef = new Firebase("https://planhacker.firebaseio.com/users/user/tasks/" + id);
     // $firebase(itemRef).label.$remove();
 
     $firebase(itemRef).$update({
@@ -163,7 +158,8 @@ var TimepickerDemoCtrl = function ($scope) {
   };
 
   $scope.clear = function() {
-  $scope.startTime = new Date("1970-01-01T08:00:00.000Z");
-  $scope.endTime = new Date("1970-01-01T08:00:00.000Z");
+    $scope.startTime = new Date("1970-01-01T08:00:00.000Z");
+    $scope.endTime = new Date("1970-01-01T08:00:00.000Z");
   };
 };
+

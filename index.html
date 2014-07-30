@@ -73,24 +73,6 @@
     <div class="col-sm-8">
       <div id='calendar'></div>
 
-<!--       <div ng-controller="EventController" id="modal" class="modal fade">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-              <h4 class="modal-title">Modal title</h4>
-            </div>
-            <div class="modal-body">
-              <p>One fine body&hellip;</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-          </div>
-        </div>
-      </div> -->
-
 
 <!--       <div ng-controller="EventController">
 
@@ -137,8 +119,8 @@
         </button>
       </form>
       <br>
-      <div ng-repeat="task in tasks | orderByPriority" ng-cloak>
-        <div class="well well-sm">
+      <div ng-repeat="task in tasks | orderByPriority" id="dragTaskObject" ng-cloak>
+        <div class="well well-sm" >
           <div class="checkbox">
             <label>
               <input type="checkbox" ng-model="task.isComplete">
@@ -269,6 +251,56 @@
 
 </div>
 
+<div id="myModal" class="modal fade" ng-controller="EventCtrl">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    <form role="form">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title"></h4>
+        <input type="text" class="form-control" id="editTitleInput" placeholder="Edit Event Title">
+      </div>
+      <div class="modal-body">
+        <p>One fine body&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger">Remove Event</button>
+        <button type="button" class="btn btn-primary">Edit Event Title</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="newEventModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">New Event</h4>
+      </div>
+      <form role="form">
+        <div class="modal-body">
+
+          <div class="form-group">
+            <label for="eventTitleInput">Event Title</label>
+            <input type="text" class="form-control" id="eventTitleInput" placeholder="Enter Event Title">
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Create New Event</button>
+        </div>
+      </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <!-- JQuery -->
 <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src='fullcalendar/lib/jquery-ui.custom.min.js'></script>
@@ -300,6 +332,13 @@
 <script>
 $(document).ready(function () {
 
+  $('#dragTaskObject').each(function() {
+    $(this).draggable({
+      zIndex: 999,
+      revert: true,
+      revertDuration: 0
+    });
+  });
 
     // this initialize the calendar
     $('#calendar').fullCalendar({
@@ -327,6 +366,8 @@ $(document).ready(function () {
       selectHelper: true,
       unselectAuto: true,
       editable: true,
+      draggable: true,
+      droppable: true,
 
       header: {
         left: 'prev,next today',
@@ -336,43 +377,77 @@ $(document).ready(function () {
       weekMode: 'variable',
       theme: false,
       // This is called when user click event
-      eventClick: 
-
-      // function clickEvent () {
-      //   $("#modal").modal('show')
-      // },
-
-      function(calEvent, jsEvent, view) {
-
+      eventClick: function (calEvent, jsEvent, view) {
         var id = calEvent.id;
+        var title = calEvent.title;
 
-        var popover = "<div id='popover'><p>" + id + "</p><button id='removeButton' class='btn btn-primary'>Remove</button></div>";
+        $('#myModal .modal-body').append("<p>"+ title +"</p>");
+        $('#myModal .modal-title').append("<p>" + title + "</p>");
+        $('#myModal .modal-body').append("<p>"+ id +"</p>");
+        $('#myModal').modal('show');
 
-        var location = $(this).position();
-
-        $('body').append(popover);
-        $('#popover').css({
-          "position": "fixed",
-          "top": location.top,
-          "left": location.left,
-          "width": "100px",
-          "height": "150px",
-          "background-color": "red",
-          "z-index": 1
+        $('#myModal:not(#myModal .modal-dialog)').click(function removeEventInfo() {
+          $('#myModal .modal-body').children("p").remove();
+          $('#myModal .modal-title').children("p").remove();
         });
-        $('#removeButton').on('click', removeEvent(id));
 
-        function removeEvent(id) {
+        // keep this function. it works!
+        $('#myModal .btn.btn-danger').click(function removeEvent() {
+          console.log(" Am i getting the right id i want???    " + id);
+          var eventsRef = new Firebase("https://planhacker.firebaseio.com/users/user/events/" + id);
+          // var eventsRef = Ref.child(id);
+          console.log(eventsRef);
+          eventsRef.remove();
+          $('#myModal').modal('hide');
+          $('#calendar').fullCalendar('removeEvents', id);
 
-          if (id) {
-            console.log("DID I GET THE ID?????      " + id);
-            var Ref = new Firebase("https://planhacker.firebaseio.com/users/user/events/" + id);
-            Ref.remove();
-            $('#calendar').fullCalendar('removeEvents', id);
-          }
-          console.log("removeEvent() is successful.");
+        });
 
-        }
+
+
+      },
+
+      //function clickEvent () {
+        //$("#modal").modal('show')
+        // var modal = $('body').append('<div class="modal fade" id="myModal" tabindex="-1" role="dialog"aria-labelledby="myModalLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button><h4 class="modal-title" id="myModalLabel">Modal title</h4></div><div class="modal-body">...</div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary">Save changes</button></div></div></div></div>'
+      //},
+
+      // function(calEvent, jsEvent, view) {
+
+      //   var id = calEvent.id;
+
+        // remove any other popovers
+        //$("#popover").remove();
+
+        // var popover = "<div id='popover'><p>" + id + "</p><button id='removeButton' class='btn btn-primary'>Remove</button></div>";
+
+        // var location = $(this).position();
+
+        // $('#calendar').append(popover);
+        // $('#popover').css({
+        //   "position": "fixed",
+        //   "top": location.top,
+        //   "left": location.left,
+        //   "width": "100px",
+        //   "height": "150px",
+        //   "background-color": "red",
+        //   "z-index": 1
+        // });
+
+        // $('#removeButton').click(function (){
+        //     var id = calEvent.id;
+        //     console.log("DID I GET THE ID?????      " + id);
+        //     var Ref = new Firebase("https://planhacker.firebaseio.com/users/user/events/" + id);
+        //     Ref.remove();
+        //     $('#calendar').fullCalendar('removeEvents', id);
+        //     $('#popover').remove();
+        //     $('#popover > *').remove();
+
+        // });
+
+
+        // if someone clicks outside of the popover, remove the popover
+
 
       // this will cause the browser to pause here          
 
@@ -386,7 +461,7 @@ $(document).ready(function () {
       //   alert("View: " + view.name);
       // },
 
-    },
+    // },
 
       // This is called when a new event is created
       select: function(start, end) {
@@ -397,26 +472,35 @@ $(document).ready(function () {
         start_time = start.unix() + 60*60*7;
         end_time = end.unix() + 60*60*7;
 
-        var title = "New Event";
-        if (title) {
-          $('#calendar').fullCalendar('renderEvent',
-          {
-            title: title,
-            start: start,
-            end: end
+        $('#newEventModal').modal('show');
+
+        $('#newEventModal .btn.btn-primary').click(function setEventTitle(event) {
+          console.log(event);
+
+          var title = $('#eventTitleInput').val();
+
+          if (title) {
+            $('#calendar').fullCalendar('renderEvent',
+            {
+              title: title,
+              start: start,
+              end: end
+            }
+            );
+            var ref = new Firebase("https://planhacker.firebaseio.com/users/user/");
+            var eventsRef = ref.child("events");
+            eventsRef.push(            
+            {
+              title: title,
+              start: start_time,
+              end: end_time,
+            }
+            );
+            $('#calendar').fullCalendar('refetchEvents');
           }
-          );
-          var ref = new Firebase("https://planhacker.firebaseio.com/users/user/");
-          var eventsRef = ref.child("events");
-          eventsRef.push(            
-          {
-            title: title,
-            start: start_time,
-            end: end_time,
-          }
-          );
-          $('#calendar').fullCalendar('refetchEvents');
-        }
+
+        $('#newEventModal').modal('hide');
+        });
 
       }
     });
@@ -452,8 +536,6 @@ function displayEventObjects (data) {
 };
 
 });
-
-
 
 
 </script>
