@@ -344,11 +344,13 @@ $(document).ready(function () {
 
       function(calEvent, jsEvent, view) {
 
-        var popover = "<div id='popover'><p>" + calEvent.id + "</p></div>";
+        var id = calEvent.id;
+
+        var popover = "<div id='popover'><p>" + id + "</p><button id='removeButton' class='btn btn-primary'>Remove</button></div>";
 
         var location = $(this).position();
 
-        // $('body').append(popover);
+        $('body').append(popover);
         $('#popover').css({
           "position": "fixed",
           "top": location.top,
@@ -357,9 +359,22 @@ $(document).ready(function () {
           "height": "150px",
           "background-color": "red",
           "z-index": 1
-        })
+        });
+        $('#removeButton').on('click', removeEvent(id));
 
-        // this will cause the browser to pause here          
+        function removeEvent(id) {
+
+          if (id) {
+            console.log("DID I GET THE ID?????      " + id);
+            var Ref = new Firebase("https://planhacker.firebaseio.com/users/user/events/" + id);
+            Ref.remove();
+            $('#calendar').fullCalendar('removeEvents', id);
+          }
+          console.log("removeEvent() is successful.");
+
+        }
+
+      // this will cause the browser to pause here          
 
 
       //   console.log( "What is in my calEvent????" + calEvent);
