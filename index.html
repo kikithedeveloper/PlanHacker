@@ -254,22 +254,22 @@
 <div id="myModal" class="modal fade" ng-controller="EventCtrl">
   <div class="modal-dialog">
     <div class="modal-content">
-    <form role="form">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title"></h4>
-        <input type="text" class="form-control" id="editTitleInput" placeholder="Edit Event Title">
-      </div>
-      <div class="modal-body">
-        <p>One fine body&hellip;</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger">Remove Event</button>
-        <button type="button" class="btn btn-primary">Edit Event Title</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </form>
+      <form role="form">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h4 class="modal-title"></h4>
+        </div>
+        <div class="modal-body">
+
+          <p>One fine body&hellip;</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger">Remove Event</button>
+          <button type="button" class="btn btn-primary">Edit Event Title</button>
+          <button type="button" class="btn btn-primary" id="saveChanges">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </form>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
@@ -381,14 +381,37 @@ $(document).ready(function () {
         var id = calEvent.id;
         var title = calEvent.title;
 
+        $('#myModal .modal-body').children().remove();
+        $('#myModal .modal-title').children().remove();
+
         $('#myModal .modal-body').append("<p>"+ title +"</p>");
+
         $('#myModal .modal-title').append("<p>" + title + "</p>");
+
         $('#myModal .modal-body').append("<p>"+ id +"</p>");
+
         $('#myModal').modal('show');
 
-        $('#myModal:not(#myModal .modal-dialog)').click(function removeEventInfo() {
-          $('#myModal .modal-body').children("p").remove();
-          $('#myModal .modal-title').children("p").remove();
+
+        $("#myModal .modal-header p").click(function () {
+          $("#myModal .modal-title").append("<input id='editEventTitle' value='" + title + "'></input>");
+          $("#myModal .modal-title p").remove();
+        });
+
+
+        // THIS WORKS, don't touch it!!!
+        $("#saveChanges").click(function (editEventTitle) {
+
+          var input = $("#myModal input").val();
+          
+          var eventsRef = new Firebase("https://planhacker.firebaseio.com/users/user/events/" + id);
+          
+          eventsRef.update({title : input});
+          
+          $('#calendar').fullCalendar('refetchEvents');
+
+          $('#myModal').modal('hide');
+
         });
 
         // keep this function. it works!
@@ -400,10 +423,7 @@ $(document).ready(function () {
           eventsRef.remove();
           $('#myModal').modal('hide');
           $('#calendar').fullCalendar('removeEvents', id);
-
         });
-
-
 
       },
 
@@ -499,7 +519,7 @@ $(document).ready(function () {
             $('#calendar').fullCalendar('refetchEvents');
           }
 
-        $('#newEventModal').modal('hide');
+          $('#newEventModal').modal('hide');
         });
 
       }
