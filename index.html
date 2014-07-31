@@ -398,6 +398,7 @@ $(document).ready(function () {
           $("#myModal .modal-title p").remove();
         });
 
+      var firsttime = true; // it doesnt make sense. it still should be fine because it doesn't interfere anyways...
 
         // THIS WORKS, don't touch it!!!
         $("#saveChanges").click(function (editEventTitle) {
@@ -409,7 +410,17 @@ $(document).ready(function () {
           eventsRef.update({title : input});
 
           $('#calendar').fullCalendar('removeEvents', id);   
-          
+
+          if (firsttime) {
+            $('#calendar').fullCalendar('refetchEvents');
+
+            $('#myModal').modal('hide');
+             firsttime = false; 
+          }
+
+
+
+
           // I am stuck here. Trying to save changes by using updateEvent, but it's not working. :-(
 
             // ________________________________________________ BLOCKER!!!!
