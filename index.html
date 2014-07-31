@@ -398,7 +398,7 @@ $(document).ready(function () {
           $("#myModal .modal-title p").remove();
         });
 
-      var firsttime = true; // it doesnt make sense. it still should be fine because it doesn't interfere anyways...
+      var firsttime = true;
 
         // THIS WORKS, don't touch it!!!
         $("#saveChanges").click(function (editEventTitle) {
@@ -414,7 +414,7 @@ $(document).ready(function () {
           if (firsttime) {
             $('#calendar').fullCalendar('refetchEvents');
 
-            $('#myModal').modal('hide');
+            $('#myModal').modal('hide'); //how is this still executing if the frist time is false?
              firsttime = false; 
           }
 
@@ -524,6 +524,7 @@ $(document).ready(function () {
 
     // },
 
+
       // This is called when a new event is created
       select: function(start, end) {
         console.log('in select.  start: ' + start + '  end: ' + end);
@@ -534,6 +535,8 @@ $(document).ready(function () {
         end_time = end.unix() + 60*60*7;
 
         $('#newEventModal').modal('show');
+
+        var firsttime = true;
 
         $('#newEventModal .btn.btn-primary').click(function setEventTitle(event) {
           console.log(event);
@@ -557,7 +560,11 @@ $(document).ready(function () {
               end: end_time,
             }
             );
-            $('#calendar').fullCalendar('refetchEvents');
+            if (firsttime) {
+              $('#calendar').fullCalendar('refetchEvents'); 
+              firsttime = false;
+            }
+
           }
 
           $('#newEventModal').modal('hide');
