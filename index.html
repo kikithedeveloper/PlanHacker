@@ -72,40 +72,10 @@
     <!--First Column-->
     <div class="col-sm-8">
       <div id='calendar'></div>
-
-
-<!--       <div ng-controller="EventController">
-
-        <div ng-controller="DatepickerDemoCtrl">
-          <div class="row">
-            <div class="col-sm-8">
-              <b>Date</b>
-              <p class="input-group">
-                <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
-                <span class="input-group-btn">
-                  <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                </span>
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div ng-controller="TimepickerDemoCtrl">
-          <b>Starting Time</b>
-          <timepicker ng-model="startTime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker><b>Ending Time</b>
-          <timepicker ng-model="endTime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
-          <pre class="alert alert-info">Start: {{startTime}}</pre>
-          <pre class="alert alert-info">End: {{endTime}}</pre>
-          <button class="btn btn-danger" ng-click="clear()">Clear</button>
-        </div>
-
-      </div> -->
-
     </div>
 
     <!--Second Column-->
     <div class="col-sm-4">
-
 
       <!--Task List Component-->
       <form role="form">
@@ -119,8 +89,8 @@
         </button>
       </form>
       <br>
-      <div ng-repeat="task in tasks | orderByPriority" id="dragTaskObject" ng-cloak>
-        <div class="well well-sm" >
+      <div ng-repeat="task in tasks | orderByPriority" ng-cloak>
+        <div class="well well-sm" draggable="true" id="dragTaskObject">
           <div class="checkbox">
             <label>
               <input type="checkbox" ng-model="task.isComplete">
@@ -192,8 +162,6 @@
               <button class="btn btn-danger" ng-click="clear()">Clear</button>
             </div>
 
-
-
           </div>
         </div>
 
@@ -216,39 +184,6 @@
     </div>
 
   </div>
-
-<!--   <div class="col-sm-3">
-
-    <h3>This is just a dummy, the real one is inside the task...</h3>
-    <div ng-controller="DatepickerDemoCtrl">
-      <div class="row">
-        <div class="col-sm-8">
-          <b>Date</b>
-          <p class="input-group">
-
-            <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
-            <span class="input-group-btn">
-              <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-            </span>
-          </p>
-        </div>
-      </div>
-    </div>
-
-
-    <div ng-controller="TimepickerDemoCtrl">
-      <b>Starting Time</b>
-      <timepicker ng-model="startTime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker><b>Ending Time</b>
-      <timepicker ng-model="endTime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
-
-      <pre class="alert alert-info">Start: {{startTime}}</pre>
-
-      <pre class="alert alert-info">End: {{endTime}}</pre>
-      <button class="btn btn-danger" ng-click="clear()">Clear</button>
-    </div>
-
-  </div> -->
-
 </div>
 
 <div id="myModal" class="modal fade" ng-controller="EventCtrl">
@@ -329,40 +264,6 @@
 <script src='fullcalendar/fullcalendar.js'></script>
 <script>
 
-// GLOBAL VARIABLES
-var start = null;
-var end = null;
-var start_time = null;
-var end_time = null;
-var id = null;
-
-// Receive JSON feed from Firebase and iterate thru array
-// Then push events onto the calendar
-function displayEventObjects (data) {
-  var events_array = [];
-  for (i in data) {
-    events_array.push({
-      id: i,
-      title: data[i].title,
-      start: data[i].start,
-      end: data[i].end
-    });
-  };
-  for (var i = 0; i < events_array.length; i++) {
-    if (events_array[i].title) {
-      event_start = moment(events_array[i].start * 1000);
-      event_end = moment(events_array[i].end * 1000);
-      $('#calendar').fullCalendar('renderEvent',
-      {
-        id: events_array[i].id,
-        title: events_array[i].title,
-        start: event_start.format(), // 2014-09-05T06:28:00Z'
-        end: event_end.format(),
-      });
-    }
-  };
-};
-
 // Wait until DOM is fully loaded 
 $(document).ready(function () {
   // Initialize the Calendar
@@ -409,7 +310,7 @@ $(document).ready(function () {
     eventClick: function (calEvent, jsEvent, view) {
       id = calEvent.id; // global variable
       var title = calEvent.title;
-            $('#myModal .modal-body').children().remove();
+      $('#myModal .modal-body').children().remove();
       $('#myModal .modal-title').children().remove();
       $('#myModal .modal-title').append("<p>" + title + "</p>");
       $('#myModal').modal('show');
@@ -419,46 +320,107 @@ $(document).ready(function () {
       });
     },
     eventDrop: function (event, delta, revertFunc) {
-
       id = event.id; 
-
-      alert( event.id + " " + event.title 
+      console.log( event.id + " " + event.title 
         + " was dropped on start: " 
         + event.start 
         + " and end: " 
         + event.end);
-
       start_time = event.start;
-
-      console.log(event.start);
-
       end_time = event.end;
+      dropEvent(id, start_time, end_time); // call method
+    },
+    eventResize: function (event, delta, revertFunc) {
+      id = event.id;
+      console.log( event.id + " " + event.title 
+        + " was resized on start: " 
+        + event.start 
+        + " and end: " 
+        + event.end);
+      end_time = event.end;
+      resizeEvent(id, end_time); // call method
+    },
 
-      // callback
-      dropEventFunction(id, start_time, end_time);
+    // BLOCKER
+
+    drop: function (date, jsEvent, ui) {
+      var originalEventObject = $(this).data('eventObject');
+
+      var copiedEventObject = $.extend({}, originalEventObject);
+
+      copiedEventObject.start = date;
+
+      copiedEventObject.end = date;
+
+      $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
 
     },
   }); // End initialization
 }); // END of $(document).ready()
 
-//_______________________EVENT HANDLERS WITH FUNCTIONS____________________________//
+//_______________________FUNCTIONS & EVENT HANDLERS____________________________//
 
-// droppable Event
+// GLOBAL VARIABLES
+var start = null;
+var end = null;
+var start_time = null;
+var end_time = null;
+var id = null;
 
-function dropEventFunction(id, start_time, end_time) {
+// Make the task draggable
+$('#dragTaskObject').draggable({
+  revert: true,
+  revertDuration: 500,
+});
 
-    var eventsRef = new Firebase("https://planhacker.firebaseio.com/users/user/events/" + id);
+// Receive JSON feed from Firebase and iterate thru array
+// Then push events onto the calendar
+function displayEventObjects (data) {
+  var events_array = [];
+  for (i in data) {
+    events_array.push({
+      id: i,
+      title: data[i].title,
+      start: data[i].start,
+      end: data[i].end
+    });
+  };
+  for (var i = 0; i < events_array.length; i++) {
+    if (events_array[i].title) {
+      event_start = moment(events_array[i].start * 1000);
+      event_end = moment(events_array[i].end * 1000);
+      $('#calendar').fullCalendar('renderEvent',
+      {
+        id: events_array[i].id,
+        title: events_array[i].title,
+        start: event_start.format(), // 2014-09-05T06:28:00Z'
+        end: event_end.format(),
+      });
+    }
+  };
+};
 
-    console.log(start_time)
+// Update firebase with new start and end time
+function dropEvent (id, start_time, end_time) {
 
-      console.log(eventsRef);
+  var eventsRef = new Firebase("https://planhacker.firebaseio.com/users/user/events/" + id);
 
-      eventsRef.update(
-        {
-          start: start_time.unix() + 60*60*7, 
-          end: end_time.unix() + 60*60*7
-        }
-      ); // Updates event in Firebase
+  eventsRef.update(
+    {
+      start: start_time.unix() + 60*60*7, 
+      end: end_time.unix() + 60*60*7
+    }
+  ); // Updates event in Firebase
+
+};
+
+// Update firebase with new end time
+function resizeEvent (id, end_time) {
+
+  var eventsRef = new Firebase("https://planhacker.firebaseio.com/users/user/events/" + id);
+
+  eventsRef.update({ end : end_time.unix() +60*60*7 });
+
 };
 
 // Save New Event to Calendar
@@ -517,14 +479,7 @@ $('#myModal .btn.btn-danger').click(function removeEvent() {
 
 });
 
-// ~~~~~~~~~ NOT IMPORTANT (for now) ~~~~~~~  
-  // $('#dragTaskObject').each(function() {
-  //   $(this).draggable({
-  //     zIndex: 999,
-  //     revert: true,
-  //     revertDuration: 0
-  //   });
-  // });
+
 
 </script>
 
