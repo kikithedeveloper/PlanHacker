@@ -260,12 +260,10 @@
           <h4 class="modal-title"></h4>
         </div>
         <div class="modal-body">
-
-          <p>One fine body&hellip;</p>
+          <!--Append paragraphs-->
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger">Remove Event</button>
-          <button type="button" class="btn btn-primary">Edit Event Title</button>
           <button type="button" class="btn btn-primary" id="saveChanges">Save changes</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
@@ -419,12 +417,49 @@ $(document).ready(function () {
         $("#myModal .modal-title").append("<input id='editEventTitle' value='" + title + "'></input>");
         $("#myModal .modal-title p").remove();
       });
+    },
+    eventDrop: function (event, delta, revertFunc) {
 
-    }
+      id = event.id; 
+
+      alert( event.id + " " + event.title 
+        + " was dropped on start: " 
+        + event.start 
+        + " and end: " 
+        + event.end);
+
+      start_time = event.start;
+
+      console.log(event.start);
+
+      end_time = event.end;
+
+      // callback
+      dropEventFunction(id, start_time, end_time);
+
+    },
   }); // End initialization
 }); // END of $(document).ready()
 
 //_______________________EVENT HANDLERS WITH FUNCTIONS____________________________//
+
+// droppable Event
+
+function dropEventFunction(id, start_time, end_time) {
+
+    var eventsRef = new Firebase("https://planhacker.firebaseio.com/users/user/events/" + id);
+
+    console.log(start_time)
+
+      console.log(eventsRef);
+
+      eventsRef.update(
+        {
+          start: start_time.unix() + 60*60*7, 
+          end: end_time.unix() + 60*60*7
+        }
+      ); // Updates event in Firebase
+};
 
 // Save New Event to Calendar
 $('#newEventModal .btn.btn-primary').click(function setEventTitle(event) {
@@ -482,7 +517,7 @@ $('#myModal .btn.btn-danger').click(function removeEvent() {
 
 });
 
-// ~~~~~~~~~NOT IMPORTANT~~~~~~~  ON THE SIDE FOR NOW...... 
+// ~~~~~~~~~ NOT IMPORTANT (for now) ~~~~~~~  
   // $('#dragTaskObject').each(function() {
   //   $(this).draggable({
   //     zIndex: 999,
