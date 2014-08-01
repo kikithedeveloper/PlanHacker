@@ -90,7 +90,7 @@
       </form>
       <br>
       <div ng-repeat="task in tasks | orderByPriority" ng-cloak>
-        <div class="well well-sm" draggable="true" id="dragTaskObject">
+        <div class="well well-sm external-event" data-eventObject data-id="{{ task.$id }}" data-title="{{ task.name }}">
           <div class="checkbox">
             <label>
               <input type="checkbox" ng-model="task.isComplete">
@@ -101,9 +101,7 @@
                       {{ task.name }} 
                     </del>
                   </span>
-                  <span ng-switch-default>
-                    {{ task.name }} (╯°□°）╯︵ ┻━┻
-                  </span>
+                  <span class="task_name" ng-switch-default>{{ task.name }}</span>
                 </span>
                 <a ng-controller="LabelController" ng-click="removeLabel(task.$id)" ng-mouseenter="lblRemove = !lblRemove" ng-mouseleave="lblRemove = !lblRemove" type="button" class="label label-success"><span>{{ task.label }}<span ng-hide="!lblRemove" class="glyphicon glyphicon-remove"></span></span></a>
                 <a ng-click="tasks.$remove(task.$id)"><span class="glyphicon glyphicon-remove"></span></a>
@@ -244,7 +242,9 @@
 <!--Firebase CDN-->
 <script src="//cdn.firebase.com/js/client/1.0.6/firebase.js"></script>
 <script src="//cdn.firebase.com/js/client/1.0.17/firebase.js"></script>
-<script src="//cdn.firebase.com/js/simple-login/1.6.2/firebase-simple-login.js"></script>
+
+<!--Firebase Authentication Login-->
+<script src="https://cdn.firebase.com/js/simple-login/1.6.1/firebase-simple-login.js"></script>
 
 <!-- AngularJS -->
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
@@ -263,6 +263,68 @@
 <script src='fullcalendar/lib/moment.min.js'></script>
 <script src='fullcalendar/fullcalendar.js'></script>
 <script>
+
+// // Firebase Authentication Simple Login
+// var myRef = new Firebase("https://planhacker.firebaseio.com");
+// var auth = new FirebaseSimpleLogin(myRef, function(error, user) {
+//   if (error) {
+//     // an error occurred while attempting login
+//     console.log(error);
+//   } else if (user) {
+//     // user authenticated with Firebase
+//     console.log("User ID: " + user.uid + ", Provider: " + user.provider);
+//   } else {
+//     // user is logged out
+//   }
+// });
+
+// // Monitor user's authentication status
+// var authRef = new Firebase("https://planhacker.firebaseio.com/.info/authenticated");
+// authRef.on("value", function(snap) {
+//   if (snap.val() === true) {
+//     alert("authenticated");
+//   } else {
+//     alert("not authenticated");
+//   }
+// });
+
+// // Logging Users In
+// auth.login("<provider>"); // this could be "facebook", "twitter", "password", etc...
+
+// // Logging Users Out
+// auth.logout();
+
+// // Storing User Data
+// // we would probably save a profile when we register new users on our site
+// // we could also read the profile to see if it's null
+// // here we will just simulate this with an isNewUser boolean
+// var isNewUser = true;
+
+// var myRef = new Firebase("https://<your-firebase>.firebaseio.com");
+// var auth = new FirebaseSimpleLogin(myRef, function(error, user) {
+//   if (error) {
+
+//   }
+//   else if (user) {
+//     if( isNewUser ) {
+//       // save new user's profile into Firebase so we can
+//       // list users, use them in security rules, and show profiles
+//       myRef.child('users').child(user.uid).set({
+//         displayName: user.displayName,
+//         provider: user.provider,
+//         provider_id: user.id
+//       });
+//     }
+//   }
+//   else { ... }
+// };
+
+// // Create New User Account
+// auth.createUser(email, password, function(error, user) {
+//   if (!error) {
+//     console.log('User Id: ' + user.uid + ', Email: ' + user.email);
+//   }
+// });
 
 // Wait until DOM is fully loaded 
 $(document).ready(function () {
@@ -340,20 +402,15 @@ $(document).ready(function () {
       end_time = event.end;
       resizeEvent(id, end_time); // call method
     },
+    drop: function (date, jsEvent, resource) {
 
-    // BLOCKER
+      start_time = date; // global variable
+      
+      end_time = date; // global variable
 
-    drop: function (date, jsEvent, ui) {
-      var originalEventObject = $(this).data('eventObject');
+      var title = $(this).data('title');
 
-      var copiedEventObject = $.extend({}, originalEventObject);
-
-      copiedEventObject.start = date;
-
-      copiedEventObject.end = date;
-
-      $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-
+      dropTaskEvent(start_time, end_time, title);
     },
   }); // End initialization
 }); // END of $(document).ready()
@@ -368,10 +425,22 @@ var end_time = null;
 var id = null;
 
 // Make the task draggable
-$('#dragTaskObject').draggable({
-  revert: true,
-  revertDuration: 500,
-});
+// This doesn't rebind on new items added to the page
+setInterval(function(){
+  console.log('rebinding')
+  $('.external-event').draggable({revert: true,revertDuration: 500});
+}, 1000);
+
+// var reassignHack;
+// function reassignDragDrop() {
+//   reassignHack = window.setTimeout($('.external-event').draggable({revert: true,revertDuration: 500}), 1);  
+// };
+
+// $('.external-event').on('click',function () {
+//   console.log('Hi There! event clicked');
+//   reassignDragDrop();
+// });
+
 
 // Receive JSON feed from Firebase and iterate thru array
 // Then push events onto the calendar
@@ -400,16 +469,37 @@ function displayEventObjects (data) {
   };
 };
 
+// Drop task onto Calendar
+function dropTaskEvent(start_time, end_time, title) {
+
+  var ref = new Firebase("https://planhacker.firebaseio.com/users/user/");
+
+  var eventsRef = ref.child("events");
+      
+  eventsRef.push(
+    {
+      title: title,
+      start: start_time.unix() + 60*60*7,
+      end: end_time.unix() + 60*60*9,  
+    }
+  );
+
+  // $('#calendar').fullCalendar('renderEvent');
+
+  $('#calendar').fullCalendar('refetchEvents');
+
+};
+
 // Update firebase with new start and end time
 function dropEvent (id, start_time, end_time) {
 
   var eventsRef = new Firebase("https://planhacker.firebaseio.com/users/user/events/" + id);
 
   eventsRef.update(
-    {
-      start: start_time.unix() + 60*60*7, 
-      end: end_time.unix() + 60*60*7
-    }
+  {
+    start: start_time.unix() + 60*60*7, 
+    end: end_time.unix() + 60*60*7
+  }
   ); // Updates event in Firebase
 
 };
@@ -478,6 +568,8 @@ $('#myModal .btn.btn-danger').click(function removeEvent() {
   $('#myModal').modal('hide');
 
 });
+
+
 
 
 
