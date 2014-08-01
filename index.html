@@ -110,7 +110,7 @@
       <!--Task List Component-->
       <form role="form">
         <div class="form-group">
-          <h1>Add a Task    (╯°□°）╯︵ ┻━┻</h1>
+          <h3>Add a Task    (╯°□°）╯︵ ┻━┻</h3>
           <input ng-model="taskInput" type="text" class="form-control"
           name="taskInput" id="taskInput" placeholder="Add a task">
         </div>
@@ -471,8 +471,6 @@ $("#saveChanges").click(function (editEventTitle) {
 
 // Remove Event
 $('#myModal .btn.btn-danger').click(function removeEvent() {
-
-  alert(" Am i getting the right id i want???    " + id);
 
   var eventsRef = new Firebase("https://planhacker.firebaseio.com/users/user/events/" + id);
 
