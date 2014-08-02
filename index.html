@@ -87,7 +87,7 @@
 
       <!--NEW TASKS-->
 
-      <div ng-repeat="task in tasks | filter:search | orderByPriority" ng-cloak>
+      <div ng-repeat="task in tasks | filter:search" ng-cloak>
         <div ng-animate="'animate'" class="well well-sm external-event" data-eventObject data-id="{{ task.$id }}" data-title="{{ task.name }}">
           <div class="checkbox">
             <label class="iconContainer">
@@ -104,7 +104,7 @@
 
 <!--BLOCKER!!!! not in straight line-->
                 <span class="pullRight"> 
-                  <a ng-controller="LabelController" ng-click="removeTaskLabel(task.$id)" ng-mouseenter="lblRemove = !lblRemove" ng-mouseleave="lblRemove = !lblRemove" type="button" class="label label-success"><span>{{ task.label }}<span ng-hide="!lblRemove" class="glyphicon glyphicon-remove"></span></span></a>
+                  <a ng-controller="LabelController" ng-click="removeTaskLabel(task.$id)" ng-mouseenter="lblRemove = !lblRemove" ng-mouseleave="lblRemove = !lblRemove" type="button" class="label label-success" ng-show="task.label"><span>{{ task.label }}<span ng-hide="!lblRemove" class="glyphicon glyphicon-remove"></span></span></a>
 
                   <a class="labelIcon" ng-click="showLabel = !showLabel"><span class="glyphicon glyphicon-tag"></span></a>
                   <a ng-click="tasks.$remove(task.$id)"><span class="glyphicon glyphicon-remove"></span></a>
@@ -171,15 +171,17 @@
         <div ng-show="!showLabel" class="panel panel-default" ng-controller="LabelController">
           <div class="panel-body">
             <p>{{task.$id}}</p>
-            <div ng-repeat="label in labels">
+            <div ng-repeat="(id, item) in labels">
 
 <!--!!!!BLOCKER!!!!-->
 
-              <a ng-mouseenter="lblRemove = !lblRemove" ng-mouseleave="lblRemove = !lblRemove" type="button"><span class="label label-primary" ng-click="assignLabel(task.$id, label.label)">{{ label.label }}</span></a>
+              <a ng-mouseenter="lblRemove = !lblRemove" ng-mouseleave="lblRemove = !lblRemove" type="button"><span class="label label-primary" ng-click="assignLabel(task.$id, item.label)">{{ item.label }}</span></a>
+<!-- 
+              <p>{{label.$id}}</p>
 
-              <a><span ng-click="removeLabel(label.$id)" class="glyphicon glyphicon-remove"></span></a>
+              <a><span ng-click="labels.$remove(label.$id)" class="glyphicon glyphicon-remove"></span></a> -->
 
-              <!-- <button class="btn btn-danger" ng-click="removeLabel(item.$id)">{{ item.$id }}</button> -->
+              <button class="btn btn-danger" ng-click="removeLabel(id)">Delete Label</button>
 
 
             </div>

@@ -69,7 +69,7 @@ myApp.controller("LabelController", ["$firebase", "$scope", "$filter", "labels",
     
       console.log(id); // it's undefined because it's not getting the argument
 
-      var labelref = new Firebase("https://planhacker.firebaseio.com/users/user/labels/" + id);
+      var labelRef = new Firebase("https://planhacker.firebaseio.com/users/user/labels/");
 
       alert("label id = " + labelRef);
     
