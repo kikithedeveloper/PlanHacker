@@ -44,39 +44,62 @@ myApp.controller("TaskListController", ["$scope", "$filter", "$firebase", "tasks
 
     $scope.showLabel = true;
 
+    // $scope.search = data;
+
   }]);
 
 myApp.controller("EventCtrl", ["$scope", function($scope) {
 
 }]);
 
-myApp.controller("LabelController", ["$firebase", "$scope", "$filter", "labels", "tasks",
-  function($firebase, $scope, $filter, labels, tasks) {
+myApp.controller("LabelController", ["$firebase", "$scope", "$filter", "labels",
+  function($firebase, $scope, $filter, labels) {
 
     labels.$bind($scope, "labels");
 
     $scope.addLabel = function(task) {
-      labels.$add({label: $scope.labelInput});
-      console.log("successful execution for addLabel()");
-    };
 
-    $scope.assignLabel = function(id, lblString) {
-      var itemRef = new Firebase("https://planhacker.firebaseio.com/users/user/tasks/" + id);
-      $firebase(itemRef).$update({
-        label: lblString,
-      });
-      console.log("successful execution for assignLabel()");
+      labels.$add({label: $scope.labelInput});
+      
+      console.log("successful execution for addLabel()");
+    
     };
 
     $scope.removeLabel = function(id) {
-      var itemRef = new Firebase("https://planhacker.firebaseio.com/users/user/tasks/" + id);
-    // $firebase(itemRef).label.$remove();
+    
+      console.log(id); // it's undefined because it's not getting the argument
 
-    $firebase(itemRef).$update({
-      label: null,
-    });
-    console.log("successful execution for removeLabel()");
-  };
+      var labelref = new Firebase("https://planhacker.firebaseio.com/users/user/labels/" + id);
+
+      alert("label id = " + labelRef);
+    
+      $firebase(labelRef).$remove(id);
+
+      console.log("successful execution for removeLabel()");
+    
+    };
+
+    $scope.assignLabel = function(id, lblString) {
+    
+      var itemRef = new Firebase("https://planhacker.firebaseio.com/users/user/tasks/" + id);
+    
+      $firebase(itemRef).$update({
+        label: lblString,
+      });
+      
+      console.log("successful execution for assignLabel()");
+    
+    };
+
+    $scope.removeTaskLabel = function(id) {
+    
+      var itemRef = new Firebase("https://planhacker.firebaseio.com/users/user/tasks/" + id);
+
+      $firebase(itemRef).$update({label: null});
+      
+      console.log("successful execution for removeTaskLabel()");
+     
+     };
 
 }]);
 

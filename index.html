@@ -53,14 +53,14 @@
       <a class="navbar-brand" href="#"><b>Plan Hacker</b></a>
     </div>
     <div class="navbar-collapse collapse">
-      <ul class="nav navbar-nav navbar-right">
+<!--       <ul class="nav navbar-nav navbar-right">
         <li><a href="#">Dashboard</a></li>
         <li><a href="#">Settings</a></li>
         <li><a href="#">Profile</a></li>
         <li><a href="#">Help</a></li>
-      </ul>
+      </ul> -->
       <form class="navbar-form navbar-right">
-        <input type="text" class="form-control" placeholder="Search...">
+        <input ng-model="search" type="text" class="form-control" placeholder="Search task" ng-controller="TaskListController">
       </form>
     </div>
   </div>
@@ -70,42 +70,46 @@
   <div class="row">
 
     <!--First Column-->
-    <div class="col-sm-8">
+    <div class="col-sm-6">
       <div id='calendar'></div>
     </div>
 
     <!--Second Column-->
-    <div class="col-sm-4">
-
+    <div class="col-sm-6">
       <!--Task List Component-->
-      <form role="form">
+      <form role="form" ng-submit="addTask()">
         <div class="form-group">
-          <h3>Add a Task    (╯°□°）╯︵ ┻━┻</h3>
           <input ng-model="taskInput" type="text" class="form-control"
           name="taskInput" id="taskInput" placeholder="Add a task">
         </div>
-        <button ng-click="addTask()" type="submit" class="btn btn-primary">
-          Add a task
-        </button>
       </form>
       <br>
-      <div ng-repeat="task in tasks | orderByPriority" ng-cloak>
-        <div class="well well-sm external-event" data-eventObject data-id="{{ task.$id }}" data-title="{{ task.name }}">
+
+      <!--NEW TASKS-->
+
+      <div ng-repeat="task in tasks | filter:search | orderByPriority" ng-cloak>
+        <div ng-animate="'animate'" class="well well-sm external-event" data-eventObject data-id="{{ task.$id }}" data-title="{{ task.name }}">
           <div class="checkbox">
-            <label>
+            <label class="iconContainer">
               <input type="checkbox" ng-model="task.isComplete">
-              <label >                  
+              <label>                  
                 <span ng-switch on="task.isComplete" ng-click="showSideBar = !showSideBar">
                   <span ng-switch-when="true">
                     <del class="text-muted">
-                      {{ task.name }} 
+                      {{ task.name }}
                     </del>
                   </span>
                   <span class="task_name" ng-switch-default>{{ task.name }}</span>
                 </span>
-                <a ng-controller="LabelController" ng-click="removeLabel(task.$id)" ng-mouseenter="lblRemove = !lblRemove" ng-mouseleave="lblRemove = !lblRemove" type="button" class="label label-success"><span>{{ task.label }}<span ng-hide="!lblRemove" class="glyphicon glyphicon-remove"></span></span></a>
-                <a ng-click="tasks.$remove(task.$id)"><span class="glyphicon glyphicon-remove"></span></a>
-                <a ng-click="showLabel = !showLabel"><span class="glyphicon glyphicon-tag"></span></a>
+
+<!--BLOCKER!!!! not in straight line-->
+                <span class="pullRight"> 
+                  <a ng-controller="LabelController" ng-click="removeTaskLabel(task.$id)" ng-mouseenter="lblRemove = !lblRemove" ng-mouseleave="lblRemove = !lblRemove" type="button" class="label label-success"><span>{{ task.label }}<span ng-hide="!lblRemove" class="glyphicon glyphicon-remove"></span></span></a>
+
+                  <a class="labelIcon" ng-click="showLabel = !showLabel"><span class="glyphicon glyphicon-tag"></span></a>
+                  <a ng-click="tasks.$remove(task.$id)"><span class="glyphicon glyphicon-remove"></span></a>
+
+                </span>
               </label>
             </label>
           </div>
@@ -167,102 +171,123 @@
         <div ng-show="!showLabel" class="panel panel-default" ng-controller="LabelController">
           <div class="panel-body">
             <p>{{task.$id}}</p>
-            <div ng-repeat="item in labels">
-             <a><span type="button" class="label label-primary" ng-click="assignLabel(task.$id, item.label)">{{ item.label }}</span></a>
-           </div>
-           <br>
-           <form role="form">
-            <div class="form-group">
-              <input ng-model="labelInput" name="labelInput" id="labelInput" type="text" placeholder="Create label...">
+            <div ng-repeat="label in labels">
+
+<!--!!!!BLOCKER!!!!-->
+
+              <a ng-mouseenter="lblRemove = !lblRemove" ng-mouseleave="lblRemove = !lblRemove" type="button"><span class="label label-primary" ng-click="assignLabel(task.$id, label.label)">{{ label.label }}</span></a>
+
+              <a><span ng-click="removeLabel(label.$id)" class="glyphicon glyphicon-remove"></span></a>
+
+              <!-- <button class="btn btn-danger" ng-click="removeLabel(item.$id)">{{ item.$id }}</button> -->
+
+
             </div>
-            <button ng-click="addLabel()" type="button" class="btn btn-default">Add a label</button>
-          </form>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<div id="myModal" class="modal fade" ng-controller="EventCtrl">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <form role="form">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-          <h4 class="modal-title"></h4>
-        </div>
-        <div class="modal-body">
-          <!--Append paragraphs-->
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger">Remove Event</button>
-          <button type="button" class="btn btn-primary" id="saveChanges">Save changes</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </form>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-<div id="newEventModal" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title">New Event</h4>
-      </div>
-      <form role="form">
-        <div class="modal-body">
-
-          <div class="form-group">
-            <label for="eventTitleInput">Event Title</label>
-            <input type="text" class="form-control" id="eventTitleInput" placeholder="Enter Event Title">
+            <br>
+            <form role="form">
+              <div class="form-group">
+                <input ng-model="labelInput" name="labelInput" id="labelInput" type="text" placeholder="Create label...">
+              </div>
+              <button ng-click="addLabel()" type="button" class="btn btn-default">Add a label</button>
+            </form>
           </div>
 
+
+
+
+
+
+
+
+
+
+
         </div>
 
-        <div class="modal-footer">
+      </div>
 
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Create New Event</button>
+    </div>
+  </div>
+
+  <div id="myModal" class="modal fade" ng-controller="EventCtrl">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form role="form">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title"></h4>
+          </div>
+          <div class="modal-body">
+            <!--Append paragraphs-->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger">Remove Event</button>
+            <button type="button" class="btn btn-primary" id="saveChanges">Save changes</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </form>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <div id="newEventModal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h4 class="modal-title">New Event</h4>
         </div>
-      </form>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+        <form role="form">
+          <div class="modal-body">
 
-<!-- JQuery -->
-<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src='fullcalendar/lib/jquery-ui.custom.min.js'></script>
+            <div class="form-group">
+              <label for="eventTitleInput">Event Title</label>
+              <input type="text" class="form-control" id="eventTitleInput" placeholder="Enter Event Title">
+            </div>
 
-<!-- Bootstrap JS -->
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+          </div>
 
-<!--Firebase CDN-->
-<script src="//cdn.firebase.com/js/client/1.0.6/firebase.js"></script>
-<script src="//cdn.firebase.com/js/client/1.0.17/firebase.js"></script>
+          <div class="modal-footer">
 
-<!--Firebase Authentication Login-->
-<script src="https://cdn.firebase.com/js/simple-login/1.6.1/firebase-simple-login.js"></script>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Create New Event</button>
+          </div>
+        </form>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
 
-<!-- AngularJS -->
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+  <!-- JQuery -->
+  <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src='fullcalendar/lib/jquery-ui.custom.min.js'></script>
 
-<!--AngularFire-->
-<script src="//cdn.firebase.com/libs/angularfire/0.7.1/angularfire.js"></script>
-<script src="//code.angularjs.org/1.2.19/angular-resource.min.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
-<!--connection to main.js-->
-<script type="text/javascript" src="scripts/main2.js"></script>
+  <!--Firebase CDN-->
+  <script src="//cdn.firebase.com/js/client/1.0.6/firebase.js"></script>
+  <script src="//cdn.firebase.com/js/client/1.0.17/firebase.js"></script>
 
-<!-- Bootstrap for Angular JS -->
-<script type="text/javascript" src="scripts/ui-bootstrap-tpls-0.11.0.min.js"></script>
+  <!--Firebase Authentication Login-->
+  <script src="https://cdn.firebase.com/js/simple-login/1.6.1/firebase-simple-login.js"></script>
 
-<!--FullCalendar Plugin-->
-<script src='fullcalendar/lib/moment.min.js'></script>
-<script src='fullcalendar/fullcalendar.js'></script>
-<script>
+  <!-- AngularJS -->
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+
+  <!--AngularFire-->
+  <script src="//cdn.firebase.com/libs/angularfire/0.7.1/angularfire.js"></script>
+  <script src="//code.angularjs.org/1.2.19/angular-resource.min.js"></script>
+
+  <!--connection to main.js-->
+  <script type="text/javascript" src="scripts/main2.js"></script>
+
+  <!-- Bootstrap for Angular JS -->
+  <script type="text/javascript" src="scripts/ui-bootstrap-tpls-0.11.0.min.js"></script>
+
+  <!--FullCalendar Plugin-->
+  <script src='fullcalendar/lib/moment.min.js'></script>
+  <script src='fullcalendar/fullcalendar.js'></script>
+  <script>
 
 // // Firebase Authentication Simple Login
 // var myRef = new Firebase("https://planhacker.firebaseio.com");
@@ -475,13 +500,13 @@ function dropTaskEvent(start_time, end_time, title) {
   var ref = new Firebase("https://planhacker.firebaseio.com/users/user/");
 
   var eventsRef = ref.child("events");
-      
+
   eventsRef.push(
-    {
-      title: title,
-      start: start_time.unix() + 60*60*7,
-      end: end_time.unix() + 60*60*9,  
-    }
+  {
+    title: title,
+    start: start_time.unix() + 60*60*7,
+    end: end_time.unix() + 60*60*9,  
+  }
   );
 
   // $('#calendar').fullCalendar('renderEvent');
