@@ -113,6 +113,9 @@ myApp.controller("SideBarController", ["$firebase", "$scope", "tasks", "labels",
     });
 
     console.log("successful execution for renameTask()");
+
+    $scope.newTaskName = null;
+
   };
 
   $scope.addNote = function(id, noteInput) {
@@ -123,6 +126,9 @@ myApp.controller("SideBarController", ["$firebase", "$scope", "tasks", "labels",
     });
 
     console.log("successful execution for addNote()");
+
+    $scope.noteInput = null;
+    
   };
 
 }]);
