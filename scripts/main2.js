@@ -44,8 +44,6 @@ myApp.controller("TaskListController", ["$scope", "$filter", "$firebase", "tasks
 
     $scope.showLabel = true;
 
-    // $scope.search = data;
-
   }]);
 
 myApp.controller("EventCtrl", ["$scope", function($scope) {
@@ -62,16 +60,14 @@ myApp.controller("LabelController", ["$firebase", "$scope", "$filter", "labels",
       labels.$add({label: $scope.labelInput});
       
       console.log("successful execution for addLabel()");
+
+      $scope.labelInput = null;
     
     };
 
     $scope.removeLabel = function(id) {
-    
-      console.log(id); // it's undefined because it's not getting the argument
 
       var labelRef = new Firebase("https://planhacker.firebaseio.com/users/user/labels/");
-
-      alert("label id = " + labelRef);
     
       $firebase(labelRef).$remove(id);
 
@@ -80,8 +76,6 @@ myApp.controller("LabelController", ["$firebase", "$scope", "$filter", "labels",
     };
 
     $scope.assignTaskLabel = function(id, lblString) {
-
-      console.log(id);
     
       var itemRef = new Firebase("https://planhacker.firebaseio.com/users/user/tasks/" + id);
     
@@ -89,7 +83,7 @@ myApp.controller("LabelController", ["$firebase", "$scope", "$filter", "labels",
         label: lblString,
       });
       
-      console.log("successful execution for assignLabel()");
+      console.log("successful execution for assignTaskLabel()");
     
     };
 
@@ -101,7 +95,7 @@ myApp.controller("LabelController", ["$firebase", "$scope", "$filter", "labels",
       
       console.log("successful execution for removeTaskLabel()");
      
-     };
+    };
 
 }]);
 

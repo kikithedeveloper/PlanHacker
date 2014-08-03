@@ -102,11 +102,12 @@
                   <span class="task_name" ng-switch-default>{{ task.name }}</span>
                 </span>
 
-<!--BLOCKER!!!! not in straight line-->
+                <!--BLOCKER!!!! not in straight line-->
                 <span class="pullRight"> 
                   <a ng-controller="LabelController" ng-click="removeTaskLabel(taskID)" ng-mouseenter="lblRemove = !lblRemove" ng-mouseleave="lblRemove = !lblRemove" type="button" class="label label-success" ng-show="task.label"><span>{{ task.label }}<span ng-hide="!lblRemove" class="glyphicon glyphicon-remove"></span></span></a>
 
                   <a class="labelIcon" ng-click="showLabel = !showLabel"><span class="glyphicon glyphicon-tag"></span></a>
+                  
                   <a ng-click="tasks.$remove(taskID)"><span class="glyphicon glyphicon-remove"></span></a>
 
                 </span>
@@ -170,126 +171,113 @@
         <!--Label Component-->
         <div ng-show="!showLabel" class="panel panel-default" ng-controller="LabelController">
           <div class="panel-body">
-            <p>{{taskID}}</p>
+
             <div ng-repeat="(id, item) in labels">
 
-<!--!!!!BLOCKER!!!!-->
-
               <a ng-mouseenter="lblRemove = !lblRemove" ng-mouseleave="lblRemove = !lblRemove" type="button"><span class="label label-primary" ng-click="assignTaskLabel(taskID, item.label)">{{ item.label }}</span></a>
-<!-- 
-              <p>{{label.$id}}</p>
 
-              <a><span ng-click="labels.$remove(label.$id)" class="glyphicon glyphicon-remove"></span></a> -->
-
-              <button class="btn btn-danger" ng-click="removeLabel(id)">Delete Label</button>
-
+              <a><span class="glyphicon glyphicon-remove" ng-click="removeLabel(id)"></span></a>
 
             </div>
             <br>
-            <form role="form">
+            <form role="form" ng-submit="addLabel()">
               <div class="form-group">
-                <input ng-model="labelInput" name="labelInput" id="labelInput" type="text" placeholder="Create label...">
+              
+                <input ng-model="labelInput" name="labelInput" id="labelInput" type="text">
+                <button ng-click="addLabel()" type="button" class="btn btn-default">Add a label</button>
+
               </div>
-              <button ng-click="addLabel()" type="button" class="btn btn-default">Add a label</button>
+          
             </form>
           </div>
-
-
-
-
-
-
-
-
-
-
-
         </div>
 
       </div>
 
     </div>
+
   </div>
+</div>
 
-  <div id="myModal" class="modal fade" ng-controller="EventCtrl">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <form role="form">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            <h4 class="modal-title"></h4>
-          </div>
-          <div class="modal-body">
-            <!--Append paragraphs-->
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger">Remove Event</button>
-            <button type="button" class="btn btn-primary" id="saveChanges">Save changes</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </form>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
-
-  <div id="newEventModal" class="modal fade">
-    <div class="modal-dialog">
-      <div class="modal-content">
+<div id="myModal" class="modal fade" ng-controller="EventCtrl">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form role="form">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-          <h4 class="modal-title">New Event</h4>
+          <h4 class="modal-title"></h4>
         </div>
-        <form role="form">
-          <div class="modal-body">
+        <div class="modal-body">
+          <!--Append paragraphs-->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger">Remove Event</button>
+          <button type="button" class="btn btn-primary" id="saveChanges">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
-            <div class="form-group">
-              <label for="eventTitleInput">Event Title</label>
-              <input type="text" class="form-control" id="eventTitleInput" placeholder="Enter Event Title">
-            </div>
+<div id="newEventModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">New Event</h4>
+      </div>
+      <form role="form">
+        <div class="modal-body">
 
+          <div class="form-group">
+            <label for="eventTitleInput">Event Title</label>
+            <input type="text" class="form-control" id="eventTitleInput" placeholder="Enter Event Title">
           </div>
 
-          <div class="modal-footer">
+        </div>
 
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Create New Event</button>
-          </div>
-        </form>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
+        <div class="modal-footer">
 
-  <!-- JQuery -->
-  <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src='fullcalendar/lib/jquery-ui.custom.min.js'></script>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Create New Event</button>
+        </div>
+      </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
-  <!-- Bootstrap JS -->
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<!-- JQuery -->
+<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src='fullcalendar/lib/jquery-ui.custom.min.js'></script>
 
-  <!--Firebase CDN-->
-  <script src="//cdn.firebase.com/js/client/1.0.6/firebase.js"></script>
-  <script src="//cdn.firebase.com/js/client/1.0.17/firebase.js"></script>
+<!-- Bootstrap JS -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
-  <!--Firebase Authentication Login-->
-  <script src="https://cdn.firebase.com/js/simple-login/1.6.1/firebase-simple-login.js"></script>
+<!--Firebase CDN-->
+<script src="//cdn.firebase.com/js/client/1.0.6/firebase.js"></script>
+<script src="//cdn.firebase.com/js/client/1.0.17/firebase.js"></script>
 
-  <!-- AngularJS -->
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+<!--Firebase Authentication Login-->
+<script src="https://cdn.firebase.com/js/simple-login/1.6.1/firebase-simple-login.js"></script>
 
-  <!--AngularFire-->
-  <script src="//cdn.firebase.com/libs/angularfire/0.7.1/angularfire.js"></script>
-  <script src="//code.angularjs.org/1.2.19/angular-resource.min.js"></script>
+<!-- AngularJS -->
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
 
-  <!--connection to main.js-->
-  <script type="text/javascript" src="scripts/main2.js"></script>
+<!--AngularFire-->
+<script src="//cdn.firebase.com/libs/angularfire/0.7.1/angularfire.js"></script>
+<script src="//code.angularjs.org/1.2.19/angular-resource.min.js"></script>
 
-  <!-- Bootstrap for Angular JS -->
-  <script type="text/javascript" src="scripts/ui-bootstrap-tpls-0.11.0.min.js"></script>
+<!--connection to main.js-->
+<script type="text/javascript" src="scripts/main2.js"></script>
 
-  <!--FullCalendar Plugin-->
-  <script src='fullcalendar/lib/moment.min.js'></script>
-  <script src='fullcalendar/fullcalendar.js'></script>
-  <script>
+<!-- Bootstrap for Angular JS -->
+<script type="text/javascript" src="scripts/ui-bootstrap-tpls-0.11.0.min.js"></script>
+
+<!--FullCalendar Plugin-->
+<script src='fullcalendar/lib/moment.min.js'></script>
+<script src='fullcalendar/fullcalendar.js'></script>
+<script>
 
 // // Firebase Authentication Simple Login
 // var myRef = new Firebase("https://planhacker.firebaseio.com");
@@ -454,7 +442,7 @@ var id = null;
 // Make the task draggable
 // This doesn't rebind on new items added to the page
 setInterval(function(){
-  console.log('rebinding')
+  console.log('rebinding AngularJS')
   $('.external-event').draggable({revert: true,revertDuration: 500});
 }, 1000);
 
