@@ -87,8 +87,8 @@
 
       <!--NEW TASKS-->
 
-      <div ng-repeat="task in tasks | filter:search" ng-cloak>
-        <div ng-animate="'animate'" class="well well-sm external-event" data-eventObject data-id="{{ task.$id }}" data-title="{{ task.name }}">
+      <div ng-repeat="(taskID, task) in tasks | filter:search" ng-cloak>
+        <div ng-animate="'animate'" class="well well-sm external-event" data-eventObject data-id="{{ taskID }}" data-title="{{ task.name }}">
           <div class="checkbox">
             <label class="iconContainer">
               <input type="checkbox" ng-model="task.isComplete">
@@ -104,10 +104,10 @@
 
 <!--BLOCKER!!!! not in straight line-->
                 <span class="pullRight"> 
-                  <a ng-controller="LabelController" ng-click="removeTaskLabel(task.$id)" ng-mouseenter="lblRemove = !lblRemove" ng-mouseleave="lblRemove = !lblRemove" type="button" class="label label-success" ng-show="task.label"><span>{{ task.label }}<span ng-hide="!lblRemove" class="glyphicon glyphicon-remove"></span></span></a>
+                  <a ng-controller="LabelController" ng-click="removeTaskLabel(taskID)" ng-mouseenter="lblRemove = !lblRemove" ng-mouseleave="lblRemove = !lblRemove" type="button" class="label label-success" ng-show="task.label"><span>{{ task.label }}<span ng-hide="!lblRemove" class="glyphicon glyphicon-remove"></span></span></a>
 
                   <a class="labelIcon" ng-click="showLabel = !showLabel"><span class="glyphicon glyphicon-tag"></span></a>
-                  <a ng-click="tasks.$remove(task.$id)"><span class="glyphicon glyphicon-remove"></span></a>
+                  <a ng-click="tasks.$remove(taskID)"><span class="glyphicon glyphicon-remove"></span></a>
 
                 </span>
               </label>
@@ -121,13 +121,13 @@
             <div class="panel-title" ng-click="editTask = !editTask">{{task.name}}     (Click on me to rename me)</div>
             <div>
               <input ng-show="editTask" type="text" placeholder="Rename this task..." ng-model="newTaskName">
-              <button ng-show="editTask" class="button button-default" ng-click="renameTask(task.$id, newTaskName)">Rename Task</button>
+              <button ng-show="editTask" class="button button-default" ng-click="renameTask(taskID, newTaskName)">Rename Task</button>
             </div>
           </div>
           <div class="panel-body">
 <!--             <div>
               <input  type="text" placeholder="Add a due date..." ng-model="dueDate">
-              <button class="button button-default" ng-click="addDueDate(task.$id, dueDate)">Rename Task</button>
+              <button class="button button-default" ng-click="addDueDate(taskID, dueDate)">Rename Task</button>
             </div> -->
 <!--             <div>
               <input  type="text" placeholder="Add a reminder..." ng-model="remindMe">
@@ -135,7 +135,7 @@
             </div> -->
             <div>
               <input type="text" placeholder="Add a note..." ng-model="noteInput">
-              <button  class="button button-default" ng-click="addNote(task.$id, noteInput)">Add note</button>
+              <button  class="button button-default" ng-click="addNote(taskID, noteInput)">Add note</button>
             </div>
             <br>
 
@@ -170,12 +170,12 @@
         <!--Label Component-->
         <div ng-show="!showLabel" class="panel panel-default" ng-controller="LabelController">
           <div class="panel-body">
-            <p>{{task.$id}}</p>
+            <p>{{taskID}}</p>
             <div ng-repeat="(id, item) in labels">
 
 <!--!!!!BLOCKER!!!!-->
 
-              <a ng-mouseenter="lblRemove = !lblRemove" ng-mouseleave="lblRemove = !lblRemove" type="button"><span class="label label-primary" ng-click="assignLabel(task.$id, item.label)">{{ item.label }}</span></a>
+              <a ng-mouseenter="lblRemove = !lblRemove" ng-mouseleave="lblRemove = !lblRemove" type="button"><span class="label label-primary" ng-click="assignTaskLabel(taskID, item.label)">{{ item.label }}</span></a>
 <!-- 
               <p>{{label.$id}}</p>
 

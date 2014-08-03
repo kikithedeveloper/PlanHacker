@@ -79,7 +79,9 @@ myApp.controller("LabelController", ["$firebase", "$scope", "$filter", "labels",
     
     };
 
-    $scope.assignLabel = function(id, lblString) {
+    $scope.assignTaskLabel = function(id, lblString) {
+
+      console.log(id);
     
       var itemRef = new Firebase("https://planhacker.firebaseio.com/users/user/tasks/" + id);
     
