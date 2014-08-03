@@ -71,7 +71,7 @@
 
     <!--First Column-->
     <div class="col-sm-6">
-      <div id='calendar'></div>
+      <div id='calendar' ng-controller="CalendarCtrl"></div>
     </div>
 
     <!--Second Column-->
@@ -80,7 +80,7 @@
       <form role="form" ng-submit="addTask()">
         <div class="form-group">
           <input ng-model="taskInput" type="text" class="form-control"
-          name="taskInput" id="taskInput" placeholder="Add a task">
+          name="taskInput" id="taskInput" placeholder="Add a task" required>
         </div>
       </form>
       <br>
@@ -121,7 +121,7 @@
           <div class="panel-heading">
             <div class="panel-title" ng-click="editTask = !editTask">{{task.name}}     (Click on me to rename me)</div>
             <div>
-              <input ng-show="editTask" type="text" placeholder="Rename this task..." ng-model="newTaskName">
+              <input ng-show="editTask" type="text" placeholder="Rename this task..." ng-model="newTaskName" required>
               <button ng-show="editTask" class="button button-default" ng-click="renameTask(taskID, newTaskName)">Rename Task</button>
             </div>
           </div>
@@ -135,7 +135,7 @@
               <button class="button button-default" ng-click="addReminder(remindMe)">Rename Task</button>
             </div> -->
             <div>
-              <input type="text" placeholder="Add a note..." ng-model="noteInput">
+              <input type="text" placeholder="Add a note..." ng-model="noteInput" required>
               <button  class="button button-default" ng-click="addNote(taskID, noteInput)">Add note</button>
             </div>
             <br>
@@ -183,7 +183,7 @@
             <form role="form" ng-submit="addLabel()">
               <div class="form-group">
               
-                <input ng-model="labelInput" name="labelInput" id="labelInput" type="text">
+                <input ng-model="labelInput" name="labelInput" id="labelInput" type="text" required>
                 <button ng-click="addLabel()" type="button" class="btn btn-default">Add a label</button>
 
               </div>
@@ -206,6 +206,7 @@
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
           <h4 class="modal-title"></h4>
+          <!--Hard to do validation here because I appended input div from JavaScript below-->
         </div>
         <div class="modal-body">
           <!--Append paragraphs-->
@@ -232,7 +233,7 @@
 
           <div class="form-group">
             <label for="eventTitleInput">Event Title</label>
-            <input type="text" class="form-control" id="eventTitleInput" placeholder="Enter Event Title">
+            <input type="text" class="form-control" id="eventTitleInput" placeholder="Enter Event Title" required>
           </div>
 
         </div>

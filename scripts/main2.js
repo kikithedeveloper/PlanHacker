@@ -30,6 +30,11 @@ myApp.factory("data", function() {
   return {taskInput:"data binding"};
 });
 
+myApp.controller("CalendarCtrl", ["$scope", 
+  function($scope) { 
+    // This helps adding angularjs features and functionalities to Calendar?
+}]);
+
 myApp.controller("TaskListController", ["$scope", "$filter", "$firebase", "tasks",
   function($scope, $filter, $firebase, tasks) {
 
@@ -50,7 +55,6 @@ myApp.controller("TaskListController", ["$scope", "$filter", "$firebase", "tasks
 
       $scope.taskInput = null;
     }
-
 
   };
 
