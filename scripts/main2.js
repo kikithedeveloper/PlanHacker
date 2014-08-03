@@ -36,15 +36,27 @@ myApp.controller("TaskListController", ["$scope", "$filter", "$firebase", "tasks
     tasks.$bind($scope, "tasks");
 
     $scope.addTask = function() {
-      tasks.$add({name: $scope.taskInput, isComplete: false, course: null, label: null, dueDate: null, reminder: null, note: null}).then(function(ref) {
+
+      if ($scope.taskInput === null) {
+        
+        alert("Sorry, please fill in your task.");
+
+      } else { 
+
+        tasks.$add({name: $scope.taskInput, isComplete: false, course: null, label: null, dueDate: null, reminder: null, note: null}).then(function(ref) {
         ref.setPriority(-new Date().getTime());
+     
       });
+
       $scope.taskInput = null;
-    };
+    }
 
-    $scope.showLabel = true;
 
-  }]);
+  };
+
+  $scope.showLabel = true;
+
+}]);
 
 myApp.controller("EventCtrl", ["$scope", function($scope) {
 
@@ -62,42 +74,42 @@ myApp.controller("LabelController", ["$firebase", "$scope", "$filter", "labels",
       console.log("successful execution for addLabel()");
 
       $scope.labelInput = null;
-    
+
     };
 
     $scope.removeLabel = function(id) {
 
       var labelRef = new Firebase("https://planhacker.firebaseio.com/users/user/labels/");
-    
+
       $firebase(labelRef).$remove(id);
 
       console.log("successful execution for removeLabel()");
-    
+
     };
 
     $scope.assignTaskLabel = function(id, lblString) {
-    
+
       var itemRef = new Firebase("https://planhacker.firebaseio.com/users/user/tasks/" + id);
-    
+
       $firebase(itemRef).$update({
         label: lblString,
       });
       
       console.log("successful execution for assignTaskLabel()");
-    
+
     };
 
     $scope.removeTaskLabel = function(id) {
-    
+
       var itemRef = new Firebase("https://planhacker.firebaseio.com/users/user/tasks/" + id);
 
       $firebase(itemRef).$update({label: null});
       
       console.log("successful execution for removeTaskLabel()");
-     
+
     };
 
-}]);
+  }]);
 
 myApp.controller("SideBarController", ["$firebase", "$scope", "tasks", "labels", "data",
   function($firebase, $scope, tasks, labels, data) {
@@ -128,7 +140,7 @@ myApp.controller("SideBarController", ["$firebase", "$scope", "tasks", "labels",
     console.log("successful execution for addNote()");
 
     $scope.noteInput = null;
-    
+
   };
 
 }]);
