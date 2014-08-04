@@ -2,6 +2,11 @@
 	padding-top: 70px;
 }
 
+/*.cssCalendar {
+    opacity: 100%;
+    filter: alpha(opacity=40);
+}*/
+
 body {
     padding-top: 75px;
 }

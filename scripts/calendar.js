@@ -179,7 +179,7 @@
   // Make the task draggable
   // This doesn't rebind on new items added to the page
   setInterval(function(){
-    console.log('rebinding AngularJS')
+    console.log('rebinding')
     $('.external-event').draggable({revert: true,revertDuration: 500});
   }, 1000);
 

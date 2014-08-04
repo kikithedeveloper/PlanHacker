@@ -99,7 +99,10 @@ myApp.controller("TaskListController", function($scope, $firebase) {
 
     };
 
-    $scope.data = {showLabel: false};
+    // to test this, comment out line 104
+     $scope.data = {showLabel: false}; // Label function works fine, but it opens all label boxes, and closes all label boxes after label assignment
+     // to test out the other one, go to line 116
+
 
   });
 
@@ -109,7 +112,8 @@ myApp.controller("EventCtrl", function($scope) {
 
 myApp.controller("LabelController", function($firebase, $scope) {
 
-    // labels.$bind($scope, "labels");
+  // to test this, comment out line 103 and then uncomment out the line below.
+  // $scope.data = {showLabel: false}; // this opens up one label boxes, label function works fine, but this doesn't hide after label assignment
 
     var ref = new Firebase("https://planhacker.firebaseio.com/users/user/");
     var labelSync = $firebase(ref.child("labels"));
@@ -121,13 +125,12 @@ myApp.controller("LabelController", function($firebase, $scope) {
 
       labels.$add({name: $scope.labelInput}).then(function(ref) {
         var id = ref.name();
-        console.log("Successfully added record with id -> " + id);
+        console.log("Successful execution of addLabel()");
+        console.log("task id -> " + id);
         labels.$indexFor(id);
+        $scope.labelInput = null;
+        $scope.data.showLabel = true;
       });
-      
-      console.log("successful execution for addLabel()");
-
-      $scope.labelInput = null;
 
     };
 
