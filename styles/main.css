@@ -2,10 +2,10 @@
 	padding-top: 70px;
 }
 
-/*.cssCalendar {
-    opacity: 100%;
-    filter: alpha(opacity=40);
-}*/
+.cssCalendar {
+    padding: 10px;
+    background: rgba(243,231,231,0.5);
+}
 
 body {
     padding-top: 75px;
