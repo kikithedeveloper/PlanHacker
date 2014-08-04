@@ -6,105 +6,107 @@
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse"
         data-target=".navbar-collapse">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#"><b>Plan Hacker</b></a>
-      </div>
-      <div class="navbar-collapse collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><b>PlanHacker</b></a>
+    </div>
+    <div class="navbar-collapse collapse">
 <!--       <ul class="nav navbar-nav navbar-right">
         <li><a href="#">Dashboard</a></li>
         <li><a href="#">Settings</a></li>
         <li><a href="#">Profile</a></li>
         <li><a href="#">Help</a></li>
       </ul> -->
-        <form class="navbar-form navbar-right">
-          <input ng-model="searchTask" type="text" class="form-control" placeholder="Search task">
-        </form>
-      </div>
+      <form class="navbar-form navbar-right">
+        <input ng-model="searchTask" type="text" class="form-control" placeholder="Search task">
+      </form>
     </div>
-  </nav>
+  </div>
+</nav>
 
-  <div class="container-fluid">
-    <div class="row">
+<div class="container-fluid">
+  <div class="row">
 
-      <!--First Column-->
-      <div class="col-sm-6">
-        <div id='calendar' ng-controller="CalendarCtrl"></div>
-      </div>
+    <!--First Column-->
+    <div class="col-sm-6">
+      <div id='calendar' ng-controller="CalendarCtrl"></div>
+    </div>
 
-      <!--Second Column-->
-      <div class="col-sm-6">
-        <!--Task List Component-->
-        <form role="form" ng-submit="addTask()">
-          <div class="form-group">
-            <input ng-model="taskInput" type="text" class="form-control"
-            name="taskInput" id="taskInput" placeholder="Add a task" required>
-          </div>
-        </form>
-        <br>
+    <!--Second Column-->
+    <div class="col-sm-6">
+      <!--Task List Component-->
+      <form role="form" ng-submit="addTask()">
+        <div class="form-group">
+          <input ng-model="taskInput" type="text" class="form-control"
+          name="taskInput" id="taskInput" placeholder="Add a task" required>
+        </div>
+      </form>
+      <br>
 
-        <!--NEW TASKS-->
+      <!--NEW TASKS-->
 
-        <div ng-repeat="task in tasks | filter:{name:searchTask}" ng-cloak>
-          <div ng-animate="'animate'" class="well well-sm external-event" data-eventObject data-id="{{ task.$id }}" data-title="{{ task.name }}">
-            <div class="checkbox">
-              <label class="iconContainer">
-                <input type="checkbox" ng-model="task.isComplete">
-                <label>                  
-                  <span ng-switch on="task.isComplete" ng-click="showSideBar = !showSideBar">
-                    <span ng-switch-when="true">
-                      <del class="text-muted">
-                        {{ task.name }}
-                      </del>
-                    </span>
-                    <span class="task_name" ng-switch-default>{{ task.name }}</span>
+      <div ng-repeat="task in tasks | filter:{name:searchTask}" ng-cloak>
+        <div ng-animate="'animate'" class="well well-sm external-event" data-eventObject data-id="{{ task.$id }}" data-title="{{ task.name }}">
+          <div class="checkbox">
+            <label class="iconContainer">
+              <input type="checkbox" ng-model="task.isComplete">
+              <label>                  
+                <span ng-switch on="task.isComplete" ng-click="showSideBar = !showSideBar">
+                  <span ng-switch-when="true">
+                    <del class="text-muted">
+                      {{ task.name }}
+                    </del>
                   </span>
+                  <span class="task_name" ng-switch-default>{{ task.name }}</span>
+                </span>
 
-                  <!--BLOCKER!!!! not in straight line-->
-                  <span class="pullRight"> 
+                <!--BLOCKER!!!! not in straight line-->
+                <span class="pullRight"> 
 
-                  	<!--Label on Task-->
-                    <a 
-                    ng-controller="LabelController" 
-                    ng-click="removeLabel(task.$id)" 
-                    ng-mouseenter="lblRemove = !lblRemove" 
-                    ng-mouseleave="lblRemove = !lblRemove" 
-                    type="button" 
-                    class="label label-success" 
-                    ng-show="task.label">
-                    <span>{{ task.label }}
-                    <span 
-                    ng-hide="!lblRemove" 
-                    class="glyphicon glyphicon-remove"></span></span></a>
-                    <!--Label Icon-->
-                    <a 
-                    class="labelIcon" 
-                    ng-click="data.showLabel = !data.showLabel">
-                    <span 
-                    class="glyphicon glyphicon-tag"></span></a>
-                    
-                    <a ng-click="tasks.$remove(task)"><span class="glyphicon glyphicon-remove"></span></a>
+                 <!--Label on Task-->
+                 <a 
+                 ng-controller="LabelController" 
+                 ng-click="removeLabel(task.$id)" 
+                 ng-mouseenter="lblRemove = !lblRemove" 
+                 ng-mouseleave="lblRemove = !lblRemove" 
+                 type="button" 
+                 class="label label-success" 
+                 ng-show="task.label">
+                 <span>{{ task.label }}
+                  <span 
+                  ng-hide="!lblRemove" 
+                  class="glyphicon glyphicon-remove"></span></span></a>
+                  <!--Label Icon-->
+                  <a 
+                  class="labelIcon" 
+                  ng-click="data.showLabel = !data.showLabel">
+                  <span 
+                  class="glyphicon glyphicon-tag"></span></a>
 
-                  </span>
-                </label>
+                  <a ng-click="tasks.$remove(task)"><span class="glyphicon glyphicon-remove"></span></a>
+
+                </span>
               </label>
-            </div>
+            </label>
           </div>
+        </div>
 
-          <!--Side Bar Component-->
-<!--           <div ng-show="showSideBar" class="panel panel-default" ng-controller="SideBarController">
-            <div class="panel-heading">
-              <div class="panel-title" ng-click="editTask = !editTask">{{task.name}}     (Click on me to rename me)</div>
-              <div>
+        <!--Side Bar Component-->
+        <div ng-show="showSideBar" class="panel panel-default" ng-controller="SideBarController">
+          <div class="panel-heading">
+            <div class="panel-title" ng-click="editTask = !editTask">{{task.name}}  (Click on me to rename me)</div>
+            <form role="form" ng-submit="renameTask(task.$id, newTaskName)">
+              <div class="form-group">
                 <input ng-show="editTask" type="text" placeholder="Rename this task..." ng-model="newTaskName" required>
                 <button ng-show="editTask" class="button button-default" ng-click="renameTask(task.$id, newTaskName)">Rename Task</button>
               </div>
-            </div>
-            <div class="panel-body"> -->
-  <!--             <div>
+            </form>
+          </div>
+          <div class="panel-body">
+<!--               <div>
                 <input  type="text" placeholder="Add a due date..." ng-model="dueDate">
                 <button class="button button-default" ng-click="addDueDate(task.$id, dueDate)">Rename Task</button>
               </div> -->
@@ -119,7 +121,7 @@
               <br> -->
 
               <!--Datepicker-->
-<!--               <div ng-controller="DatepickerDemoCtrl">
+              <div ng-controller="DatepickerDemoCtrl">
                 <div class="row">
                   <div class="col-sm-8">
                     <b>Date</b>
@@ -131,10 +133,10 @@
                     </p>
                   </div>
                 </div>
-              </div> -->
+              </div>
 
               <!--Timepicker-->
-<!--               <div ng-controller="TimepickerDemoCtrl">
+              <div ng-controller="TimepickerDemoCtrl">
                 <b>Starting Time</b>
                 <timepicker ng-model="startTime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker><b>Ending Time</b>
                 <timepicker ng-model="endTime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
@@ -144,10 +146,10 @@
               </div>
 
             </div>
-          </div> -->
+          </div>
 
 
-<!--BLOCKER, I still can't get this to hide when you assign a label-->
+          <!--BLOCKER, I still can't get this to hide after you assign a label-->
 
           <!--Label Component-->
           <div ng-if="data.showLabel" class="panel panel-default" ng-controller="LabelController">
@@ -187,7 +189,7 @@
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             <h4 class="modal-title"></h4>
-         
+
           </div>
           <div class="modal-body">
             <!--Append paragraphs-->
@@ -232,4 +234,4 @@
 
 </div>
 
- <script type="text/javascript" src="scripts/calendar.js"></script>
+<script type="text/javascript" src="scripts/calendar.js"></script>

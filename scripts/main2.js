@@ -8,11 +8,11 @@ var myApp = angular.module("planhacker", ["firebase", "ui.bootstrap", 'ngRoute',
 
 myApp.config(function($routeProvider) {
 
-    $routeProvider
+  $routeProvider
 
-      .when('/', {
-        redirectTo: "/login"
-      })
+  .when('/', {
+    redirectTo: "/login"
+  })
       // login
       .when('/login', {
         templateUrl: 'login.html',
@@ -24,7 +24,7 @@ myApp.config(function($routeProvider) {
         controller: 'TaskListController'
       });
 
-});
+    });
 
 // Controller for login
 myApp.controller('loginController', function($scope, $firebase) {
@@ -65,13 +65,13 @@ myApp.controller('loginController', function($scope, $firebase) {
 // });
 
 myApp.controller("CalendarCtrl", function($scope) { 
-    
+
 });
 
 myApp.controller("TaskListController", function($scope, $firebase) {
 
-    var taskSync = $firebase(ref.child("tasks"));
-    var tasks = taskSync.$asArray();
+  var taskSync = $firebase(ref.child("tasks"));
+  var tasks = taskSync.$asArray();
 
     $scope.tasks = tasks; // note: this is for the ng-repeat {{ task in tasks }}
 
@@ -101,7 +101,7 @@ myApp.controller("TaskListController", function($scope, $firebase) {
 
     $scope.data = {showLabel: false};
 
-});
+  });
 
 myApp.controller("EventCtrl", function($scope) {
 
@@ -138,7 +138,7 @@ myApp.controller("LabelController", function($firebase, $scope) {
       $firebase(taskRef).$update({label: label}).then(function(){
         console.log("Successful execution for assignLabel()");
       });
-    
+
     };
 
     $scope.removeLabel = function(taskID) {
@@ -153,24 +153,29 @@ myApp.controller("LabelController", function($firebase, $scope) {
 
   });
 
-myApp.controller("SideBarController", ["$firebase", "$scope", "tasks", "labels", "data",
-  function($firebase, $scope, tasks, labels, data) {
+myApp.controller("SideBarController", function($firebase, $scope) {
 
   // tasks.$bind($scope, "tasks");
+  var taskSync = $firebase(ref.child("tasks"));
+  var tasks = taskSync.$asArray();
   // labels.$bind($scope, "labels");
+  var labelSync = $firebase(ref.child("labels"));
+  var labels = labelSync.$asArray();
 
-  // $scope.renameTask = function(id, taskname) {
-  //   var itemRef = new Firebase("https://planhacker.firebaseio.com/users/user/tasks/" + id);
+  $scope.renameTask = function(id, taskname) {
+    var taskRef = new Firebase("https://planhacker.firebaseio.com/users/user/tasks/" + id);
 
-  //   $firebase(itemRef).$update({
-  //     name: taskname,
-  //   });
+    if (taskname) {
+      $firebase(taskRef).$update({
+        name: taskname,
+      }).then(function(ref){
+        console.log("successful execution for renameTask()");
+        $scope.newTaskName = null;
+      });
+    };
 
-  //   console.log("successful execution for renameTask()");
 
-  //   $scope.newTaskName = null;
-
-  // };
+  };
 
   // $scope.addNote = function(id, noteInput) {
   //   var itemRef = new Firebase("https://planhacker.firebaseio.com/users/user/tasks/" + id);
@@ -185,60 +190,60 @@ myApp.controller("SideBarController", ["$firebase", "$scope", "tasks", "labels",
 
   // };
 
-}]);
+});
 
-// var DatepickerDemoCtrl = function ($scope) {
-//   $scope.today = function() {
-//     $scope.dt = new Date();
-//   };
-//   $scope.today();
+var DatepickerDemoCtrl = function ($scope) {
+  $scope.today = function() {
+    $scope.dt = new Date();
+  };
+  $scope.today();
 
-//   $scope.clear = function () {
-//     $scope.dt = null;
-//   };
+  $scope.clear = function () {
+    $scope.dt = null;
+  };
 
-//   $scope.toggleMin = function() {
-//     $scope.minDate = $scope.minDate ? null : new Date();
-//   };
-//   $scope.toggleMin();
+  $scope.toggleMin = function() {
+    $scope.minDate = $scope.minDate ? null : new Date();
+  };
+  $scope.toggleMin();
 
-//   $scope.open = function($event) {
-//     $event.preventDefault();
-//     $event.stopPropagation();
+  $scope.open = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
 
-//     $scope.opened = true;
-//   };
+    $scope.opened = true;
+  };
 
-//   $scope.dateOptions = {
-//     formatYear: 'yy',
-//     startingDay: 0,
-//     showWeeks: false,
-//   };
+  $scope.dateOptions = {
+    formatYear: 'yy',
+    startingDay: 0,
+    showWeeks: false,
+  };
 
-//   $scope.initDate = new Date('2016-15-20');
-//   $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-//   $scope.format = $scope.formats[0];
-// };
+  $scope.initDate = new Date('2016-15-20');
+  $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+  $scope.format = $scope.formats[0];
+};
 
-// var TimepickerDemoCtrl = function ($scope) {
-//   $scope.startTime = new Date("1970-01-01T08:00:00.000Z");
-//   $scope.endTime = new Date("1970-01-01T08:00:00.000Z");
+var TimepickerDemoCtrl = function ($scope) {
+  $scope.startTime = new Date("1970-01-01T08:00:00.000Z");
+  $scope.endTime = new Date("1970-01-01T08:00:00.000Z");
 
-//   $scope.hstep = 1;
-//   $scope.mstep = 30;
+  $scope.hstep = 1;
+  $scope.mstep = 30;
 
-//   $scope.ismeridian = true;
-//   $scope.toggleMode = function() {
-//     $scope.ismeridian = ! $scope.ismeridian;
-//   };
+  $scope.ismeridian = true;
+  $scope.toggleMode = function() {
+    $scope.ismeridian = ! $scope.ismeridian;
+  };
 
-//   $scope.changed = function () {
-//     console.log('Time changed to: ' + $scope.mytime);
-//   };
+  $scope.changed = function () {
+    console.log('Time changed to: ' + $scope.mytime);
+  };
 
-//   $scope.clear = function() {
-//     $scope.startTime = new Date("1970-01-01T08:00:00.000Z");
-//     $scope.endTime = new Date("1970-01-01T08:00:00.000Z");
-//   };
-// };
+  $scope.clear = function() {
+    $scope.startTime = new Date("1970-01-01T08:00:00.000Z");
+    $scope.endTime = new Date("1970-01-01T08:00:00.000Z");
+  };
+};
 
