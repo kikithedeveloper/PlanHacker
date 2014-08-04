@@ -99,9 +99,25 @@ myApp.controller("TaskListController", function($scope, $firebase) {
 
     };
 
-    // to test this, comment out line 104
-     // $scope.data = {showLabel: false}; // Label function works fine, but it opens all label boxes, and closes all label boxes after label assignment
-     // to test out the other one, go to line 116
+    $scope.completeTask = function (taskID) {
+
+      var taskRef = new Firebase("https://planhacker.firebaseio.com/users/user/tasks/" + taskID);
+
+      $firebase(taskRef).$update({isComplete : true}).then(function(){
+        console.log("Successful update -> {isComplete : true}");
+      });
+
+    };
+
+    $scope.uncompleteTask = function (taskID) {
+
+      var taskRef = new Firebase("https://planhacker.firebaseio.com/users/user/tasks/" + taskID);
+
+      $firebase(taskRef).$update({isComplete : false}).then(function(){
+        console.log("Successful update -> {isComplete : false}");
+      });
+
+    };
 
 
   });
@@ -115,9 +131,9 @@ myApp.controller("LabelController", function($firebase, $scope) {
   // to test this, comment out line 103 and then uncomment out the line below.
   // $scope.data = {showLabel: false}; // this opens up one label boxes, label function works fine, but this doesn't hide after label assignment
 
-    var ref = new Firebase("https://planhacker.firebaseio.com/users/user/");
-    var labelSync = $firebase(ref.child("labels"));
-    var labels = labelSync.$asArray();
+  var ref = new Firebase("https://planhacker.firebaseio.com/users/user/");
+  var labelSync = $firebase(ref.child("labels"));
+  var labels = labelSync.$asArray();
 
     $scope.labels = labels; // note: this is for the ng-repeat {{ label in labels }}
 

@@ -52,7 +52,7 @@
         <div ng-animate="'animate'" class="well well-sm external-event" data-eventObject data-id="{{ task.$id }}" data-title="{{ task.name }}">
           <div class="checkbox">
             <label class="iconContainer">
-              <input type="checkbox" ng-model="task.isComplete">
+              <input type="checkbox" ng-click="completeTask(task.$id)">
               <label>                  
                 <span ng-switch on="task.isComplete" ng-click="showSideBar = !showSideBar">
                   <span ng-switch-when="true">
