@@ -1,5 +1,5 @@
 <!--Plan HTML-->
-
+<div ng-controller="TaskListController">
   <!--Navigation Bar-->
   <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
@@ -21,13 +21,13 @@
         <li><a href="#">Help</a></li>
       </ul> -->
         <form class="navbar-form navbar-right">
-          <input ng-model="search" type="text" class="form-control" placeholder="Search task" ng-controller="TaskListController">
+          <input ng-model="searchTask" type="text" class="form-control" placeholder="Search task">
         </form>
       </div>
     </div>
   </nav>
 
-  <div class="container-fluid" ng-controller="TaskListController">
+  <div class="container-fluid">
     <div class="row">
 
       <!--First Column-->
@@ -48,7 +48,7 @@
 
         <!--NEW TASKS-->
 
-        <div ng-repeat="task in tasks" ng-cloak>
+        <div ng-repeat="task in tasks | filter:{name:searchTask}" ng-cloak>
           <div ng-animate="'animate'" class="well well-sm external-event" data-eventObject data-id="{{ task.$id }}" data-title="{{ task.name }}">
             <div class="checkbox">
               <label class="iconContainer">
@@ -228,5 +228,8 @@
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
+
+
+</div>
 
  <script type="text/javascript" src="scripts/calendar.js"></script>

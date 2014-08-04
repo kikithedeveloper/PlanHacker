@@ -109,8 +109,6 @@ myApp.controller("EventCtrl", function($scope) {
 
 myApp.controller("LabelController", function($firebase, $scope) {
 
-
-
     // labels.$bind($scope, "labels");
 
     var ref = new Firebase("https://planhacker.firebaseio.com/users/user/");
