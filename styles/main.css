@@ -1,5 +1,9 @@
-body {
+.page-plan {
 	padding-top: 70px;
+}
+
+body {
+    padding-top: 75px;
 }
 
 .faded {
@@ -12,7 +16,6 @@ body {
     float: left;
     margin-right: 5px;
     top:2px;
-
 }
 
 

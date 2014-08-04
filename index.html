@@ -32,566 +32,61 @@
 
   <!-- build:css styles/main.css -->
   <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/login.css">
   <!-- endbuild -->
 
   <!--FullCalender Plugin-->
-  <link rel='stylesheet' href='fullcalendar/fullcalendar.css' />
+  <link rel='stylesheet' href='fullcalendar/fullcalendar.css'/>
+
+
+<!--
+    <script data-require="angular.js@1.2.20" data-semver="1.2.20" src="https://code.angularjs.org/1.2.20/angular.js"></script>
+    <script data-require="firebase@1.0.18" data-semver="1.0.18" src="https://cdn.firebase.com/js/client/1.0.18/firebase.js"></script>
+    <script data-require="angularfire@0.8.0" data-semver="0.8.0" src="https://cdn.firebase.com/libs/angularfire/0.8.0/angularfire.js"></script>
+-->
+
 
 </head>
 <body>
-  <!--Navigation Bar-->
-  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse"
-        data-target=".navbar-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#"><b>Plan Hacker</b></a>
-    </div>
-    <div class="navbar-collapse collapse">
-<!--       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Dashboard</a></li>
-        <li><a href="#">Settings</a></li>
-        <li><a href="#">Profile</a></li>
-        <li><a href="#">Help</a></li>
-      </ul> -->
-      <form class="navbar-form navbar-right">
-        <input ng-model="search" type="text" class="form-control" placeholder="Search task" ng-controller="TaskListController">
-      </form>
-    </div>
-  </div>
-</nav>
 
-<div class="container-fluid" ng-controller="TaskListController">
-  <div class="row">
+  <div class="page {{ pageClass }}" ng-view></div> <!--This displays the ngView of pages-->
 
-    <!--First Column-->
-    <div class="col-sm-6">
-      <div id='calendar' ng-controller="CalendarCtrl"></div>
-    </div>
+  <!-- JQuery -->
+  <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src='fullcalendar/lib/jquery-ui.custom.min.js'></script>
 
-    <!--Second Column-->
-    <div class="col-sm-6">
-      <!--Task List Component-->
-      <form role="form" ng-submit="addTask()">
-        <div class="form-group">
-          <input ng-model="taskInput" type="text" class="form-control"
-          name="taskInput" id="taskInput" placeholder="Add a task" required>
-        </div>
-      </form>
-      <br>
+  <!-- Bootstrap JS -->
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
-      <!--NEW TASKS-->
+  <!--Firebase CDN-->
+  <script src="https://cdn.firebase.com/js/client/1.0.18/firebase.js"></script>
 
-      <div ng-repeat="(taskID, task) in tasks | filter:search" ng-cloak>
-        <div ng-animate="'animate'" class="well well-sm external-event" data-eventObject data-id="{{ taskID }}" data-title="{{ task.name }}">
-          <div class="checkbox">
-            <label class="iconContainer">
-              <input type="checkbox" ng-model="task.isComplete">
-              <label>                  
-                <span ng-switch on="task.isComplete" ng-click="showSideBar = !showSideBar">
-                  <span ng-switch-when="true">
-                    <del class="text-muted">
-                      {{ task.name }}
-                    </del>
-                  </span>
-                  <span class="task_name" ng-switch-default>{{ task.name }}</span>
-                </span>
+  <!--Firebase Authentication Login-->
+  <script src="https://cdn.firebase.com/js/simple-login/1.6.1/firebase-simple-login.js"></script>
 
-                <!--BLOCKER!!!! not in straight line-->
-                <span class="pullRight"> 
-                  <a ng-controller="LabelController" ng-click="removeTaskLabel(taskID)" ng-mouseenter="lblRemove = !lblRemove" ng-mouseleave="lblRemove = !lblRemove" type="button" class="label label-success" ng-show="task.label"><span>{{ task.label }}<span ng-hide="!lblRemove" class="glyphicon glyphicon-remove"></span></span></a>
+  <!-- AngularJS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>
+  
+  <!--<script src="//code.angularjs.org/1.2.19/angular-resource.min.js"></script>-->
 
-                  <a class="labelIcon" ng-click="showLabel = !showLabel"><span class="glyphicon glyphicon-tag"></span></a>
-                  
-                  <a ng-click="tasks.$remove(taskID)"><span class="glyphicon glyphicon-remove"></span></a>
+  <!--AngularJS Animation-->
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-route.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-animate.js"></script>
 
-                </span>
-              </label>
-            </label>
-          </div>
-        </div>
+  <!--AngularFire-->
+  <script src="https://cdn.firebase.com/libs/angularfire/0.8.0/angularfire.js"></script> <!-- Now, I need to update all my AngularFire codes-->
+  
 
-        <!--Side Bar Component-->
-        <div ng-show="showSideBar" class="panel panel-default" ng-controller="SideBarController">
-          <div class="panel-heading">
-            <div class="panel-title" ng-click="editTask = !editTask">{{task.name}}     (Click on me to rename me)</div>
-            <div>
-              <input ng-show="editTask" type="text" placeholder="Rename this task..." ng-model="newTaskName" required>
-              <button ng-show="editTask" class="button button-default" ng-click="renameTask(taskID, newTaskName)">Rename Task</button>
-            </div>
-          </div>
-          <div class="panel-body">
-<!--             <div>
-              <input  type="text" placeholder="Add a due date..." ng-model="dueDate">
-              <button class="button button-default" ng-click="addDueDate(taskID, dueDate)">Rename Task</button>
-            </div> -->
-<!--             <div>
-              <input  type="text" placeholder="Add a reminder..." ng-model="remindMe">
-              <button class="button button-default" ng-click="addReminder(remindMe)">Rename Task</button>
-            </div> -->
-            <div>
-              <input type="text" placeholder="Add a note..." ng-model="noteInput" required>
-              <button  class="button button-default" ng-click="addNote(taskID, noteInput)">Add note</button>
-            </div>
-            <br>
+  <!--connection to main.js-->
+  <script type="text/javascript" src="scripts/main2.js"></script>
 
-            <!--Datepicker-->
-            <div ng-controller="DatepickerDemoCtrl">
-              <div class="row">
-                <div class="col-sm-8">
-                  <b>Date</b>
-                  <p class="input-group">
-                    <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
-                    <span class="input-group-btn">
-                      <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
+  <!-- Bootstrap for Angular JS -->
+  <script type="text/javascript" src="scripts/ui-bootstrap-tpls-0.11.0.min.js"></script>
 
-            <!--Timepicker-->
-            <div ng-controller="TimepickerDemoCtrl">
-              <b>Starting Time</b>
-              <timepicker ng-model="startTime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker><b>Ending Time</b>
-              <timepicker ng-model="endTime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
-              <pre class="alert alert-info">Start: {{startTime}}</pre>
-              <pre class="alert alert-info">End: {{endTime}}</pre>
-              <button class="btn btn-danger" ng-click="clear()">Clear</button>
-            </div>
+  <!--FullCalendar Plugin-->
+  <script src='fullcalendar/lib/moment.min.js'></script>
+  <script src='fullcalendar/fullcalendar.js'></script>
 
-          </div>
-        </div>
-
-        <!--Label Component-->
-        <div ng-show="!showLabel" class="panel panel-default" ng-controller="LabelController">
-          <div class="panel-body">
-
-            <div ng-repeat="(id, item) in labels">
-
-              <a ng-mouseenter="lblRemove = !lblRemove" ng-mouseleave="lblRemove = !lblRemove" type="button"><span class="label label-primary" ng-click="assignTaskLabel(taskID, item.label)">{{ item.label }}</span></a>
-
-              <a><span class="glyphicon glyphicon-remove" ng-click="removeLabel(id)"></span></a>
-
-            </div>
-            <br>
-            <form role="form" ng-submit="addLabel()">
-              <div class="form-group">
-              
-                <input ng-model="labelInput" name="labelInput" id="labelInput" type="text" required>
-                <button ng-click="addLabel()" type="button" class="btn btn-default">Add a label</button>
-
-              </div>
-          
-            </form>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-</div>
-
-<div id="myModal" class="modal fade" ng-controller="EventCtrl">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <form role="form">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-          <h4 class="modal-title"></h4>
-          <!--Hard to do validation here because I appended input div from JavaScript below-->
-        </div>
-        <div class="modal-body">
-          <!--Append paragraphs-->
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger">Remove Event</button>
-          <button type="button" class="btn btn-primary" id="saveChanges">Save changes</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </form>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-<div id="newEventModal" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title">New Event</h4>
-      </div>
-      <form role="form">
-        <div class="modal-body">
-
-          <div class="form-group">
-            <label for="eventTitleInput">Event Title</label>
-            <input type="text" class="form-control" id="eventTitleInput" placeholder="Enter Event Title" required>
-          </div>
-
-        </div>
-
-        <div class="modal-footer">
-
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Create New Event</button>
-        </div>
-      </form>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-<!-- JQuery -->
-<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src='fullcalendar/lib/jquery-ui.custom.min.js'></script>
-
-<!-- Bootstrap JS -->
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-
-<!--Firebase CDN-->
-<script src="//cdn.firebase.com/js/client/1.0.6/firebase.js"></script>
-<script src="//cdn.firebase.com/js/client/1.0.17/firebase.js"></script>
-
-<!--Firebase Authentication Login-->
-<script src="https://cdn.firebase.com/js/simple-login/1.6.1/firebase-simple-login.js"></script>
-
-<!-- AngularJS -->
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
-
-<!--AngularFire-->
-<script src="//cdn.firebase.com/libs/angularfire/0.7.1/angularfire.js"></script>
-<script src="//code.angularjs.org/1.2.19/angular-resource.min.js"></script>
-
-<!--connection to main.js-->
-<script type="text/javascript" src="scripts/main2.js"></script>
-
-<!-- Bootstrap for Angular JS -->
-<script type="text/javascript" src="scripts/ui-bootstrap-tpls-0.11.0.min.js"></script>
-
-<!--FullCalendar Plugin-->
-<script src='fullcalendar/lib/moment.min.js'></script>
-<script src='fullcalendar/fullcalendar.js'></script>
-<script>
-
-// // Firebase Authentication Simple Login
-// var myRef = new Firebase("https://planhacker.firebaseio.com");
-// var auth = new FirebaseSimpleLogin(myRef, function(error, user) {
-//   if (error) {
-//     // an error occurred while attempting login
-//     console.log(error);
-//   } else if (user) {
-//     // user authenticated with Firebase
-//     console.log("User ID: " + user.uid + ", Provider: " + user.provider);
-//   } else {
-//     // user is logged out
-//   }
-// });
-
-// // Monitor user's authentication status
-// var authRef = new Firebase("https://planhacker.firebaseio.com/.info/authenticated");
-// authRef.on("value", function(snap) {
-//   if (snap.val() === true) {
-//     alert("authenticated");
-//   } else {
-//     alert("not authenticated");
-//   }
-// });
-
-// // Logging Users In
-// auth.login("<provider>"); // this could be "facebook", "twitter", "password", etc...
-
-// // Logging Users Out
-// auth.logout();
-
-// // Storing User Data
-// // we would probably save a profile when we register new users on our site
-// // we could also read the profile to see if it's null
-// // here we will just simulate this with an isNewUser boolean
-// var isNewUser = true;
-
-// var myRef = new Firebase("https://<your-firebase>.firebaseio.com");
-// var auth = new FirebaseSimpleLogin(myRef, function(error, user) {
-//   if (error) {
-
-//   }
-//   else if (user) {
-//     if( isNewUser ) {
-//       // save new user's profile into Firebase so we can
-//       // list users, use them in security rules, and show profiles
-//       myRef.child('users').child(user.uid).set({
-//         displayName: user.displayName,
-//         provider: user.provider,
-//         provider_id: user.id
-//       });
-//     }
-//   }
-//   else { ... }
-// };
-
-// // Create New User Account
-// auth.createUser(email, password, function(error, user) {
-//   if (!error) {
-//     console.log('User Id: ' + user.uid + ', Email: ' + user.email);
-//   }
-// });
-
-// Wait until DOM is fully loaded 
-$(document).ready(function () {
-  // Initialize the Calendar
-  $('#calendar').fullCalendar({
-    eventSources: [{
-      url: "https://planhacker.firebaseio.com/users/user/events.json", // JSON feed from my Firebase
-      type: 'GET',
-      data: {
-        title: "title",
-        startParam: "start",
-        endParam: "end"
-      },
-      success: displayEventObjects, // retrieves the event data and push it to calendar
-      error: function () {
-        alert("There's a problem.");
-      },
-    }],
-    timezone: 'America/Los_Angeles',
-    // Settings for Calendar (options & callbacks)
-    defaultView: 'agendaWeek',
-    selectable: true,
-    selectHelper: true,
-    unselectAuto: true,
-    editable: true,
-    draggable: true,
-    droppable: true,
-    header: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'month,agendaWeek,agendaDay'
-    },
-    weekMode: 'variable',
-    theme: false,
-    // Create new event
-    select: function(start, end) {
-      console.log('in select.  start: ' + start + '  end: ' + end);
-      // Temporary hack because Timezone is not working. 
-      // We are NOT going to die in Year 2038... -_-
-      start_time = start.unix() + 60*60*7; // global variable
-      end_time = end.unix() + 60*60*7; // global variable
-      $('#newEventModal').modal('show');
-    },
-    // View Event Info
-    eventClick: function (calEvent, jsEvent, view) {
-      id = calEvent.id; // global variable
-      var title = calEvent.title;
-      $('#myModal .modal-body').children().remove();
-      $('#myModal .modal-title').children().remove();
-      $('#myModal .modal-title').append("<p>" + title + "</p>");
-      $('#myModal').modal('show');
-      $("#myModal .modal-header p").click(function () {
-        $("#myModal .modal-title").append("<input id='editEventTitle' value='" + title + "'></input>");
-        $("#myModal .modal-title p").remove();
-      });
-    },
-    eventDrop: function (event, delta, revertFunc) {
-      id = event.id; 
-      console.log( event.id + " " + event.title 
-        + " was dropped on start: " 
-        + event.start 
-        + " and end: " 
-        + event.end);
-      start_time = event.start;
-      end_time = event.end;
-      dropEvent(id, start_time, end_time); // call method
-    },
-    eventResize: function (event, delta, revertFunc) {
-      id = event.id;
-      console.log( event.id + " " + event.title 
-        + " was resized on start: " 
-        + event.start 
-        + " and end: " 
-        + event.end);
-      end_time = event.end;
-      resizeEvent(id, end_time); // call method
-    },
-    drop: function (date, jsEvent) {
-
-      start_time = date; // global variable
-      
-      end_time = date; // global variable
-
-      var id = $(this).data('id');
- 
-      var title = $(this).data('title');
-
-      dropTaskEvent(start_time, end_time, title, id);
-    },
-  }); // End initialization
-}); // END of $(document).ready()
-
-//_______________________FUNCTIONS & EVENT HANDLERS____________________________//
-
-// GLOBAL VARIABLES
-var start = null;
-var end = null;
-var start_time = null;
-var end_time = null;
-var id = null;
-
-// Make the task draggable
-// This doesn't rebind on new items added to the page
-setInterval(function(){
-  console.log('rebinding AngularJS')
-  $('.external-event').draggable({revert: true,revertDuration: 500});
-}, 1000);
-
-// var reassignHack;
-// function reassignDragDrop() {
-//   reassignHack = window.setTimeout($('.external-event').draggable({revert: true,revertDuration: 500}), 1);  
-// };
-
-// $('.external-event').on('click',function () {
-//   console.log('Hi There! event clicked');
-//   reassignDragDrop();
-// });
-
-
-// Receive JSON feed from Firebase and iterate thru array
-// Then push events onto the calendar
-function displayEventObjects (data) {
-  var events_array = [];
-  for (i in data) {
-    events_array.push({
-      id: i,
-      title: data[i].title,
-      start: data[i].start,
-      end: data[i].end
-    });
-  };
-  for (var i = 0; i < events_array.length; i++) {
-    if (events_array[i].title) {
-      event_start = moment(events_array[i].start * 1000);
-      event_end = moment(events_array[i].end * 1000);
-      $('#calendar').fullCalendar('renderEvent',
-      {
-        id: events_array[i].id,
-        title: events_array[i].title,
-        start: event_start.format(), // 2014-09-05T06:28:00Z'
-        end: event_end.format(),
-      });
-    }
-  };
-};
-
-// Drop task onto Calendar
-function dropTaskEvent(start_time, end_time, title, id) {
-
-  var ref = new Firebase("https://planhacker.firebaseio.com/users/user/");
-
-  var eventsRef = ref.child("events");
-
-  eventsRef.push(
-  {
-    title: title,
-    start: start_time.unix() + 60*60*7,
-    end: end_time.unix() + 60*60*9,  
-  }
-  );
-
-  // $('#calendar').fullCalendar('renderEvent');
-
-  $('#calendar').fullCalendar('refetchEvents');
-
-};
-
-// Update firebase with new start and end time
-function dropEvent (id, start_time, end_time) {
-
-  var eventsRef = new Firebase("https://planhacker.firebaseio.com/users/user/events/" + id);
-
-  eventsRef.update(
-  {
-    start: start_time.unix() + 60*60*7, 
-    end: end_time.unix() + 60*60*7
-  }
-  ); // Updates event in Firebase
-
-};
-
-// Update firebase with new end time
-function resizeEvent (id, end_time) {
-
-  var eventsRef = new Firebase("https://planhacker.firebaseio.com/users/user/events/" + id);
-
-  eventsRef.update({ end : end_time.unix() +60*60*7 });
-
-};
-
-// Save New Event to Calendar
-$('#newEventModal .btn.btn-primary').click(function setEventTitle(event) {
-
-  var title = $('#eventTitleInput').val();
-
-  if (title) {
-
-    var ref = new Firebase("https://planhacker.firebaseio.com/users/user/");
-
-    var eventsRef = ref.child("events");
-
-    eventsRef.push(            
-    {
-      title: title,
-      start: start_time,
-      end: end_time,
-    }); // push to Firebase
-
-    $('#calendar').fullCalendar('refetchEvents'); 
-
-  }
-
-  $('#newEventModal').modal('hide');
-
-});
-
-// Update Event Details
-$("#saveChanges").click(function (editEventTitle) {
-
-  var input = $("#myModal input").val();
-
-  var eventsRef = new Firebase("https://planhacker.firebaseio.com/users/user/events/" + id);
-
-  eventsRef.update({title : input}); // Push data to Firebase
-
-  $('#calendar').fullCalendar('removeEvents', id); 
-
-  $('#calendar').fullCalendar('refetchEvents');
-
-  $('#myModal').modal('hide');
-
-});
-
-// Remove Event
-$('#myModal .btn.btn-danger').click(function removeEvent() {
-
-  var eventsRef = new Firebase("https://planhacker.firebaseio.com/users/user/events/" + id);
-
-  eventsRef.remove();
-
-  $('#calendar').fullCalendar('removeEvents', id);
-
-  $('#myModal').modal('hide');
-
-});
-
-
-
-
-
-</script>
 
 </body>
 </html>
