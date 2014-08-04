@@ -2,6 +2,11 @@
 	
 }
 
+.login-heading {
+	top:100px;
+	left:100px;
+}
+
 body {  
 	background: url(cat-relaxing-on-couch.jpg) no-repeat center center fixed; 
   -webkit-background-size: cover;

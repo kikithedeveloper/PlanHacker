@@ -2,6 +2,15 @@
 	padding-top: 70px;
 }
 
+.login-heading {
+    margin-left: 200px;
+    font-size: 85px;
+    position: absolute;
+    font-style: oblique;
+    color: rgba(243,231,231,10);
+}
+
+
 .well-sm {
     padding: 0px;
     border-radius: 5px;
@@ -12,7 +21,8 @@
 
 .cssCalendar {
     padding: 10px;
-    background: rgba(243,231,231,0.5);
+    background: rgba(243,231,231,0.75);
+    border-radius: 5px;
 }
 
 body {
