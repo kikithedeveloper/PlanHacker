@@ -48,7 +48,7 @@
 
       <!--NEW TASKS-->
 
-      <div ng-repeat="task in tasks | filter:{name:searchTask}" ng-cloak>
+      <div ng-repeat="task in tasks | filter:{name:searchTask}" ng-controller="HideShowLabelCtrl" ng-cloak>
         <div ng-animate="'animate'" class="well well-sm external-event" data-eventObject data-id="{{ task.$id }}" data-title="{{ task.name }}">
           <div class="checkbox">
             <label class="iconContainer">
@@ -149,8 +149,6 @@
           </div>
 
 
-          <!--BLOCKER, I still can't get this to hide after you assign a label-->
-
           <!--Label Component-->
           <div ng-if="data.showLabel" class="panel panel-default" ng-controller="LabelController">
             <div class="panel-body">
@@ -182,7 +180,7 @@
     </div>
   </div>
 
-  <div id="myModal" class="modal fade" ng-controller="EventCtrl">
+  <div id="myModal" class="modal fade">
     <div class="modal-dialog">
       <div class="modal-content">
         <form role="form">

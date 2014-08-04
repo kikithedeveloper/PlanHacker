@@ -100,14 +100,14 @@ myApp.controller("TaskListController", function($scope, $firebase) {
     };
 
     // to test this, comment out line 104
-     $scope.data = {showLabel: false}; // Label function works fine, but it opens all label boxes, and closes all label boxes after label assignment
+     // $scope.data = {showLabel: false}; // Label function works fine, but it opens all label boxes, and closes all label boxes after label assignment
      // to test out the other one, go to line 116
 
 
   });
 
-myApp.controller("EventCtrl", function($scope) {
-
+myApp.controller("HideShowLabelCtrl", function($scope) {
+  $scope.data = {showLabel: false};
 });
 
 myApp.controller("LabelController", function($firebase, $scope) {
