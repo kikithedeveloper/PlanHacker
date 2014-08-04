@@ -2,6 +2,14 @@
 	padding-top: 70px;
 }
 
+.well-sm {
+    padding: 0px;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
 .cssCalendar {
     padding: 10px;
     background: rgba(243,231,231,0.5);
@@ -12,7 +20,7 @@ body {
 }
 
 .completed-heading {
-    color: rgba(243,231,231,0.8);
+    color: rgba(243,231,231,0.9);
 }
 
 .faded {
