@@ -11,6 +11,10 @@ body {
     padding-top: 75px;
 }
 
+.completed-heading {
+    color: rgba(243,231,231,0.8);
+}
+
 .faded {
     background-color: #0000ff;
 

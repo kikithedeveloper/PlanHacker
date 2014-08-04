@@ -177,7 +177,7 @@
 
 
 <!--BEGIN COMPLETED TASKS-->
-      <h1>Completed</h1>
+      <h1 class="completed-heading">Completed</h1>
       <div ng-repeat="task in tasks | filter:{name:searchTask} | filter:{isComplete:true}" ng-controller="HideShowLabelCtrl" ng-cloak>
         <div ng-animate="'animate'" class="well well-sm external-event" data-eventObject data-id="{{ task.$id }}" data-title="{{ task.name }}">
           <div class="checkbox">
