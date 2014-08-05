@@ -37,7 +37,7 @@
   <div class="row">
 
     <!--First Column-->
-    <div class="col-sm-6">
+    <div class="col-sm-8">
       <div id='calendar' class="cssCalendar" ng-controller="CalendarCtrl"></div>
     </div>
 
@@ -47,7 +47,7 @@
 
 
     <!--Second Column-->
-    <div class="col-sm-6">
+    <div class="col-sm-4">
       <!--Task List Component-->
       <form role="form" ng-submit="addTask()">
         <div class="form-group">
@@ -115,19 +115,19 @@
               </form>
             </div>
             <div class="panel-body">
-<!--               <div>
+<!--              <div>
                 <input  type="text" placeholder="Add a due date..." ng-model="dueDate">
                 <button class="button button-default" ng-click="addDueDate(task.$id, dueDate)">Rename Task</button>
               </div> -->
-  <!--             <div>
+<!--             <div>
                 <input  type="text" placeholder="Add a reminder..." ng-model="remindMe">
                 <button class="button button-default" ng-click="addReminder(remindMe)">Rename Task</button>
               </div> -->
-<!--               <div>
+              <div>
                 <input type="text" placeholder="Add a note..." ng-model="noteInput" required>
                 <button  class="button button-default" ng-click="addNote(task.$id, noteInput)">Add note</button>
               </div>
-              <br> -->
+              <br>
 
               <!--Datepicker-->
               <div ng-controller="DatepickerDemoCtrl">

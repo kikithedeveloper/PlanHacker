@@ -177,22 +177,10 @@
   var id = null;
 
   // Make the task draggable
-  // This doesn't rebind on new items added to the page
   setInterval(function(){
     console.log('rebinding')
     $('.external-event').draggable({revert: true,revertDuration: 500, zIndex:500});
   }, 1000);
-
-  // var reassignHack;
-  // function reassignDragDrop() {
-  //   reassignHack = window.setTimeout($('.external-event').draggable({revert: true,revertDuration: 500}), 1);  
-  // };
-
-  // $('.external-event').on('click',function () {
-  //   console.log('Hi There! event clicked');
-  //   reassignDragDrop();
-  // });
-
 
   // Receive JSON feed from Firebase and iterate thru array
   // Then push events onto the calendar

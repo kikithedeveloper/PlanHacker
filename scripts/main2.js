@@ -28,12 +28,10 @@ myApp.config(function($routeProvider) {
 
 // Controller for login
 myApp.controller('loginController', function($scope, $firebase) {
-
-  // $scope.pageClass = 
-
+  // will be continued
 });
 
-
+// OLD VERSION OF ANGULARFIRE
 // myApp.constant("FIREBASE_URL", "https://planhacker.firebaseio.com/");
 
 // myApp.factory("baseRef", ["$firebase", function($firebase) {
@@ -192,23 +190,20 @@ myApp.controller("SideBarController", function($firebase, $scope) {
         $scope.newTaskName = null;
       });
     };
-
   };
 
-  $scope.data = {showSideBar:false};
+  $scope.addNote = function(id, noteInput) {
+    var taskRef = new Firebase("https://planhacker.firebaseio.com/users/user/tasks/" + id);
 
-  // $scope.addNote = function(id, noteInput) {
-  //   var itemRef = new Firebase("https://planhacker.firebaseio.com/users/user/tasks/" + id);
-
-  //   $firebase(itemRef).$update({
-  //     note: noteInput,
-  //   });
-
-  //   console.log("successful execution for addNote()");
-
-  //   $scope.noteInput = null;
-
-  // };
+    if (noteInput) {    
+      $firebase(taskRef).$update({
+        note: noteInput,
+      }).then(function(ref){
+        console.log("successful execution for addNote()");
+        $scope.noteInput = null;
+      });
+    };
+  };
 
 });
 
