@@ -106,11 +106,10 @@
 
           <div ng-show="showSideBar" class="panel panel-default" ng-controller="SideBarController">
             <div class="panel-heading">
-              <div class="panel-title" ng-click="editTask = !editTask">{{ task.name }}</div>
               <form role="form" ng-submit="renameTask(task.$id, newTaskName)">
                 <div class="form-group">
-                  <input ng-show="editTask" type="text" placeholder="Rename your task..." ng-model="newTaskName" required>
-                  <button ng-show="editTask" class="button button-default" ng-click="renameTask(task.$id, newTaskName)">Rename Task</button>
+                  <input type="text" placeholder="Rename your task..." ng-model="newTaskName" required>
+                  <button class="btn btn-primary" ng-click="renameTask(task.$id, newTaskName)">Rename Task</button>
                 </div>
               </form>
             </div>
@@ -125,7 +124,7 @@
               </div> -->
               <div>
                 <input type="text" placeholder="Add a note..." ng-model="noteInput" required>
-                <button  class="button button-default" ng-click="addNote(task.$id, noteInput)">Add note</button>
+                <button  class="btn btn-primary" ng-click="addNote(task.$id, noteInput)">Add note</button>
               </div>
               <br>
 
@@ -152,6 +151,7 @@
               <!--<pre class="alert alert-info">Start: {{startTime}}</pre>
               <pre class="alert alert-info">End: {{endTime}}</pre> -->
               <button class="btn btn-danger" ng-click="clear()">Clear</button>
+              <button class="btn btn-primary rightButton" ng-click="clear()">Save</button>
             </div>
 
           </div>
@@ -171,7 +171,7 @@
 
           <div ng-repeat="label in labels">
 
-            <a type="button" ng-click="data.showLabel = !data.showLabel"><span class="label label-primary" ng-click="assignLabel(task.$id, label.name)">{{ label.name }}</span></a>
+            <a type="button" ng-click="data.showLabel = !data.showLabel"><span class="label label-success" ng-click="assignLabel(task.$id, label.name)">{{ label.name }}</span></a>
 
             <a><span class="glyphicon glyphicon-remove" ng-click="labels.$remove(label)"></span></a>
 
@@ -181,14 +181,14 @@
             <div class="form-group">
 
               <input ng-model="labelInput" name="labelInput" id="labelInput" type="text" required>
-              <button ng-click="addLabel()" type="button" class="btn btn-default">Add a label</button>
+              <button ng-click="addLabel()" type="button" class="btn btn-primary" placeholder="Create a label...">Add a label</button>
 
             </div>
 
           </form>
         </div>
       </div>
-
+      
     </div>
 
 
@@ -240,30 +240,29 @@
 
 
         <!--Side Bar Component-->
-        <div ng-show="showSideBar" class="panel panel-default" ng-controller="SideBarController">
-          <div class="panel-heading">
-            <div class="panel-title" ng-click="editTask = !editTask">{{ task.name }}</div>
-            <form role="form" ng-submit="renameTask(task.$id, newTaskName)">
-              <div class="form-group">
-                <input ng-show="editTask" type="text" placeholder="Rename your task..." ng-model="newTaskName" required>
-                <button ng-show="editTask" class="button button-default" ng-click="renameTask(task.$id, newTaskName)">Rename Task</button>
-              </div>
-            </form>
-          </div>
-          <div class="panel-body">
-<!--               <div>
+          <div ng-show="showSideBar" class="panel panel-default" ng-controller="SideBarController">
+            <div class="panel-heading">
+              <form role="form" ng-submit="renameTask(task.$id, newTaskName)">
+                <div class="form-group">
+                  <input type="text" placeholder="Rename your task..." ng-model="newTaskName" required>
+                  <button class="btn btn-primary" ng-click="renameTask(task.$id, newTaskName)">Rename Task</button>
+                </div>
+              </form>
+            </div>
+            <div class="panel-body">
+<!--              <div>
                 <input  type="text" placeholder="Add a due date..." ng-model="dueDate">
                 <button class="button button-default" ng-click="addDueDate(task.$id, dueDate)">Rename Task</button>
               </div> -->
-  <!--             <div>
+<!--             <div>
                 <input  type="text" placeholder="Add a reminder..." ng-model="remindMe">
                 <button class="button button-default" ng-click="addReminder(remindMe)">Rename Task</button>
               </div> -->
-<!--               <div>
+              <div>
                 <input type="text" placeholder="Add a note..." ng-model="noteInput" required>
-                <button  class="button button-default" ng-click="addNote(task.$id, noteInput)">Add note</button>
+                <button  class="btn btn-primary" ng-click="addNote(task.$id, noteInput)">Add note</button>
               </div>
-              <br> -->
+              <br>
 
               <!--Datepicker-->
               <div ng-controller="DatepickerDemoCtrl">
@@ -288,6 +287,7 @@
                 <!-- <pre class="alert alert-info">Start: {{ startTime }}</pre>
                 <pre class="alert alert-info">End: {{ endTime }}</pre> -->
                 <button class="btn btn-danger" ng-click="clear()">Clear</button>
+                <button class="btn btn-primary rightButton" ng-click="clear()">Save</button>
               </div>
 
             </div>
@@ -299,14 +299,14 @@
         <div ng-if="data.showLabel" class="panel panel-default" ng-controller="LabelController">
           <div class="panel-body">
             <div ng-repeat="label in labels">
-              <a type="button" ng-click="data.showLabel = !data.showLabel"><span class="label label-primary" ng-click="assignLabel(task.$id, label.name)">{{ label.name }}</span></a>
+              <a type="button" ng-click="data.showLabel = !data.showLabel"><span class="label label-success" ng-click="assignLabel(task.$id, label.name)">{{ label.name }}</span></a>
               <a><span class="glyphicon glyphicon-remove" ng-click="labels.$remove(label)"></span></a>
             </div>
             <br>
             <form role="form" ng-submit="addLabel()">
               <div class="form-group">
                 <input ng-model="labelInput" name="labelInput" id="labelInput" type="text" required>
-                <button ng-click="addLabel()" type="button" class="btn btn-default">Add a label</button>
+                <button ng-click="addLabel()" type="button" class="btn btn-primary" placeholder="Create a label...">Add a label</button>
               </div>
             </form>
           </div>

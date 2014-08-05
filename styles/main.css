@@ -35,7 +35,7 @@ body {
 .faded {
     background-color: #0000ff;
 
-/*	background-color:rgba(255,255,255,1);*/
+    /*	background-color:rgba(255,255,255,1);*/
 }
 
 .label-success {
@@ -50,6 +50,13 @@ body {
     display:inline-block;
     right:0;
     top:0;
+}
+
+.rightButton {
+    position:absolute;
+    display:inline-block;
+    right: 24px;
+    bottom: 36px;
 }
 
 /*.labelIcon {
