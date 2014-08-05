@@ -180,7 +180,7 @@
   // This doesn't rebind on new items added to the page
   setInterval(function(){
     console.log('rebinding')
-    $('.external-event').draggable({revert: true,revertDuration: 500});
+    $('.external-event').draggable({revert: true,revertDuration: 500, zIndex:500});
   }, 1000);
 
   // var reassignHack;
