@@ -193,8 +193,9 @@ myApp.controller("SideBarController", function($firebase, $scope) {
       });
     };
 
-
   };
+
+  $scope.data = {showSideBar:false};
 
   // $scope.addNote = function(id, noteInput) {
   //   var itemRef = new Firebase("https://planhacker.firebaseio.com/users/user/tasks/" + id);

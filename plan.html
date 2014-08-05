@@ -102,145 +102,15 @@
               </label>
             </label>
           </div>
-        </div>
-
-        <!--Side Bar Component-->
-        <div ng-show="showSideBar" class="panel panel-default" ng-controller="SideBarController">
-          <div class="panel-heading">
-            <div class="panel-title" ng-click="editTask = !editTask">{{task.name}}  (Click on me to rename me)</div>
-            <form role="form" ng-submit="renameTask(task.$id, newTaskName)">
-              <div class="form-group">
-                <input ng-show="editTask" type="text" placeholder="Rename this task..." ng-model="newTaskName" required>
-                <button ng-show="editTask" class="button button-default" ng-click="renameTask(task.$id, newTaskName)">Rename Task</button>
-              </div>
-            </form>
-          </div>
-          <div class="panel-body">
-<!--               <div>
-                <input  type="text" placeholder="Add a due date..." ng-model="dueDate">
-                <button class="button button-default" ng-click="addDueDate(task.$id, dueDate)">Rename Task</button>
-              </div> -->
-  <!--             <div>
-                <input  type="text" placeholder="Add a reminder..." ng-model="remindMe">
-                <button class="button button-default" ng-click="addReminder(remindMe)">Rename Task</button>
-              </div> -->
-<!--               <div>
-                <input type="text" placeholder="Add a note..." ng-model="noteInput" required>
-                <button  class="button button-default" ng-click="addNote(task.$id, noteInput)">Add note</button>
-              </div>
-              <br> -->
-
-              <!--Datepicker-->
-              <div ng-controller="DatepickerDemoCtrl">
-                <div class="row">
-                  <div class="col-sm-8">
-                    <b>Date</b>
-                    <p class="input-group">
-                      <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
-                      <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <!--Timepicker-->
-              <div ng-controller="TimepickerDemoCtrl">
-                <b>Starting Time</b>
-                <timepicker ng-model="startTime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker><b>Ending Time</b>
-                <timepicker ng-model="endTime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
-                <pre class="alert alert-info">Start: {{startTime}}</pre>
-                <pre class="alert alert-info">End: {{endTime}}</pre>
-                <button class="btn btn-danger" ng-click="clear()">Clear</button>
-              </div>
-
-            </div>
-          </div>
-
-
-          <!--Label Component-->
-          <div ng-if="data.showLabel" class="panel panel-default" ng-controller="LabelController">
-            <div class="panel-body">
-
-              <div ng-repeat="label in labels">
-
-                <a type="button" ng-click="data.showLabel = !data.showLabel"><span class="label label-primary" ng-click="assignLabel(task.$id, label.name)">{{ label.name }}</span></a>
-
-                <a><span class="glyphicon glyphicon-remove" ng-click="labels.$remove(label)"></span></a>
-
-              </div>
-              <br>
-              <form role="form" ng-submit="addLabel()">
-                <div class="form-group">
-
-                  <input ng-model="labelInput" name="labelInput" id="labelInput" type="text" required>
-                  <button ng-click="addLabel()" type="button" class="btn btn-default">Add a label</button>
-
-                </div>
-
-              </form>
-            </div>
-          </div>
-
-        </div>
-
-
-        <!--BEGIN COMPLETED TASKS-->
-        <h1 class="completed-heading">Completed</h1>
-        <div ng-repeat="task in tasks | filter:{name:searchTask} | filter:{isComplete:true}" ng-controller="HideShowLabelCtrl" ng-cloak>
-          <div ng-animate="'animate'" class="well well-sm external-event" data-eventObject data-id="{{ task.$id }}" data-title="{{ task.name }}">
-            <div class="checkbox">
-              <label class="iconContainer">
-                <input type="checkbox" ng-model="task.isComplete" ng-click="uncompleteTask(task.$id)">
-                <label>                  
-                  <span ng-switch on="task.isComplete" ng-click="showSideBar = !showSideBar">
-                    <span ng-switch-when="true">
-                      <del class="text-muted">
-                        {{ task.name }}
-                      </del>
-                    </span>
-                    <span class="task_name" ng-switch-default>{{ task.name }}</span>
-                  </span>
-
-                  <!--BLOCKER!!!! not in straight line-->
-                  <span class="pullRight"> 
-
-                   <!--Label on Task-->
-                   <a 
-                   ng-controller="LabelController" 
-                   ng-click="removeLabel(task.$id)" 
-                   ng-mouseenter="lblRemove = !lblRemove" 
-                   ng-mouseleave="lblRemove = !lblRemove" 
-                   type="button" 
-                   class="label label-success" 
-                   ng-show="task.label">
-                   <span>{{ task.label }}
-                    <span 
-                    ng-hide="!lblRemove" 
-                    class="glyphicon glyphicon-remove"></span></span></a>
-                    <!--Label Icon-->
-                    <a 
-                    class="labelIcon" 
-                    ng-click="data.showLabel = !data.showLabel">
-                    <span 
-                    class="glyphicon glyphicon-tag"></span></a>
-
-                    <a ng-click="tasks.$remove(task)"><span class="glyphicon glyphicon-remove"></span></a>
-
-                  </span>
-                </label>
-              </label>
-            </div>
-          </div>
 
           <!--Side Bar Component-->
+
           <div ng-show="showSideBar" class="panel panel-default" ng-controller="SideBarController">
             <div class="panel-heading">
-              <div class="panel-title" ng-click="editTask = !editTask">{{task.name}}  (Click on me to rename me)</div>
+              <div class="panel-title" ng-click="editTask = !editTask">{{ task.name }}</div>
               <form role="form" ng-submit="renameTask(task.$id, newTaskName)">
                 <div class="form-group">
-                  <input ng-show="editTask" type="text" placeholder="Rename this task..." ng-model="newTaskName" required>
+                  <input ng-show="editTask" type="text" placeholder="Rename your task..." ng-model="newTaskName" required>
                   <button ng-show="editTask" class="button button-default" ng-click="renameTask(task.$id, newTaskName)">Rename Task</button>
                 </div>
               </form>
@@ -280,109 +150,225 @@
                 <b>Starting Time</b>
                 <timepicker ng-model="startTime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker><b>Ending Time</b>
                 <timepicker ng-model="endTime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
-                <pre class="alert alert-info">Start: {{startTime}}</pre>
-                <pre class="alert alert-info">End: {{endTime}}</pre>
+              <!--<pre class="alert alert-info">Start: {{startTime}}</pre>
+              <pre class="alert alert-info">End: {{endTime}}</pre> -->
+              <button class="btn btn-danger" ng-click="clear()">Clear</button>
+            </div>
+
+          </div>
+        </div>
+
+
+
+
+      </div>
+
+
+
+
+      <!--Label Component-->
+      <div ng-if="data.showLabel" class="panel panel-default" ng-controller="LabelController">
+        <div class="panel-body">
+
+          <div ng-repeat="label in labels">
+
+            <a type="button" ng-click="data.showLabel = !data.showLabel"><span class="label label-primary" ng-click="assignLabel(task.$id, label.name)">{{ label.name }}</span></a>
+
+            <a><span class="glyphicon glyphicon-remove" ng-click="labels.$remove(label)"></span></a>
+
+          </div>
+          <br>
+          <form role="form" ng-submit="addLabel()">
+            <div class="form-group">
+
+              <input ng-model="labelInput" name="labelInput" id="labelInput" type="text" required>
+              <button ng-click="addLabel()" type="button" class="btn btn-default">Add a label</button>
+
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!--BEGIN COMPLETED TASKS-->
+    <h1 class="completed-heading">Completed</h1>
+    <div ng-repeat="task in tasks | filter:{name:searchTask} | filter:{isComplete:true}" ng-controller="HideShowLabelCtrl" ng-cloak>
+      <div ng-animate="'animate'" class="well well-sm external-event" data-eventObject data-id="{{ task.$id }}" data-title="{{ task.name }}">
+        <div class="checkbox">
+          <label class="iconContainer">
+            <input type="checkbox" ng-model="task.isComplete" ng-click="uncompleteTask(task.$id)">
+            <label>                  
+              <span ng-switch on="task.isComplete" ng-click="showSideBar = !showSideBar">
+                <span ng-switch-when="true">
+                  <del class="text-muted">
+                    {{ task.name }}
+                  </del>
+                </span>
+                <span class="task_name" ng-switch-default>{{ task.name }}</span>
+              </span>
+
+              <span class="pullRight"> 
+
+               <!--Label on Task-->
+               <a 
+               ng-controller="LabelController" 
+               ng-click="removeLabel(task.$id)" 
+               ng-mouseenter="lblRemove = !lblRemove" 
+               ng-mouseleave="lblRemove = !lblRemove" 
+               type="button" 
+               class="label label-success" 
+               ng-show="task.label">
+               <span>{{ task.label }}
+                <span 
+                ng-hide="!lblRemove" 
+                class="glyphicon glyphicon-remove"></span></span></a>
+                <!--Label Icon-->
+                <a 
+                class="labelIcon" 
+                ng-click="data.showLabel = !data.showLabel">
+                <span 
+                class="glyphicon glyphicon-tag"></span></a>
+                <a ng-click="tasks.$remove(task)"><span class="glyphicon glyphicon-remove"></span></a>
+              </span>
+            </label>
+          </label>
+        </div>
+
+
+        <!--Side Bar Component-->
+        <div ng-show="showSideBar" class="panel panel-default" ng-controller="SideBarController">
+          <div class="panel-heading">
+            <div class="panel-title" ng-click="editTask = !editTask">{{ task.name }}</div>
+            <form role="form" ng-submit="renameTask(task.$id, newTaskName)">
+              <div class="form-group">
+                <input ng-show="editTask" type="text" placeholder="Rename your task..." ng-model="newTaskName" required>
+                <button ng-show="editTask" class="button button-default" ng-click="renameTask(task.$id, newTaskName)">Rename Task</button>
+              </div>
+            </form>
+          </div>
+          <div class="panel-body">
+<!--               <div>
+                <input  type="text" placeholder="Add a due date..." ng-model="dueDate">
+                <button class="button button-default" ng-click="addDueDate(task.$id, dueDate)">Rename Task</button>
+              </div> -->
+  <!--             <div>
+                <input  type="text" placeholder="Add a reminder..." ng-model="remindMe">
+                <button class="button button-default" ng-click="addReminder(remindMe)">Rename Task</button>
+              </div> -->
+<!--               <div>
+                <input type="text" placeholder="Add a note..." ng-model="noteInput" required>
+                <button  class="button button-default" ng-click="addNote(task.$id, noteInput)">Add note</button>
+              </div>
+              <br> -->
+
+              <!--Datepicker-->
+              <div ng-controller="DatepickerDemoCtrl">
+                <div class="row">
+                  <div class="col-sm-8">
+                    <b>Date</b>
+                    <p class="input-group">
+                      <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!--Timepicker-->
+              <div ng-controller="TimepickerDemoCtrl">
+                <b>Starting Time</b>
+                <timepicker ng-model="startTime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker><b>Ending Time</b>
+                <timepicker ng-model="endTime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+                <!-- <pre class="alert alert-info">Start: {{ startTime }}</pre>
+                <pre class="alert alert-info">End: {{ endTime }}</pre> -->
                 <button class="btn btn-danger" ng-click="clear()">Clear</button>
               </div>
 
             </div>
           </div>
 
-
-          <!--Label Component-->
-          <div ng-if="data.showLabel" class="panel panel-default" ng-controller="LabelController">
-            <div class="panel-body">
-
-              <div ng-repeat="label in labels">
-
-                <a type="button" ng-click="data.showLabel = !data.showLabel"><span class="label label-primary" ng-click="assignLabel(task.$id, label.name)">{{ label.name }}</span></a>
-
-                <a><span class="glyphicon glyphicon-remove" ng-click="labels.$remove(label)"></span></a>
-
-              </div>
-              <br>
-              <form role="form" ng-submit="addLabel()">
-                <div class="form-group">
-
-                  <input ng-model="labelInput" name="labelInput" id="labelInput" type="text" required>
-                  <button ng-click="addLabel()" type="button" class="btn btn-default">Add a label</button>
-
-                </div>
-
-              </form>
-            </div>
-          </div>
-
         </div>
 
-        <!--END COMPLETED TASKS-->
-
+        <!--Label Component-->
+        <div ng-if="data.showLabel" class="panel panel-default" ng-controller="LabelController">
+          <div class="panel-body">
+            <div ng-repeat="label in labels">
+              <a type="button" ng-click="data.showLabel = !data.showLabel"><span class="label label-primary" ng-click="assignLabel(task.$id, label.name)">{{ label.name }}</span></a>
+              <a><span class="glyphicon glyphicon-remove" ng-click="labels.$remove(label)"></span></a>
+            </div>
+            <br>
+            <form role="form" ng-submit="addLabel()">
+              <div class="form-group">
+                <input ng-model="labelInput" name="labelInput" id="labelInput" type="text" required>
+                <button ng-click="addLabel()" type="button" class="btn btn-default">Add a label</button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
 
-
-
-      <!--ngSWITCH = False-->
-
-
-
-
-
-
-
-
+      <!--END COMPLETED TASKS-->
 
     </div>
+
+    <!--ngSWITCH = False-->
+
   </div>
+</div>
 
-  <div id="myModal" class="modal fade">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <form role="form">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            <h4 class="modal-title"></h4>
-
-          </div>
-          <div class="modal-body">
-            <!--Append paragraphs-->
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger">Remove Event</button>
-            <button type="button" class="btn btn-primary" id="saveChanges">Save changes</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </form>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
-
-  <div id="newEventModal" class="modal fade">
-    <div class="modal-dialog">
-      <div class="modal-content">
+<div id="myModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form role="form">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-          <h4 class="modal-title">New Event</h4>
+          <h4 class="modal-title"></h4>
+
         </div>
-        <form role="form">
-          <div class="modal-body">
+        <div class="modal-body">
+          <!--Append paragraphs-->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger">Remove Event</button>
+          <button type="button" class="btn btn-primary" id="saveChanges">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
-            <div class="form-group">
-              <label for="eventTitleInput">Event Title</label>
-              <input type="text" class="form-control" id="eventTitleInput" placeholder="Enter Event Title" required>
-            </div>
+<div id="newEventModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">New Event</h4>
+      </div>
+      <form role="form">
+        <div class="modal-body">
 
+          <div class="form-group">
+            <label for="eventTitleInput">Event Title</label>
+            <input type="text" class="form-control" id="eventTitleInput" placeholder="Enter Event Title" required>
           </div>
 
-          <div class="modal-footer">
+        </div>
 
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Create New Event</button>
-          </div>
-        </form>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
+        <div class="modal-footer">
 
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Create New Event</button>
+        </div>
+      </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 </div>
 
