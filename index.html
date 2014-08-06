@@ -1,79 +1,92 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="planhacker">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plan4Me App</title>
 
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Planhacker : A web tool application and planner designed for college students">
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" sizes="196x196" href="images/touch/chrome-touch-icon-196x196.png">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="">
 
-    <title>Planhacker</title>
-  </head>
+  <!-- Tile icon for Win8 (144x144 + tile color) -->
+  <meta name="msapplication-TileImage"
+  content="images/touch/ms-touch-icon-144x144-precomposed.png">
+  <meta name="msapplication-TileColor" content="#3372DF">
 
-  <body>
+  <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
+    <!--
+    <link rel="canonical" href="http://www.example.com/">
+  -->
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/kikilin90/PlanHacker">View on GitHub</a>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet"
+  href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
 
-          <h1 id="project_title">Planhacker</h1>
-          <h2 id="project_tagline">A web tool application and planner designed for college students</h2>
+  <!-- build:css styles/main.css -->
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/login.css">
+  <!-- endbuild -->
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/kikilin90/PlanHacker/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/kikilin90/PlanHacker/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
+  <!--FullCalender Plugin-->
+  <link rel='stylesheet' href='fullcalendar/fullcalendar.css'/>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<!--
+    <script data-require="angular.js@1.2.20" data-semver="1.2.20" src="https://code.angularjs.org/1.2.20/angular.js"></script>
+    <script data-require="firebase@1.0.18" data-semver="1.0.18" src="https://cdn.firebase.com/js/client/1.0.18/firebase.js"></script>
+    <script data-require="angularfire@0.8.0" data-semver="0.8.0" src="https://cdn.firebase.com/libs/angularfire/0.8.0/angularfire.js"></script>
+-->
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+</head>
+<body>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+  <div class="page {{ pageClass }}" ng-view></div> <!--This displays the ngView of pages-->
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+  <!-- JQuery -->
+  <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src='fullcalendar/lib/jquery-ui.custom.min.js'></script>
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+  <!-- Bootstrap JS -->
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+  <!--Firebase CDN-->
+  <script src="https://cdn.firebase.com/js/client/1.0.18/firebase.js"></script>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+  <!--Firebase Authentication Login-->
+  <script src="https://cdn.firebase.com/js/simple-login/1.6.1/firebase-simple-login.js"></script>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+  <!-- AngularJS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>
+  
+  <!--<script src="//code.angularjs.org/1.2.19/angular-resource.min.js"></script>-->
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+  <!--AngularJS Animation-->
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-route.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-animate.js"></script>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
-    </div>
+  <!--AngularFire-->
+  <script src="https://cdn.firebase.com/libs/angularfire/0.8.0/angularfire.js"></script> <!-- Now, I need to update all my AngularFire codes-->
+  
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Planhacker maintained by <a href="https://github.com/kikilin90">kikilin90</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
+  <!--connection to main.js-->
+  <script type="text/javascript" src="scripts/main2.js"></script>
 
-    
+  <!-- Bootstrap for Angular JS -->
+  <script type="text/javascript" src="scripts/ui-bootstrap-tpls-0.11.0.min.js"></script>
 
-  </body>
+  <!--FullCalendar Plugin-->
+  <script src='fullcalendar/lib/moment.min.js'></script>
+  <script src='fullcalendar/fullcalendar.js'></script>
+
+
+</body>
 </html>
