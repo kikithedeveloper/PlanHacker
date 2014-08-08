@@ -90,6 +90,15 @@ Here's the rest of the stack, in no particular order:
 * CSS: Sprinkled in some custom CSS where Bootstrap just didn't do.
 * HTML: Of course.
 
+## Deployment
+
+I deployed it on GitHub Pages. Visit here at [PlanHacker][].
+
+## Question or Feedback?
+
+Contact Kimberly Lin at kimberlylin90@gmail.com. Thank you.
+
 [Firebase]: https://www.firebase.com
 [FullCalendar]: http://arshaw.com/fullcalendar/
 [Hackbright]: http://www.hackbrightacademy.com
+[PlanHacker]: kikilin90.github.io/planhacker/#/plan
