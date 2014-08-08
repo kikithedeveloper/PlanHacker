@@ -67,7 +67,12 @@ body {
 }
 */
 .iconContainer {
-    width:100%;    
+    width:100%; 
+    padding-left: 20px;
+padding-right: 30px;
+margin-bottom: 0;
+font-weight: 400;
+cursor: pointer;   
 }
 
 .animate-enter, 
