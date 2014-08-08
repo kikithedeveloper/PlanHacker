@@ -101,4 +101,4 @@ Contact Kimberly Lin at kimberlylin90@gmail.com. Thank you.
 [Firebase]: https://www.firebase.com
 [FullCalendar]: http://arshaw.com/fullcalendar/
 [Hackbright]: http://www.hackbrightacademy.com
-[PlanHacker]: kikilin90.github.io/planhacker/#/plan
+[PlanHacker]: http://kikilin90.github.io/PlanHacker/#/plan
