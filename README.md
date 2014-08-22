@@ -16,7 +16,7 @@ collaboration.
 
 ## The Story Behind PlanHacker
 
-Hi, I am Kimberly Lin, aka Kiki. I currently attend [Hackbright
+Hi, I am Kimberly Lin, aka Kiki. I recently attended [Hackbright
 Academy][Hackbright] in San Francisco, CA and this is my Hackbright project. In
 college, it can be overwhelming to juggle your time between lots of homework,
 preps for exams or quizzes, projects that involve team collaborations, and of
@@ -67,20 +67,20 @@ changes, of course!). For example, when the professor postpones an exam by a
 week and I update my planner with the information, everyone else in the class
 instantly benefits by being notified of the change.
 
-Working with the asynchronous nature of AngularJS was frustrating at first, but
-rewarding once I understood the premise of the `$promise` system. Similarly,
-working with the non-relational structure of Firebase, and the very simple
-object and array data responses were quite the departure from SQLite, which I
-learned during my studies at Hackbright. The constantly shifting Firebase API
-didn't make the work any easier (it may not be the best idea to base your
-project on pre-release backend, just saying)!
+Working with the asynchronous nature of AngularJS and its three-way binding 
+was mind-boggling at first, but rewarding once I understood the premise of 
+the `$promise` system. Similarly, working with the non-relational structure 
+of Firebase, and the very simple object and array data responses were quite 
+the departure from SQLite, which I learned during my studies at Hackbright. 
+The constantly shifting Firebase API didn't make the work any easier, but it 
+taught me to value the importance of adaptability to new changes.
 
 The rest of the technology stack played a supporting role, given the time
 constraint of 5 weeks, I opted to use the jQuery-based [FullCalendar][]. If I
 had more time, I definitely would have opted for a native AngularJS-based
 solution.
 
-Here's the rest of the stack, in no particular order:
+Here's the rest of the stack:
 
 * AngularFire: This provided native bindings to Firebase in AngularJS
 * AngularUI Boostrap: Instead of using Bootstrap's JavaScript, let's use native
@@ -96,7 +96,7 @@ I deployed it on GitHub Pages. Visit here at [PlanHacker][].
 
 ## Question or Feedback?
 
-Contact Kimberly Lin at kimberlylin90@gmail.com. Thank you.
+Contact Kimberly Lin at kimberlylin90@gmail.com. Thank you. :-)
 
 [Firebase]: https://www.firebase.com
 [FullCalendar]: http://arshaw.com/fullcalendar/
