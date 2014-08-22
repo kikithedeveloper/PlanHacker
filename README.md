@@ -82,13 +82,13 @@ solution.
 
 Here's the rest of the stack:
 
-* AngularFire: This provided native bindings to Firebase in AngularJS
+* AngularFire: This provided native 3-way bindings to Firebase in AngularJS
 * AngularUI Boostrap: Instead of using Bootstrap's JavaScript, let's use native
   AngularJS directives
-* Bootstrap: Well, it's much faster to prototype when the provided CSS
-  framework does the right thing most of the time.
+* Bootstrap: It's much faster to prototype when the provided CSS
+  framework does the right thing with some tweakings.
 * CSS: Sprinkled in some custom CSS where Bootstrap just didn't do.
-* HTML: Of course.
+* HTML: Of course, it's a must, especially with AngularJS.
 
 ## Deployment
 
