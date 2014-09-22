@@ -226,8 +226,6 @@
 
     $('#calendar').fullCalendar('refetchEvents');
 
-    // pushing again...
-
   };
 
   // Update firebase with new start and end time
