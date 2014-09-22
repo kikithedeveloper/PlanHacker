@@ -92,7 +92,7 @@ Here's the rest of the stack:
 
 ## Deployment
 
-I deployed it on GitHub Pages. Visit here at [PlanHacker][].
+I deployed it on GitHub Pages. Visit here at [PlanHacker][]. Don't forget to play around and drag a task onto the calendar. Enjoy!
 
 ## Install
 
