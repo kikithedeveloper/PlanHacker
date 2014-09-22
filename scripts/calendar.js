@@ -217,14 +217,12 @@
     var eventsRef = ref.child("events");
 
     eventsRef.push(
-    {
-      title: title,
-      start: start_time.unix() + 60*60*7,
-      end: end_time.unix() + 60*60*9,  
-    }
+      {
+        title: title,
+        start: start_time.unix() + 60*60*7,
+        end: end_time.unix() + 60*60*9,  
+      }
     );
-
-    // $('#calendar').fullCalendar('renderEvent');
 
     $('#calendar').fullCalendar('refetchEvents');
 
