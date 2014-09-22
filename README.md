@@ -94,6 +94,14 @@ Here's the rest of the stack:
 
 I deployed it on GitHub Pages. Visit here at [PlanHacker][].
 
+## Install
+
+1. Download my program in your computer.
+2. Navigate to my folder in the terminal.
+3. Type in terminal after $, "python -m SimpleHTTPServer". If you do not see something like "Serving HTTP on 0.0.0.0 port 8000 ...", then try again. Otherwise, you are doing great.
+4. Type in Chrome, "http://localhost:8000/#/plan". If you want to see login webpage, then type "http://localhost:8000/#/login".
+5. Enjoy!
+
 ## Question or Feedback?
 
 Contact Kimberly Lin at kimberlylin90@gmail.com. Thank you. :-)
@@ -102,3 +110,7 @@ Contact Kimberly Lin at kimberlylin90@gmail.com. Thank you. :-)
 [FullCalendar]: http://arshaw.com/fullcalendar/
 [Hackbright]: http://www.hackbrightacademy.com
 [PlanHacker]: http://kikilin90.github.io/PlanHacker/#/plan
+
+## Copyright
+
+Copyright © 2014, by Kimberly Lin. All rights reserved.
