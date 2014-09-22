@@ -99,7 +99,7 @@ I deployed it on GitHub Pages. Visit here at [PlanHacker][].
 1. Download my program in your computer.
 2. Navigate to my folder in the terminal.
 3. Type in terminal after $, "python -m SimpleHTTPServer". If you do not see something like "Serving HTTP on 0.0.0.0 port 8000 ...", then try again. Otherwise, you are doing great.
-4. Type in Chrome, "http://localhost:8000/#/plan". If you want to see login webpage, then type "http://localhost:8000/#/login".
+4. Type in Chrome, "http://localhost:8000/#/plan". If you want to see login webpage, then type "http://localhost:8000/#/login" (The login page is still a work in progress).
 5. Enjoy!
 
 ## Question or Feedback?
