@@ -89,6 +89,8 @@ Here's the rest of the stack:
   framework does the right thing with some tweakings.
 * CSS: Sprinkled in some custom CSS where Bootstrap just didn't do.
 * HTML: Of course, it's a must, especially with AngularJS.
+* JavaScript: Created functions for event handlers in the calendar.
+* JSON: Parsed, sliced, and modified the data from Firebase.
 
 ## Deployment
 
