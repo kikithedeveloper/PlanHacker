@@ -31,37 +31,6 @@ myApp.controller('loginController', function($scope, $firebase) {
   // will be continued
 });
 
-// OLD VERSION OF ANGULARFIRE
-// myApp.constant("FIREBASE_URL", "https://planhacker.firebaseio.com/");
-
-// myApp.factory("baseRef", ["$firebase", function($firebase) {
-//   return $firebase(new Firebase("https://planhacker.firebaseio.com"));
-// }]);
-
-// myApp.factory("users", ["baseRef", function(baseRef) {
-//   return baseRef.$child("users");
-// }]);
-
-// myApp.factory("user", ["users", function(users) {
-//   return users.$child("user");
-// }]);
-
-// myApp.factory("tasks", ["user", function(user) {
-//   return user.$child("tasks");
-// }]);
-
-// myApp.factory("labels", ["user", function(user) {
-//   return user.$child("labels");
-// }]);
-
-// myApp.factory("events", ["user", function(user) {
-//   return user.$child("events");
-// }]);
-
-// myApp.factory("data", function() {
-//   return {taskInput:"data binding"};
-// });
-
 myApp.controller("CalendarCtrl", function($scope) { 
 
 });
