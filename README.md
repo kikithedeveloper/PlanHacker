@@ -16,7 +16,7 @@ collaboration.
 
 ## The Story Behind PlanHacker
 
-Hi, I am Kimberly Lin, aka Kiki. I currently attend [Hackbright
+Hi, I am Kimberly Lin, aka Kiki. I recently attended [Hackbright
 Academy][Hackbright] in San Francisco, CA and this is my Hackbright project. In
 college, it can be overwhelming to juggle your time between lots of homework,
 preps for exams or quizzes, projects that involve team collaborations, and of
@@ -67,38 +67,52 @@ changes, of course!). For example, when the professor postpones an exam by a
 week and I update my planner with the information, everyone else in the class
 instantly benefits by being notified of the change.
 
-Working with the asynchronous nature of AngularJS was frustrating at first, but
-rewarding once I understood the premise of the `$promise` system. Similarly,
-working with the non-relational structure of Firebase, and the very simple
-object and array data responses were quite the departure from SQLite, which I
-learned during my studies at Hackbright. The constantly shifting Firebase API
-didn't make the work any easier (it may not be the best idea to base your
-project on pre-release backend, just saying)!
+Working with the asynchronous nature of AngularJS and its three-way binding 
+was mind-boggling at first, but rewarding once I understood the premise of 
+the `$promise` system. Similarly, working with the non-relational structure 
+of Firebase, and the very simple object and array data responses were quite 
+the departure from SQLite, which I learned during my studies at Hackbright. 
+The constantly shifting Firebase API didn't make the work any easier, but it 
+taught me to value the importance of adaptability to new changes.
 
 The rest of the technology stack played a supporting role, given the time
 constraint of 5 weeks, I opted to use the jQuery-based [FullCalendar][]. If I
 had more time, I definitely would have opted for a native AngularJS-based
 solution.
 
-Here's the rest of the stack, in no particular order:
+Here's the rest of the stack:
 
-* AngularFire: This provided native bindings to Firebase in AngularJS
+* AngularFire: This provided native 3-way bindings to Firebase in AngularJS
 * AngularUI Boostrap: Instead of using Bootstrap's JavaScript, let's use native
   AngularJS directives
-* Bootstrap: Well, it's much faster to prototype when the provided CSS
-  framework does the right thing most of the time.
+* Bootstrap: It's much faster to prototype when the provided CSS
+  framework does the right thing with some tweakings.
 * CSS: Sprinkled in some custom CSS where Bootstrap just didn't do.
-* HTML: Of course.
+* HTML: Of course, it's a must, especially with AngularJS.
+* JavaScript: Created functions for event handlers in the calendar.
+* JSON: Parsed, sliced, and modified the data from Firebase.
 
 ## Deployment
 
-I deployed it on GitHub Pages. Visit here at [PlanHacker][].
+I deployed it on GitHub Pages. Visit here at [PlanHacker][]. Don't forget to play around and drag a task onto the calendar. Enjoy!
+
+## Install
+
+1. Download my program in your computer.
+2. Navigate to my folder in the terminal.
+3. Type in terminal after $, "python -m SimpleHTTPServer". If you do not see something like "Serving HTTP on 0.0.0.0 port 8000 ...", then try again. Otherwise, you are doing great.
+4. Type in Chrome, "http://localhost:8000/#/plan". If you want to see login webpage, then type "http://localhost:8000/#/login" (The login page is still a work in progress).
+5. Enjoy!
 
 ## Question or Feedback?
 
-Contact Kimberly Lin at kimberlylin90@gmail.com. Thank you.
+Contact Kimberly Lin at kimberlylin90@gmail.com. Thank you. :-)
 
 [Firebase]: https://www.firebase.com
 [FullCalendar]: http://arshaw.com/fullcalendar/
 [Hackbright]: http://www.hackbrightacademy.com
 [PlanHacker]: http://kikilin90.github.io/PlanHacker/#/plan
+
+## Copyright
+
+Copyright © 2014, by Kimberly Lin. All rights reserved.

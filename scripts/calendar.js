@@ -114,8 +114,8 @@
         console.log('in select.  start: ' + start + '  end: ' + end);
         // Temporary hack because Timezone is not working. 
         // We are NOT going to die in Year 2038... -_-
-        start_time = start.unix() + 60*60*7; // global variable
-        end_time = end.unix() + 60*60*7; // global variable
+        start_time = start.unix() + 60*60*5; // global variable
+        end_time = end.unix() + 60*60*5; // global variable
         $('#newEventModal').modal('show');
       },
       // View Event Info
@@ -196,8 +196,10 @@
     };
     for (var i = 0; i < events_array.length; i++) {
       if (events_array[i].title) {
+
         event_start = moment(events_array[i].start * 1000);
         event_end = moment(events_array[i].end * 1000);
+
         $('#calendar').fullCalendar('renderEvent',
         {
           id: events_array[i].id,
@@ -217,14 +219,12 @@
     var eventsRef = ref.child("events");
 
     eventsRef.push(
-    {
-      title: title,
-      start: start_time.unix() + 60*60*7,
-      end: end_time.unix() + 60*60*9,  
-    }
+      {
+        title: title,
+        start: start_time.unix() + 60*60*5,
+        end: end_time.unix() + 60*60*7,  
+      }
     );
-
-    // $('#calendar').fullCalendar('renderEvent');
 
     $('#calendar').fullCalendar('refetchEvents');
 
@@ -237,8 +237,8 @@
 
     eventsRef.update(
     {
-      start: start_time.unix() + 60*60*7, 
-      end: end_time.unix() + 60*60*7
+      start: start_time.unix() + 60*60*5, 
+      end: end_time.unix() + 60*60*5
     }
     ); // Updates event in Firebase
 
@@ -249,7 +249,9 @@
 
     var eventsRef = new Firebase("https://planhacker.firebaseio.com/users/user/events/" + id);
 
-    eventsRef.update({ end : end_time.unix() +60*60*7 });
+    // eventsRef.update({ end : end_time.unix()});
+
+    eventsRef.update({ end : end_time.unix() + 60*60*5 });
 
   };
 
