@@ -111,7 +111,7 @@ Contact Kimberly Lin at kimberlylin90@gmail.com. Thank you. :-)
 [Firebase]: https://www.firebase.com
 [FullCalendar]: http://arshaw.com/fullcalendar/
 [Hackbright]: http://www.hackbrightacademy.com
-[PlanHacker]: http://kimb90.github.io/PlanHacker/#/plan
+[PlanHacker]: http://kikithedeveloper.github.io/PlanHacker/#/plan
 
 ## Copyright
 
